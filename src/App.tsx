@@ -2,7 +2,8 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
 import InteractiveAmenities from './components/InteractiveAmenities';
 import LocationSection from './components/LocationSection';
@@ -13,6 +14,17 @@ import WhyBusinessesSection from './components/WhyBusinessesSection';
 
 export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+
+  // Parallax / Scroll Tandem setup for Hero -> WhyBusiness Flow
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+
+  const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
+  const heroY = useTransform(heroScroll, [0, 1], [0, 100]);
+  const heroScale = useTransform(heroScroll, [0, 1], [1, 0.95]);
 
   const scrollToLeadForm = () => {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -59,9 +71,9 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-12">
+        <section ref={heroRef} className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-12">
           {/* Background Image & Gradients */}
-          <div className="absolute inset-0 z-0">
+          <motion.div style={{ opacity: heroOpacity, y: heroY, scale: heroScale }} className="absolute inset-0 z-0 origin-top">
             <img
               className="w-full h-full object-cover opacity-60"
               alt="Wagholi Highstreet Cityscape Sunset"
@@ -71,9 +83,9 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/80 to-transparent md:to-[var(--color-black-200)]/40"></div>
             {/* Bottom gradient to blend with next section */}
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-black-200)] via-[var(--color-black-200)]/60 lg:via-transparent to-transparent"></div>
-          </div>
+          </motion.div>
 
-          <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
+          <motion.div style={{ opacity: heroOpacity, y: heroY }} className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
 
             {/* Left Column: Text Content */}
             <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -157,7 +169,7 @@ export default function App() {
               </div>
             </div>
 
-          </div>
+          </motion.div>
         </section>
 
         <WhyBusinessesSection />
