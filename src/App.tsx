@@ -9,7 +9,7 @@ import LocationSection from './components/LocationSection';
 import PricingSection from './components/PricingSection';
 import WhyActNow from './components/WhyActNow';
 import LeadWizardModal from './components/LeadWizardModal';
-import FeatureCard from './components/FeatureCard';
+import WhyBusinessesSection from './components/WhyBusinessesSection';
 
 export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
@@ -160,61 +160,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Why Businesses & Investors Section */}
-        <section className="relative py-20 lg:py-32 px-6 md:px-12 bg-[var(--color-black-200)] overflow-hidden">
-          {/* Background effects */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--color-sandybrown-100)]/10 rounded-full blur-[120px]"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--color-darkslategray)]/20 rounded-full blur-[100px]"></div>
-          </div>
-
-          <div className="relative z-10 max-w-[1400px] mx-auto">
-            {/* Top: Heading */}
-            <div className="mb-16 lg:mb-20 w-full">
-              <h2 className="font-headline text-[28px] sm:text-[36px] lg:text-[36px] xl:text-[44px] font-extrabold text-white tracking-tight mb-4 leading-[1.1]">
-                Why Businesses & Investors Are Choosing <span className="text-[var(--color-sandybrown-100)]">Wagholi Highstreet</span>
-              </h2>
-              <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-6"></div>
-              <p className="font-body text-[16px] lg:text-[18px] text-white/70 leading-relaxed max-w-3xl">
-                At Wagholi Highstreet, you do not just buy a commercial space — you position your business in a fast-growing corridor with the visibility, convenience, and long-term potential that serious businesses and investors look for.
-              </p>
-            </div>
-
-            {/* Bottom: Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              <FeatureCard
-                icon="groups"
-                title="45,000+ Expected Footfall"
-                description="At Wagholi Highstreet, you get the advantage of 45,000+ expected footfall, giving your shop, showroom, or office stronger exposure and better business potential."
-              />
-              <FeatureCard
-                icon="storefront"
-                title="Stronger Brand Presence"
-                description="The value of the destination rises. With McDonald's and CinePro already signed, you become part of a commercial environment that naturally attracts more attention, stronger confidence, and higher market interest."
-              />
-              <FeatureCard
-                icon="local_parking"
-                title="Offer Greater Convenience"
-                description="At Wagholi Highstreet, you get 3 acres of dedicated parking, so your customers, employees, and visitors experience easier access and a more comfortable business environment."
-              />
-              <FeatureCard
-                icon="trending_up"
-                title="Invest in Strong ROI Potential"
-                description="With 7%–9% expected ROI potential in one of Pune's fastest-growing commercial corridors, Wagholi Highstreet offers a lucrative investment opportunity."
-              />
-              <FeatureCard
-                icon="location_on"
-                title="Prime Kesnand Road Location"
-                description="Positioned strategically on Kesnand Road, offering unparalleled connectivity and visibility in one of Pune's most rapidly developing commercial hubs."
-              />
-              <FeatureCard
-                icon="architecture"
-                title="Future-Ready Infrastructure"
-                description="Designed with modern businesses in mind, featuring state-of-the-art facilities, high-speed connectivity, and sustainable architecture for long-term growth."
-              />
-            </div>
-          </div>
-        </section>
+        <WhyBusinessesSection />
 
         <InteractiveAmenities />
         <LocationSection />
