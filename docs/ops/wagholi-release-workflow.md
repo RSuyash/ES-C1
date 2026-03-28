@@ -35,6 +35,7 @@ cd ~/apps/wagholi-highstreet
 git fetch origin --prune
 git checkout production
 git reset --hard origin/production
+docker compose -f docker-compose.prod.yml down --remove-orphans || true
 docker compose -f docker-compose.prod.yml up -d --build
 docker compose -f docker-compose.prod.yml ps
 docker exec wagholi-highstreet wget -q -O - http://127.0.0.1/healthz
