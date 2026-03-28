@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useInView } from 'motion/react';
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'motion/react';
 import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp, Navigation } from 'lucide-react';
 import { LeadCaptureForm } from './LeadCaptureForm';
 
@@ -104,7 +104,7 @@ function InteractiveAmenities() {
   }, [activeIndex]);
 
   return (
-    <section 
+    <section
       ref={containerRef}
       onMouseEnter={() => setIsInteracting(true)}
       onMouseLeave={() => setIsInteracting(false)}
@@ -114,7 +114,7 @@ function InteractiveAmenities() {
     >
       {/* Header */}
       <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -135,16 +135,15 @@ function InteractiveAmenities() {
         {amenitiesData.map((amenity, idx) => {
           const isActive = activeIndex === idx;
           return (
-            <div 
+            <div
               key={amenity.id}
               ref={(el) => { itemRefs.current[idx] = el; }}
               onClick={() => setActiveIndex(idx)}
               onMouseEnter={() => window.innerWidth >= 1024 && setActiveIndex(idx)}
-              className={`relative overflow-hidden rounded-2xl lg:rounded-[2rem] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex-shrink-0 lg:flex-shrink ${
-                isActive 
-                  ? 'flex-[5_5_0%] lg:flex-[6_6_0%]' 
-                  : 'flex-[1_1_0%] lg:flex-[1_1_0%]'
-              }`}
+              className={`relative overflow-hidden rounded-2xl lg:rounded-[2rem] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex-shrink-0 lg:flex-shrink ${isActive
+                ? 'flex-[5_5_0%] lg:flex-[6_6_0%]'
+                : 'flex-[1_1_0%] lg:flex-[1_1_0%]'
+                }`}
             >
               {/* Images */}
               {amenity.images.map((img, imgIdx) => (
@@ -153,25 +152,22 @@ function InteractiveAmenities() {
                   src={img}
                   alt={`${amenity.title} ${imgIdx + 1}`}
                   referrerPolicy="no-referrer"
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${
-                    isActive && imageIndex === imgIdx 
-                      ? 'opacity-100 scale-100' 
-                      : (imgIdx === 0 && !isActive ? 'opacity-60 grayscale scale-100' : 'opacity-0 scale-105')
-                  }`}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${isActive && imageIndex === imgIdx
+                    ? 'opacity-100 scale-100'
+                    : (imgIdx === 0 && !isActive ? 'opacity-60 grayscale scale-100' : 'opacity-0 scale-105')
+                    }`}
                 />
               ))}
 
               {/* Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-700 ${
-                isActive 
-                  ? 'from-[var(--color-black-200)]/90 via-[var(--color-black-200)]/30 to-transparent opacity-100' 
-                  : 'from-[var(--color-black-200)]/80 to-[var(--color-black-200)]/40 opacity-100'
-              }`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-700 ${isActive
+                ? 'from-[var(--color-black-200)]/90 via-[var(--color-black-200)]/30 to-transparent opacity-100'
+                : 'from-[var(--color-black-200)]/80 to-[var(--color-black-200)]/40 opacity-100'
+                }`}></div>
 
               {/* Active Content */}
-              <div className={`absolute bottom-0 left-0 right-0 p-6 lg:p-10 transition-all duration-700 delay-100 flex flex-col justify-end h-full ${
-                isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-              }`}>
+              <div className={`absolute bottom-0 left-0 right-0 p-6 lg:p-10 transition-all duration-700 delay-100 flex flex-col justify-end h-full ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+                }`}>
                 <div className="mt-auto">
                   <div className="flex items-center gap-4 mb-3 lg:mb-4">
                     <span className="font-mono text-[var(--color-sandybrown-100)] font-bold tracking-widest text-sm lg:text-base">{amenity.id}</span>
@@ -183,10 +179,9 @@ function InteractiveAmenities() {
               </div>
 
               {/* Inactive Content - Desktop (Vertical Text) */}
-              <div className={`hidden lg:flex absolute inset-0 flex-col items-center justify-end pb-12 transition-all duration-700 ${
-                isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
-              }`}>
-                <h3 
+              <div className={`hidden lg:flex absolute inset-0 flex-col items-center justify-end pb-12 transition-all duration-700 ${isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
+                }`}>
+                <h3
                   className="font-headline text-2xl font-bold text-white whitespace-nowrap mb-8 tracking-wider"
                   style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                 >
@@ -196,9 +191,8 @@ function InteractiveAmenities() {
               </div>
 
               {/* Inactive Content - Mobile (Horizontal Text) */}
-              <div className={`flex lg:hidden absolute inset-0 flex-row items-center justify-start px-6 transition-all duration-700 ${
-                isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
-              }`}>
+              <div className={`flex lg:hidden absolute inset-0 flex-row items-center justify-start px-6 transition-all duration-700 ${isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
+                }`}>
                 <span className="font-mono text-[var(--color-sandybrown-100)] font-bold mr-4">{amenity.id}</span>
                 <h3 className="font-headline text-lg font-bold text-white whitespace-nowrap">{amenity.title}</h3>
               </div>
@@ -220,192 +214,199 @@ const locationData = [
   { id: 7, title: "A Corridor on the Rise", desc: "Wagholi is rapidly emerging as one of Pune’s strongest growth zones for business and investment.", x: 55, y: 85, icon: TrendingUp },
 ];
 
-function LocationSection() {
-  const [activeLoc, setActiveLoc] = useState(0);
-  const [isInteracting, setIsInteracting] = useState(false);
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
-  const listRef = useRef<HTMLDivElement>(null);
+const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
+  const peak = idx / (total - 1);
+  const spread = 0.15; // Reduced roughly 10% from 0.3 for a tighter crossfade margin
 
-  useEffect(() => {
-    if (isInteracting || !isInView) return;
-    const interval = setInterval(() => {
-      setActiveLoc((prev) => {
-        const next = (prev + 1) % locationData.length;
-        // Scroll the list to keep active item visible
-        if (listRef.current) {
-          const item = listRef.current.children[next] as HTMLElement;
-          if (item) {
-            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        }
-        return next;
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isInteracting, isInView]);
+  let domain, range;
+  if (idx === 0) {
+    domain = [0, spread];
+    range = [0.8, 0];
+  } else if (idx === total - 1) {
+    domain = [1 - spread, 1];
+    range = [0, 0.8];
+  } else {
+    const start = Math.max(0, peak - spread);
+    const end = Math.min(1, peak + spread);
+    if (start === peak) {
+      domain = [peak, end];
+      range = [0.8, 0];
+    } else if (end === peak) {
+      domain = [start, peak];
+      range = [0, 0.8];
+    } else {
+      domain = [start, peak, end];
+      range = [0, 0.8, 0];
+    }
+  }
+
+  const opacity = useTransform(scrollYProgress, domain, range);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <section ref={containerRef} className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden border-t border-white/5">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1000px] max-h-[1000px] bg-[var(--color-sandybrown-100)] rounded-full blur-[200px] opacity-10 pointer-events-none"></div>
-      
-      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[56px] font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
-            A Location That Adds More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business</span>
-          </h2>
-          <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-8"></div>
-        </motion.div>
+    <motion.div
+      className="absolute inset-0 w-full h-full z-0"
+      style={{ opacity }}
+    >
+      <motion.img
+        src={`/images/location/desktop/${loc.id}.png`}
+        className="w-full h-full object-cover hidden md:block"
+        style={{ scale, y }}
+      />
+      <motion.img
+        src={`/images/location/mobile/${loc.id}.png`}
+        className="w-full h-full object-cover md:hidden"
+        style={{ scale, y }}
+      />
+      {/* Light Dreamy Ambient Tint - Keeps Images Highly Visible */}
+      <div className="absolute inset-0 bg-[#020408]/40 backdrop-blur-[2px]"></div>
+    </motion.div>
+  );
+};
+
+const TimelineCard = ({ loc, idx, total, scrollYProgress, isEven }: any) => {
+  const Icon = loc.icon;
+  const peak = idx / (total - 1);
+  const spread = 0.25; // Focus spread distance
+
+  let domain, opacityRange, scaleRange;
+  if (idx === 0) {
+    domain = [0, spread];
+    opacityRange = [1, 0.3];
+    scaleRange = [1.02, 0.95];
+  } else if (idx === total - 1) {
+    domain = [1 - spread, 1];
+    opacityRange = [0.3, 1];
+    scaleRange = [0.95, 1.02];
+  } else {
+    const start = Math.max(0, peak - spread);
+    const end = Math.min(1, peak + spread);
+    if (start === peak) {
+      domain = [peak, end];
+      opacityRange = [1, 0.3];
+      scaleRange = [1.02, 0.95];
+    } else if (end === peak) {
+      domain = [start, peak];
+      opacityRange = [0.3, 1];
+      scaleRange = [0.95, 1.02];
+    } else {
+      domain = [start, peak, end];
+      opacityRange = [0.3, 1, 0.3];
+      scaleRange = [0.95, 1.02, 0.95];
+    }
+  }
+
+  const cardOpacity = useTransform(scrollYProgress, domain, opacityRange);
+  const cardScale = useTransform(scrollYProgress, domain, scaleRange);
+
+  return (
+    <div className={`relative flex items-center w-full ${isEven ? 'lg:justify-start' : 'lg:justify-end'}`}>
+      {/* Node Dot */}
+      <motion.div
+        style={{ scale: cardScale, opacity: cardOpacity }}
+        className="absolute left-[12px] md:left-[24px] lg:left-1/2 lg:-translate-x-1/2 z-30 w-12 h-12 rounded-full border-4 border-[#020408] bg-gradient-to-br from-[#1a2332] to-[#0a0f18] flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+      >
+        <div className="w-3 h-3 bg-[var(--color-sandybrown-100)] rounded-full shadow-[0_0_10px_rgba(214,165,84,0.8)]"></div>
+      </motion.div>
+
+      {/* Card */}
+      <motion.div
+        style={{ perspective: 1000, opacity: cardOpacity, scale: cardScale }}
+        className={`w-full lg:w-[48%] pl-20 lg:pl-0 ${isEven ? 'lg:pr-10' : 'lg:pl-10'}`}
+      >
+        <div className="relative bg-[#020408]/80 backdrop-blur-2xl border border-white/5 rounded-3xl p-8 lg:p-10 hover:bg-[#0a0f18]/90 hover:border-[var(--color-sandybrown-100)]/30 transition-all duration-500 group overflow-hidden shadow-2xl">
+          <span className="absolute -bottom-6 -right-4 font-mono text-[140px] font-black leading-none text-white/[0.02] group-hover:text-[var(--color-sandybrown-100)]/[0.05] transition-colors duration-500 pointer-events-none select-none">
+            0{loc.id}
+          </span>
+
+          <div className="absolute -inset-[100px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/5 to-transparent opacity-0 group-hover:opacity-100 translate-x-[-100%] group-hover:translate-x-[100%] transition-all duration-1000 ease-in-out pointer-events-none"></div>
+
+          <div className="flex flex-col gap-5 relative z-10">
+            <div className="flex justify-between items-start">
+              <div className="w-14 h-14 rounded-2xl bg-[#0a0f18]/80 border border-white/5 flex items-center justify-center text-[var(--color-sandybrown-100)] group-hover:scale-110 group-hover:bg-[var(--color-sandybrown-100)] group-hover:text-black transition-all duration-500 shadow-inner">
+                <Icon className="w-6 h-6" />
+              </div>
+              <span className="text-[var(--color-sandybrown-100)] font-mono font-bold tracking-widest text-sm opacity-50 group-hover:opacity-100 transition-opacity drop-shadow-md">0{loc.id}</span>
+            </div>
+
+            <h3 className="font-headline text-2xl lg:text-3xl font-bold text-white leading-tight group-hover:text-[var(--color-sandybrown-100)] transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              {loc.title}
+            </h3>
+
+            <p className="font-body text-white/80 text-base leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              {loc.desc}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+function LocationSection() {
+  const containerRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"]
+  });
+
+  return (
+    <section ref={containerRef} className="pt-24 lg:pt-32 pb-32 lg:pb-60 bg-[#020408] relative border-t border-white/5">
+
+      {/* Scroll-Synced Cinematic Background */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+        <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#020408]">
+          {locationData.map((loc, idx) => (
+            <BackgroundImage key={`bg-${loc.id}`} loc={loc} idx={idx} total={locationData.length} scrollYProgress={scrollYProgress} />
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020408] via-[#020408]/30 to-[#020408] z-10 w-full h-full"></div>
+          <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[var(--color-sandybrown-100)]/15 via-transparent to-transparent pointer-events-none z-20"></div>
+        </div>
       </div>
 
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col lg:flex-row gap-8 lg:gap-12 relative z-10">
-        
-        {/* Left: Interactive Map UI */}
-        <div 
-          className="w-full lg:w-[60%] h-[50vh] lg:h-[70vh] min-h-[400px] bg-[var(--color-black-400)]/80 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden shadow-2xl"
-          onMouseEnter={() => setIsInteracting(true)}
-          onMouseLeave={() => setIsInteracting(false)}
-          onTouchStart={() => setIsInteracting(true)}
-          onTouchEnd={() => setIsInteracting(false)}
-        >
-          {/* Map Grid Background */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-          
-          {/* Central Project Marker */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="relative flex items-center justify-center">
-              <div className="absolute w-24 h-24 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
-              <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/40 rounded-full animate-pulse"></div>
-              <div className="w-10 h-10 bg-[var(--color-sandybrown-100)] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(214,165,84,0.6)] z-10">
-                <Building2 className="w-5 h-5 text-black" />
-              </div>
+      {/* Content Layer */}
+      <div className="relative z-20">
+        {/* Header */}
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20 lg:mb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col md:flex-row md:items-start justify-between gap-8 md:gap-12"
+          >
+            <div className="flex-1">
+              <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[48px] xl:text-[56px] font-extrabold text-white tracking-tight leading-[1.15] mb-6 drop-shadow-lg">
+                A Location That Adds More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business</span>
+              </h2>
+              <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] md:ml-0 shadow-[0_0_15px_rgba(214,165,84,0.5)]"></div>
             </div>
-            <div className="mt-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg border border-[var(--color-sandybrown-100)]/30 text-white font-bold text-sm whitespace-nowrap shadow-xl">
-              Wagholi Highstreet
+            <div className="md:max-w-md lg:max-w-xl text-left hidden md:block md:pt-4">
+              <p className="font-body text-white/80 text-[17px] lg:text-[20px] leading-relaxed border-l-2 border-[var(--color-sandybrown-100)]/50 pl-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                Strategic connectivity, exponential growth, and elite commercial clustering make Wagholi an undisputed destination for visionary enterprises.
+              </p>
             </div>
-          </div>
-
-          {/* SVG Routes */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-            {locationData.map((loc, idx) => {
-              const isActive = activeLoc === idx;
-              return (
-                <motion.line
-                  key={`route-${loc.id}`}
-                  x1="50%"
-                  y1="50%"
-                  x2={`${loc.x}%`}
-                  y2={`${loc.y}%`}
-                  stroke={isActive ? "var(--color-sandybrown-100)" : "rgba(255,255,255,0.1)"}
-                  strokeWidth={isActive ? 3 : 1}
-                  strokeDasharray={isActive ? "8,8" : "4,4"}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
-                    pathLength: isActive ? 1 : 0.5, 
-                    opacity: isActive ? 0.8 : 0.3 
-                  }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                />
-              );
-            })}
-          </svg>
-
-          {/* Location Markers */}
-          {locationData.map((loc, idx) => {
-            const isActive = activeLoc === idx;
-            const Icon = loc.icon;
-            return (
-              <div 
-                key={loc.id}
-                className="absolute z-10 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500"
-                style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-                onClick={() => setActiveLoc(idx)}
-              >
-                <div className={`relative flex flex-col items-center group ${isActive ? 'scale-110' : 'scale-100 hover:scale-105'}`}>
-                  {isActive && (
-                    <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
-                  )}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-lg border ${
-                    isActive 
-                      ? 'bg-[var(--color-sandybrown-100)] border-[var(--color-sandybrown-100)] text-black' 
-                      : 'bg-[var(--color-black-200)] border-white/20 text-white/70 group-hover:border-white/50 group-hover:text-white'
-                  }`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  
-                  {/* Tooltip for inactive, permanent label for active */}
-                  <div className={`absolute top-full mt-3 px-3 py-1.5 rounded-md text-xs font-bold whitespace-nowrap transition-all duration-300 ${
-                    isActive 
-                      ? 'bg-white text-black opacity-100 translate-y-0 shadow-xl' 
-                      : 'bg-[var(--color-black-200)] border border-white/10 text-white/70 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
-                  }`}>
-                    {loc.title}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          </motion.div>
         </div>
 
-        {/* Right: Info Cards List */}
-        <div 
-          className="w-full lg:w-[40%] flex flex-col h-[50vh] lg:h-[70vh] overflow-y-auto pr-2 lg:pr-6 custom-scrollbar"
-          ref={listRef}
-          onMouseEnter={() => setIsInteracting(true)}
-          onMouseLeave={() => setIsInteracting(false)}
-          onTouchStart={() => setIsInteracting(true)}
-          onTouchEnd={() => setIsInteracting(false)}
-        >
-          {locationData.map((loc, idx) => {
-            const isActive = activeLoc === idx;
-            const Icon = loc.icon;
-            return (
-              <div 
-                key={loc.id}
-                onClick={() => setActiveLoc(idx)}
-                className={`p-6 lg:p-8 rounded-2xl mb-4 cursor-pointer transition-all duration-500 border ${
-                  isActive 
-                    ? 'bg-[var(--color-black-400)] border-[var(--color-sandybrown-100)]/50 shadow-[0_10px_30px_rgba(214,165,84,0.15)]' 
-                    : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20'
-                }`}
-              >
-                <div className="flex items-start gap-4 lg:gap-6">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
-                    isActive ? 'bg-[var(--color-sandybrown-100)] text-black' : 'bg-white/10 text-white/60'
-                  }`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className={`font-mono text-sm font-bold ${isActive ? 'text-[var(--color-sandybrown-100)]' : 'text-white/40'}`}>0{loc.id}</span>
-                      <h3 className={`font-headline text-xl lg:text-2xl font-bold transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/70'}`}>
-                        {loc.title}
-                      </h3>
-                    </div>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.p 
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4 }}
-                          className="font-body text-white/80 text-sm lg:text-base leading-relaxed mt-3"
-                        >
-                          {loc.desc}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* The Journey Timeline */}
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative" ref={timelineRef}>
+          {/* Faint Background Line */}
+          <div className="absolute left-[35px] md:left-[47px] lg:left-1/2 top-0 bottom-0 w-[2px] bg-white/5 lg:-translate-x-1/2"></div>
+
+          {/* Glowing Scroll Line */}
+          <motion.div
+            style={{ scaleY: scrollYProgress, transformOrigin: "top" }}
+            className="absolute left-[35px] md:left-[47px] lg:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[var(--color-sandybrown-100)]/50 via-[var(--color-sandybrown-100)] to-transparent shadow-[0_0_15px_rgba(214,165,84,0.6)] lg:-translate-x-1/2 z-10"
+          ></motion.div>
+
+          <div className="flex flex-col gap-20 lg:gap-32 relative z-20">
+            {locationData.map((loc, idx) => (
+              <TimelineCard key={loc.id} loc={loc} idx={idx} total={locationData.length} scrollYProgress={scrollYProgress} isEven={idx % 2 === 0} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -439,12 +440,12 @@ const FeatureCard = ({ icon, title, description }: { icon: string, title: string
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100"
         animate={{
-          background: isHovered 
+          background: isHovered
             ? `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(214, 165, 84, 0.15), transparent 40%)`
             : `radial-gradient(400px circle at 0px 0px, rgba(214, 165, 84, 0), transparent 40%)`
         }}
       />
-      
+
       <div className="relative z-10 flex-1 flex flex-col">
         <div className="w-12 h-12 bg-[var(--color-sandybrown-100)]/10 rounded-xl flex items-center justify-center mb-5 border border-[var(--color-sandybrown-100)]/20 group-hover:scale-110 transition-transform duration-500">
           <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-2xl">{icon}</span>
@@ -501,10 +502,10 @@ export default function App() {
         <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-12">
           {/* Background Image & Gradients */}
           <div className="absolute inset-0 z-0">
-            <img 
-              className="w-full h-full object-cover opacity-60" 
-              alt="Wagholi Highstreet Cityscape Sunset" 
-              src="/hero.jpeg" 
+            <img
+              className="w-full h-full object-cover opacity-60"
+              alt="Wagholi Highstreet Cityscape Sunset"
+              src="/hero.jpeg"
             />
             {/* Dark gradient from left for text readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/80 to-transparent md:to-[var(--color-black-200)]/40"></div>
@@ -513,7 +514,7 @@ export default function App() {
           </div>
 
           <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
-            
+
             {/* Left Column: Text Content */}
             <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left">
               {/* Mobile Badge */}
@@ -538,7 +539,7 @@ export default function App() {
             {/* Right Column: Glass Card (Desktop) / Stacked (Mobile) */}
             <div className="w-full lg:w-[45%] max-w-[550px]">
               <div className="lg:bg-[var(--color-black-400)]/40 lg:backdrop-blur-2xl lg:border lg:border-white/10 lg:rounded-[2rem] lg:p-8 flex flex-col items-center text-center lg:shadow-2xl">
-                
+
                 {/* Pricing */}
                 <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-4 leading-tight">
                   Shops from ₹60 Lakhs <span className="text-white/50 mx-1">|</span> <br className="block lg:hidden" />
@@ -563,12 +564,12 @@ export default function App() {
                 <div className="w-full bg-[var(--color-black-400)]/60 lg:bg-black/30 border border-white/10 lg:border-white/5 rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-4 mb-6 lg:mb-6 flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 backdrop-blur-md">
                   <div className="flex items-center gap-1 sm:gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[var(--color-sandybrown-100)]">
-                      <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor"/>
-                      <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)"/>
+                      <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
+                      <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                     </svg>
-                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br/>already done</span>
+                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br />already done</span>
                   </div>
-                  
+
                   <div className="flex items-center gap-1.5 sm:gap-3 lg:gap-3">
                     <div className="bg-[#DA291C] w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shadow-sm">
                       <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
@@ -579,7 +580,7 @@ export default function App() {
                   </div>
 
                   <div className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">
-                    Possession in<br/>just 9 Months
+                    Possession in<br />just 9 Months
                   </div>
                 </div>
 
@@ -621,34 +622,34 @@ export default function App() {
 
             {/* Bottom: Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              <FeatureCard 
-                icon="groups" 
-                title="45,000+ Expected Footfall" 
+              <FeatureCard
+                icon="groups"
+                title="45,000+ Expected Footfall"
                 description="At Wagholi Highstreet, you get the advantage of 45,000+ expected footfall, giving your shop, showroom, or office stronger exposure and better business potential."
               />
-              <FeatureCard 
-                icon="storefront" 
-                title="Stronger Brand Presence" 
+              <FeatureCard
+                icon="storefront"
+                title="Stronger Brand Presence"
                 description="The value of the destination rises. With McDonald’s and CinePro already signed, you become part of a commercial environment that naturally attracts more attention, stronger confidence, and higher market interest."
               />
-              <FeatureCard 
-                icon="local_parking" 
-                title="Offer Greater Convenience" 
+              <FeatureCard
+                icon="local_parking"
+                title="Offer Greater Convenience"
                 description="At Wagholi Highstreet, you get 3 acres of dedicated parking, so your customers, employees, and visitors experience easier access and a more comfortable business environment."
               />
-              <FeatureCard 
-                icon="trending_up" 
-                title="Invest in Strong ROI Potential" 
+              <FeatureCard
+                icon="trending_up"
+                title="Invest in Strong ROI Potential"
                 description="With 7%–9% expected ROI potential in one of Pune’s fastest-growing commercial corridors, Wagholi Highstreet offers a lucrative investment opportunity."
               />
-              <FeatureCard 
-                icon="location_on" 
-                title="Prime Kesnand Road Location" 
+              <FeatureCard
+                icon="location_on"
+                title="Prime Kesnand Road Location"
                 description="Positioned strategically on Kesnand Road, offering unparalleled connectivity and visibility in one of Pune's most rapidly developing commercial hubs."
               />
-              <FeatureCard 
-                icon="architecture" 
-                title="Future-Ready Infrastructure" 
+              <FeatureCard
+                icon="architecture"
+                title="Future-Ready Infrastructure"
                 description="Designed with modern businesses in mind, featuring state-of-the-art facilities, high-speed connectivity, and sustainable architecture for long-term growth."
               />
             </div>
