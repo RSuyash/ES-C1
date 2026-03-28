@@ -12,6 +12,8 @@ const locationData = [
   { id: 7, title: "A Corridor on the Rise", desc: "Wagholi is rapidly emerging as one of Pune's strongest growth zones for business and investment.", x: 55, y: 85, icon: TrendingUp },
 ];
 
+
+
 const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
   const peak = idx / (total - 1);
   const spread = 0.26;
@@ -44,21 +46,20 @@ const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
 
   return (
     <motion.div
-      className="absolute inset-0 w-full h-full z-0"
+      className="absolute inset-0 w-full h-full z-0 will-change-transform"
       style={{ opacity }}
     >
       <motion.img
-        src={`/images/location/desktop/${loc.id}.png`}
-        className="w-full h-full object-cover hidden md:block"
+        src={`/images/location/desktop/${loc.id}.webp`}
+        className="w-full h-full object-cover hidden md:block will-change-transform"
         style={{ scale, y }}
       />
       <motion.img
-        src={`/images/location/mobile/${loc.id}.png`}
-        className="w-full h-full object-cover md:hidden"
+        src={`/images/location/mobile/${loc.id}.webp`}
+        className="w-full h-full object-cover md:hidden will-change-transform"
         style={{ scale, y }}
       />
-      {/* Light Dreamy Ambient Tint - Keeps Images Highly Visible */}
-      <div className="absolute inset-0 bg-[#020408]/40 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0 bg-[#020408]/60 backdrop-blur-sm"></div>
     </motion.div>
   );
 };
@@ -113,7 +114,7 @@ const TimelineCard = ({ loc, idx, total, scrollYProgress, isEven }: any) => {
         style={{ perspective: 1000, opacity: cardOpacity, scale: cardScale }}
         className={`w-full lg:w-[48%] pl-20 lg:pl-0 ${isEven ? 'lg:pr-10' : 'lg:pl-10'}`}
       >
-        <div className="relative bg-[#020408]/80 backdrop-blur-2xl border border-white/5 rounded-3xl p-8 lg:p-10 hover:bg-[#0a0f18]/90 hover:border-[var(--color-sandybrown-100)]/30 transition-all duration-500 group overflow-hidden shadow-2xl">
+        <div className="relative bg-[#070b12] border border-white/5 rounded-3xl p-8 lg:p-10 hover:bg-[#0a0f18]/90 hover:border-[var(--color-sandybrown-100)]/30 transition-all duration-500 group overflow-hidden shadow-2xl will-change-transform">
           <span className="absolute -bottom-6 -right-4 font-mono text-[140px] font-black leading-none text-white/[0.02] group-hover:text-[var(--color-sandybrown-100)]/[0.05] transition-colors duration-500 pointer-events-none select-none">
             0{loc.id}
           </span>
