@@ -70,7 +70,7 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-12">
+        <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16">
           {/* Background Image & Gradients */}
           <div className="absolute inset-0 z-0 origin-top">
             <img
@@ -84,7 +84,7 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-black-200)] via-[var(--color-black-200)]/60 lg:via-transparent to-transparent"></div>
           </div>
 
-          <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
+          <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
 
             {/* Left Column: Text Content */}
             <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -109,60 +109,66 @@ export default function App() {
 
             {/* Right Column: Glass Card (Desktop) / Stacked (Mobile) */}
             <div className="w-full lg:w-[45%] max-w-[550px]">
-              <div className="lg:bg-[var(--color-black-400)]/40 lg:backdrop-blur-2xl lg:border lg:border-white/10 lg:rounded-[2rem] lg:p-8 flex flex-col items-center text-center lg:shadow-2xl">
+              <div className="bg-white/[0.02] backdrop-blur-[40px] border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] rounded-[2.5rem] p-8 lg:p-10 flex flex-col items-center text-center relative overflow-hidden">
+                {/* Subtle top glare effect for apple premium feel */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
                 {/* Pricing */}
-                <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-4 leading-tight">
-                  Shops from ₹60 Lakhs <span className="text-white/50 mx-1">|</span> <br className="block lg:hidden" />
+                <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-5 leading-tight tracking-tight">
+                  Shops from ₹60 Lakhs <span className="text-white/30 mx-1">|</span> <br className="block lg:hidden" />
                   Showrooms from ₹1.10 Cr.
                 </h2>
 
                 {/* Divider 1 */}
-                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-4"></div>
+                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-5"></div>
 
                 {/* Early Bird */}
-                <div className="flex items-center justify-center gap-1.5 lg:gap-2 mb-4 lg:mb-4">
+                <div className="flex items-center justify-center gap-2 mb-5">
                   <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-sm lg:text-lg transform -rotate-90">local_offer</span>
-                  <p className="text-white/90 font-medium text-[12px] sm:text-sm lg:text-[15px]">
+                  <p className="text-white/80 font-medium text-[12px] sm:text-sm lg:text-[15px] tracking-wide">
                     Early Bird Benefit up to <span className="text-[var(--color-sandybrown-100)] font-bold">₹5 Lakhs</span>
                   </p>
                 </div>
 
                 {/* Divider 2 */}
-                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6"></div>
+                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
 
                 {/* Trust Box */}
-                <div className="w-full bg-[var(--color-black-400)]/60 lg:bg-black/30 border border-white/10 lg:border-white/5 rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-4 mb-6 lg:mb-6 flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 backdrop-blur-md">
-                  <div className="flex items-center gap-1 sm:gap-2">
+                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 mb-8 flex flex-row items-center justify-between gap-2 lg:gap-4 shadow-inner">
+                  <div className="flex items-center gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[var(--color-sandybrown-100)]">
                       <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
                       <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                     </svg>
-                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br />already done</span>
+                    <span className="text-white/80 text-[10px] sm:text-[11px] lg:text-[12px] text-left leading-snug font-medium">250+ bookings<br />already done</span>
                   </div>
 
-                  <div className="flex items-center gap-1.5 sm:gap-3 lg:gap-3">
-                    <div className="bg-[#DA291C] w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shadow-sm">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="bg-[#DA291C]/90 backdrop-blur-md w-8 h-8 lg:w-10 lg:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-4 h-4 lg:w-5 lg:h-5" />
                     </div>
-                    <div className="bg-white w-10 h-7 sm:w-12 sm:h-8 lg:w-12 lg:h-10 rounded-lg flex items-center justify-center px-1 shadow-sm">
-                      <span className="text-black font-extrabold text-[7px] sm:text-[8px] lg:text-[10px] tracking-tighter">CinePro</span>
+                    <div className="bg-white/90 backdrop-blur-md w-10 h-8 lg:w-12 lg:h-10 rounded-[10px] flex items-center justify-center px-1 shadow-lg border border-white/30">
+                      <span className="text-black font-extrabold text-[8px] lg:text-[10px] tracking-tighter">CinePro</span>
                     </div>
                   </div>
 
-                  <div className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">
+                  <div className="text-white/80 text-[10px] sm:text-[11px] lg:text-[12px] text-left leading-snug font-medium border-l border-white/10 pl-3">
                     Possession in<br />just 9 Months
                   </div>
                 </div>
 
-                {/* CTA */}
+                {/* CTA Premium Apple Glass Button */}
                 <button
                   type="button"
                   onClick={openWizard}
-                  className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]"
+                  className="relative group overflow-hidden bg-white/[0.03] backdrop-blur-2xl border border-white/10 text-white font-bold uppercase tracking-[0.1em] py-4 w-full rounded-full flex items-center justify-center gap-3 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  SCHEDULE A SITE VISIT
-                  <span className="material-symbols-outlined font-bold text-lg lg:text-xl">arrow_forward</span>
+                  <span className="relative z-10 flex items-center gap-2 text-[13px] sm:text-[14px]">
+                    SCHEDULE A SITE VISIT
+                    <span className="material-symbols-outlined font-normal text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                  </span>
+                  {/* Sweep highlight */}
+                  <div className="absolute inset-0 h-full w-[200%] -translate-x-full bg-gradient-to-r from-transparent via-white/[0.1] to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></div>
                 </button>
 
               </div>
