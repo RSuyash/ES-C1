@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { LeadCaptureForm } from './LeadCaptureForm';
+import { motion, AnimatePresence, useInView } from 'motion/react';
+import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp, Navigation } from 'lucide-react';
 
 const amenitiesData = [
   {
@@ -72,7 +72,28 @@ const amenitiesData = [
 function InteractiveAmenities() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Auto-cycle amenities
+  useEffect(() => {
+    if (isInteracting || !isInView) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % amenitiesData.length;
+        if (window.innerWidth < 1024 && itemRefs.current[next]) {
+          itemRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return next;
+      });
+      setImageIndex(0);
+    }, 9000); // 9 seconds per amenity (3 images * 3 seconds)
+    return () => clearInterval(interval);
+  }, [isInteracting, isInView]);
+
+  // Auto-cycle images within active amenity
   useEffect(() => {
     setImageIndex(0);
     const interval = setInterval(() => {
@@ -82,7 +103,14 @@ function InteractiveAmenities() {
   }, [activeIndex]);
 
   return (
-    <section className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden">
+    <section 
+      ref={containerRef}
+      onMouseEnter={() => setIsInteracting(true)}
+      onMouseLeave={() => setIsInteracting(false)}
+      onTouchStart={() => setIsInteracting(true)}
+      onTouchEnd={() => setIsInteracting(false)}
+      className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden"
+    >
       {/* Header */}
       <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
         <motion.div 
@@ -108,6 +136,7 @@ function InteractiveAmenities() {
           return (
             <div 
               key={amenity.id}
+              ref={(el) => { itemRefs.current[idx] = el; }}
               onClick={() => setActiveIndex(idx)}
               onMouseEnter={() => window.innerWidth >= 1024 && setActiveIndex(idx)}
               className={`relative overflow-hidden rounded-2xl lg:rounded-[2rem] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex-shrink-0 lg:flex-shrink ${
@@ -180,6 +209,208 @@ function InteractiveAmenities() {
   );
 }
 
+const locationData = [
+  { id: 1, title: "Prime Kesnand Road Address", desc: "You place your business in a location that offers stronger visibility and better business relevance.", x: 40, y: 35, icon: MapPin },
+  { id: 2, title: "Faster Everyday Connectivity", desc: "The 120 ft. link road improves access by connecting Nagar Road to Solapur Road.", x: 65, y: 25, icon: Route },
+  { id: 3, title: "Better Traffic Movement", desc: "The three-storey flyover from Wagholi to Shikrapur helps ease congestion and improve flow.", x: 75, y: 45, icon: Car },
+  { id: 4, title: "Metro-Led Growth Potential", desc: "The Ramwadi to Wagholi metro extension adds long-term connectivity and future demand.", x: 25, y: 55, icon: Train },
+  { id: 5, title: "Stronger City-Wide Access", desc: "The proposed ring road and Samruddhi corridor are set to boost east-side connectivity.", x: 80, y: 70, icon: MapIcon },
+  { id: 6, title: "Close to Major IT Hubs", desc: "With EON IT Park and World Trade Center nearby, you benefit from stronger commercial relevance.", x: 30, y: 75, icon: Building2 },
+  { id: 7, title: "A Corridor on the Rise", desc: "Wagholi is rapidly emerging as one of Pune’s strongest growth zones for business and investment.", x: 55, y: 85, icon: TrendingUp },
+];
+
+function LocationSection() {
+  const [activeLoc, setActiveLoc] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isInteracting || !isInView) return;
+    const interval = setInterval(() => {
+      setActiveLoc((prev) => {
+        const next = (prev + 1) % locationData.length;
+        // Scroll the list to keep active item visible
+        if (listRef.current) {
+          const item = listRef.current.children[next] as HTMLElement;
+          if (item) {
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+        return next;
+      });
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isInteracting, isInView]);
+
+  return (
+    <section ref={containerRef} className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden border-t border-white/5">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1000px] max-h-[1000px] bg-[var(--color-sandybrown-100)] rounded-full blur-[200px] opacity-10 pointer-events-none"></div>
+      
+      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[56px] font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
+            A Location That Adds More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business</span>
+          </h2>
+          <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-8"></div>
+        </motion.div>
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col lg:flex-row gap-8 lg:gap-12 relative z-10">
+        
+        {/* Left: Interactive Map UI */}
+        <div 
+          className="w-full lg:w-[60%] h-[50vh] lg:h-[70vh] min-h-[400px] bg-[var(--color-black-400)]/80 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden shadow-2xl"
+          onMouseEnter={() => setIsInteracting(true)}
+          onMouseLeave={() => setIsInteracting(false)}
+          onTouchStart={() => setIsInteracting(true)}
+          onTouchEnd={() => setIsInteracting(false)}
+        >
+          {/* Map Grid Background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+          
+          {/* Central Project Marker */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+            <div className="relative flex items-center justify-center">
+              <div className="absolute w-24 h-24 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
+              <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/40 rounded-full animate-pulse"></div>
+              <div className="w-10 h-10 bg-[var(--color-sandybrown-100)] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(214,165,84,0.6)] z-10">
+                <Building2 className="w-5 h-5 text-black" />
+              </div>
+            </div>
+            <div className="mt-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg border border-[var(--color-sandybrown-100)]/30 text-white font-bold text-sm whitespace-nowrap shadow-xl">
+              Wagholi Highstreet
+            </div>
+          </div>
+
+          {/* SVG Routes */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+            {locationData.map((loc, idx) => {
+              const isActive = activeLoc === idx;
+              return (
+                <motion.line
+                  key={`route-${loc.id}`}
+                  x1="50%"
+                  y1="50%"
+                  x2={`${loc.x}%`}
+                  y2={`${loc.y}%`}
+                  stroke={isActive ? "var(--color-sandybrown-100)" : "rgba(255,255,255,0.1)"}
+                  strokeWidth={isActive ? 3 : 1}
+                  strokeDasharray={isActive ? "8,8" : "4,4"}
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ 
+                    pathLength: isActive ? 1 : 0.5, 
+                    opacity: isActive ? 0.8 : 0.3 
+                  }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                />
+              );
+            })}
+          </svg>
+
+          {/* Location Markers */}
+          {locationData.map((loc, idx) => {
+            const isActive = activeLoc === idx;
+            const Icon = loc.icon;
+            return (
+              <div 
+                key={loc.id}
+                className="absolute z-10 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500"
+                style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
+                onClick={() => setActiveLoc(idx)}
+              >
+                <div className={`relative flex flex-col items-center group ${isActive ? 'scale-110' : 'scale-100 hover:scale-105'}`}>
+                  {isActive && (
+                    <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
+                  )}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-lg border ${
+                    isActive 
+                      ? 'bg-[var(--color-sandybrown-100)] border-[var(--color-sandybrown-100)] text-black' 
+                      : 'bg-[var(--color-black-200)] border-white/20 text-white/70 group-hover:border-white/50 group-hover:text-white'
+                  }`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  
+                  {/* Tooltip for inactive, permanent label for active */}
+                  <div className={`absolute top-full mt-3 px-3 py-1.5 rounded-md text-xs font-bold whitespace-nowrap transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-white text-black opacity-100 translate-y-0 shadow-xl' 
+                      : 'bg-[var(--color-black-200)] border border-white/10 text-white/70 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
+                  }`}>
+                    {loc.title}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Right: Info Cards List */}
+        <div 
+          className="w-full lg:w-[40%] flex flex-col h-[50vh] lg:h-[70vh] overflow-y-auto pr-2 lg:pr-6 custom-scrollbar"
+          ref={listRef}
+          onMouseEnter={() => setIsInteracting(true)}
+          onMouseLeave={() => setIsInteracting(false)}
+          onTouchStart={() => setIsInteracting(true)}
+          onTouchEnd={() => setIsInteracting(false)}
+        >
+          {locationData.map((loc, idx) => {
+            const isActive = activeLoc === idx;
+            const Icon = loc.icon;
+            return (
+              <div 
+                key={loc.id}
+                onClick={() => setActiveLoc(idx)}
+                className={`p-6 lg:p-8 rounded-2xl mb-4 cursor-pointer transition-all duration-500 border ${
+                  isActive 
+                    ? 'bg-[var(--color-black-400)] border-[var(--color-sandybrown-100)]/50 shadow-[0_10px_30px_rgba(214,165,84,0.15)]' 
+                    : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20'
+                }`}
+              >
+                <div className="flex items-start gap-4 lg:gap-6">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
+                    isActive ? 'bg-[var(--color-sandybrown-100)] text-black' : 'bg-white/10 text-white/60'
+                  }`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className={`font-mono text-sm font-bold ${isActive ? 'text-[var(--color-sandybrown-100)]' : 'text-white/40'}`}>0{loc.id}</span>
+                      <h3 className={`font-headline text-xl lg:text-2xl font-bold transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/70'}`}>
+                        {loc.title}
+                      </h3>
+                    </div>
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.p 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.4 }}
+                          className="font-body text-white/80 text-sm lg:text-base leading-relaxed mt-3"
+                        >
+                          {loc.desc}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const FeatureCard = ({ icon, title, description }: { icon: string, title: string, description: string }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -238,13 +469,13 @@ export default function App() {
           <div className="hidden md:flex items-center gap-8 text-white text-sm font-body">
             <a href="#" className="hover:text-[var(--color-sandybrown-100)] transition-colors">Gallery</a>
             <a href="#" className="hover:text-[#d6a554] transition-colors">Plans</a>
-            <a href="#lead-form" className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors">
+            <button className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors">
               Contact Us
-            </a>
+            </button>
           </div>
-          <a href="#lead-form" className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium">
+          <button className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium">
             Contact Us
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -336,10 +567,10 @@ export default function App() {
                 </div>
 
                 {/* CTA */}
-                <a href="#lead-form" className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]">
+                <button className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]">
                   SCHEDULE A SITE VISIT
                   <span className="material-symbols-outlined font-bold text-lg lg:text-xl">arrow_forward</span>
-                </a>
+                </button>
 
               </div>
             </div>
@@ -404,66 +635,7 @@ export default function App() {
         </section>
 
         <InteractiveAmenities />
-
-        {/* Connectivity: Interactive Map Feel */}
-        <section className="bg-[#0b1222] text-white py-20 lg:py-32 overflow-hidden relative border-t border-white/5">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-            <div>
-              <h2 className="font-headline text-[28px] sm:text-[36px] lg:text-[48px] font-extrabold mb-6 lg:mb-8 tracking-tight">Strategic <span className="text-[#d6a554]">Connectivity</span></h2>
-              <p className="text-white/70 text-[15px] lg:text-[18px] mb-10 lg:mb-12 leading-relaxed">
-                Positioned at the nexus of Pune's upcoming IT corridor and the logistics hub, Wagholi Highstreet offers unparalleled access to key transit nodes.
-              </p>
-              <div className="space-y-6 lg:space-y-8">
-                <div className="flex gap-4 lg:gap-6 items-start">
-                  <div className="w-12 h-12 rounded-full border border-[#d6a554]/30 bg-[#d6a554]/10 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#d6a554]">flight</span>
-                  </div>
-                  <div>
-                    <h4 className="font-headline font-bold text-lg lg:text-xl mb-1 text-white">International Airport</h4>
-                    <p className="text-white/60 text-sm lg:text-base">15 Minutes via New Airport Road</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 lg:gap-6 items-start">
-                  <div className="w-12 h-12 rounded-full border border-[#d6a554]/30 bg-[#d6a554]/10 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#d6a554]">train</span>
-                  </div>
-                  <div>
-                    <h4 className="font-headline font-bold text-lg lg:text-xl mb-1 text-white">Metro Station (Proposed)</h4>
-                    <p className="text-white/60 text-sm lg:text-base">Walking distance from Phase 3 connectivity</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 lg:gap-6 items-start">
-                  <div className="w-12 h-12 rounded-full border border-[#d6a554]/30 bg-[#d6a554]/10 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#d6a554]">apartment</span>
-                  </div>
-                  <div>
-                    <h4 className="font-headline font-bold text-lg lg:text-xl mb-1 text-white">EON IT Park</h4>
-                    <p className="text-white/60 text-sm lg:text-base">7 Minutes drive through bypass</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-[#d6a554]/5 blur-3xl rounded-full"></div>
-              <div className="relative bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden aspect-square border border-white/10 shadow-2xl">
-                {/* Mock Map Background */}
-                <img 
-                  className="w-full h-full object-cover opacity-40 grayscale mix-blend-overlay" 
-                  alt="Map" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr9F4wFLTBvyX-J2GzLeebxDzLKktGCTXekdylPWKv0ikvGj1Mr8jVAqVKU-_23CirRyUEIFAMGNy8yD0_AT1GJm76Um8TBRrlvJSGo_IhzCiTtzjNDDI69ZlJqOC1zwpRivMRc9gYC1B1NLbaB2udmZPlbLhvwS_oIhDFLwXsIjvHPa0ezg6-mljL_rvS-J7KxyUMquc4ew5kq9awT9gGWUojSSLIeF9TQvq_ioldRPLATz98269pDihLInvLAE2zR0yRRsLf6NU"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-12 h-12 bg-[#d6a554] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(229,184,105,0.5)] border-4 border-[#0b1222] relative z-10">
-                      <span className="material-symbols-outlined text-black">location_on</span>
-                    </div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-[#d6a554]/30 rounded-full animate-ping"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LocationSection />
 
         {/* Pricing/Inventory: High-Fidelity Cards */}
         <section className="py-20 lg:py-32 px-6 md:px-12 bg-[#0b1222] border-t border-white/5">
@@ -492,7 +664,7 @@ export default function App() {
                   Premium Common Areas
                 </li>
               </ul>
-              <a href="#lead-form" className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full text-center font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Download Brochure</a>
+              <button className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Download Brochure</button>
             </div>
             {/* Tier 2 (Featured) */}
             <div className="bg-[#d6a554] text-black p-8 lg:p-12 rounded-2xl relative transform md:-translate-y-4 lg:-translate-y-8 shadow-[0_20px_40px_rgba(229,184,105,0.15)] flex flex-col items-center">
@@ -519,7 +691,7 @@ export default function App() {
                   Dedicated Signage
                 </li>
               </ul>
-              <a href="#lead-form" className="w-full bg-black text-[#d6a554] py-3 lg:py-4 rounded-full text-center font-headline font-bold hover:bg-black/90 transition-all">Contact Advisor</a>
+              <button className="w-full bg-black text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-black/90 transition-all">Contact Advisor</button>
             </div>
             {/* Tier 3 */}
             <div className="bg-white/5 backdrop-blur-md p-8 lg:p-12 border border-white/10 rounded-2xl flex flex-col items-center hover:bg-white/10 transition-colors">
@@ -541,13 +713,13 @@ export default function App() {
                   Custom Architectural Facade
                 </li>
               </ul>
-              <a href="#lead-form" className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full text-center font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Submit RFP</a>
+              <button className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Submit RFP</button>
             </div>
           </div>
         </section>
 
         {/* Final CTA: Minimalist Full Width */}
-        <section id="lead-form" className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
+        <section className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
           <div className="absolute inset-0 z-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#d6a554]/5 rounded-full blur-[150px]"></div>
           </div>
@@ -556,7 +728,10 @@ export default function App() {
             <p className="text-white/70 font-body text-[16px] lg:text-[20px] mb-10 lg:mb-12 max-w-2xl mx-auto leading-relaxed">
               Limited inventory remains for our Q4 release. Join the roster of elite global tenants at Wagholi Highstreet.
             </p>
-            <LeadCaptureForm className="mx-auto max-w-2xl" />
+            <div className="flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
+              <input className="bg-white/5 border border-white/10 focus:border-[#d6a554] focus:ring-1 focus:ring-[#d6a554] px-6 lg:px-8 py-4 w-full md:w-96 text-base lg:text-lg rounded-full text-white placeholder-white/40 outline-none transition-all" placeholder="Professional Email Address" type="email" />
+              <button className="bg-[#d6a554] text-black px-8 lg:px-12 py-4 font-headline font-bold text-base lg:text-lg rounded-full hover:bg-[#d4a758] transition-colors shadow-[0_4px_20px_rgba(229,184,105,0.2)]">Request Priority Access</button>
+            </div>
           </div>
         </section>
       </main>
