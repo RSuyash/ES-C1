@@ -22,6 +22,10 @@ export default function App() {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const openWizard = () => setIsWizardOpen(true);
   const closeWizard = () => setIsWizardOpen(false);
 
@@ -42,9 +46,10 @@ export default function App() {
             />
           </div>
           <div className="hidden md:flex items-center gap-10 text-white text-[15px] font-body tracking-wide">
-            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
-            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
-            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
+            <button onClick={() => scrollToSection('overview')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
+            <button onClick={() => scrollToSection('amenities')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
+            <button onClick={() => scrollToSection('pricing')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Pricing</button>
+            <button onClick={() => scrollToSection('location')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
             <button
               type="button"
               onClick={openWizard}
@@ -167,12 +172,12 @@ export default function App() {
         </section>
 
         <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center bg-[#020408]"><div className="w-8 h-8 rounded-full border-t-2 border-[var(--color-sandybrown-100)] border-white/10 animate-spin"></div></div>}>
-          <WhyBusinessesSection />
-          <InteractiveAmenities />
-          <LocationSection />
-          <PricingSection onOpenWizard={openWizard} />
+          <div id="overview"><WhyBusinessesSection /></div>
+          <div id="amenities"><InteractiveAmenities /></div>
+          <div id="location"><LocationSection /></div>
+          <div id="pricing"><PricingSection onOpenWizard={openWizard} /></div>
           <WhyActNow onOpenWizard={openWizard} />
-          <FAQSection />
+          <div id="faqs"><FAQSection /></div>
         </Suspense>
 
         {/* Final CTA: Bottom Lead Form */}
@@ -210,9 +215,10 @@ export default function App() {
           <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full md:w-auto">
             <div className="flex flex-col gap-4">
               <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Quick Links</h4>
-              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
-              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
-              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
+              <button onClick={() => scrollToSection('overview')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
+              <button onClick={() => scrollToSection('amenities')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
+              <button onClick={() => scrollToSection('pricing')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
+              <button onClick={() => scrollToSection('faqs')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">FAQs</button>
             </div>
             
             <div className="flex flex-col gap-4">
