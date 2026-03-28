@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm ci --include=optional
 
 COPY . .
+RUN npm run verify:assets
 RUN npm run build
 
 FROM nginx:1.27-alpine

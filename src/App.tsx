@@ -469,7 +469,11 @@ export default function App() {
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
           <div className="flex items-center">
-            <img src="/logo.png" alt="Wagholi Highstreet Logo" className="h-10 md:h-14 object-contain" />
+            <img
+              src="/logo.png"
+              alt="Wagholi Highstreet Logo"
+              className="h-11 w-auto max-w-[220px] object-contain md:h-16 md:max-w-[320px]"
+            />
           </div>
           <div className="hidden md:flex items-center gap-8 text-white text-sm font-body">
             <a href="#" className="hover:text-[var(--color-sandybrown-100)] transition-colors">Gallery</a>
@@ -772,7 +776,11 @@ export default function App() {
       <footer className="w-full border-t border-white/10 bg-[#000000]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col gap-2 items-center md:items-start">
-            <img src="/logo.png" alt="Wagholi Highstreet Logo" className="h-8 md:h-10 object-contain mb-2" />
+            <img
+              src="/logo.png"
+              alt="Wagholi Highstreet Logo"
+              className="mb-2 h-10 w-auto max-w-[180px] object-contain md:h-12 md:max-w-[240px]"
+            />
             <p className="text-white/50 text-sm font-body antialiased max-w-xs text-center md:text-left">
               © 2024 Wagholi Highstreet. Architectural Authority in Corporate Real Estate.
             </p>
