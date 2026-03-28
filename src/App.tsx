@@ -99,48 +99,48 @@ export default function App() {
 
             {/* Right Column: Glass Card (Desktop) / Stacked (Mobile) */}
             <div className="w-full lg:w-[45%] max-w-[550px]">
-              <div className="lg:bg-[#080d15]/85 lg:backdrop-blur-2xl lg:border lg:border-[var(--color-sandybrown-100)]/20 lg:rounded-[2rem] lg:p-8 flex flex-col items-center text-center shadow-[0_4px_40px_rgba(0,0,0,0.5)] lg:shadow-2xl">
+              <div className="lg:bg-[var(--color-black-400)]/40 lg:backdrop-blur-2xl lg:border lg:border-white/10 lg:rounded-[2rem] lg:p-8 flex flex-col items-center text-center lg:shadow-2xl">
 
                 {/* Pricing */}
-                <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-4 leading-tight drop-shadow-lg">
-                  Shops from ₹60 Lakhs <span className="text-[var(--color-sandybrown-100)]/50 mx-1">|</span> <br className="block lg:hidden" />
+                <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-4 leading-tight">
+                  Shops from ₹60 Lakhs <span className="text-white/50 mx-1">|</span> <br className="block lg:hidden" />
                   Showrooms from ₹1.10 Cr.
                 </h2>
 
                 {/* Divider 1 */}
-                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent mb-4"></div>
+                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-4"></div>
 
                 {/* Early Bird */}
                 <div className="flex items-center justify-center gap-1.5 lg:gap-2 mb-4 lg:mb-4">
                   <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-sm lg:text-lg transform -rotate-90">local_offer</span>
-                  <p className="text-white/95 font-medium text-[12px] sm:text-sm lg:text-[15px]">
-                    Early Bird Benefit up to <span className="text-[var(--color-sandybrown-100)] font-extrabold text-[16px]">₹5 Lakhs</span>
+                  <p className="text-white/90 font-medium text-[12px] sm:text-sm lg:text-[15px]">
+                    Early Bird Benefit up to <span className="text-[var(--color-sandybrown-100)] font-bold">₹5 Lakhs</span>
                   </p>
                 </div>
 
                 {/* Divider 2 */}
-                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent mb-6"></div>
+                <div className="hidden lg:block w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6"></div>
 
                 {/* Trust Box */}
-                <div className="w-full bg-[#03060b]/60 lg:bg-[#03060b]/80 border border-[var(--color-sandybrown-100)]/20 rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-4 mb-6 lg:mb-6 flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 backdrop-blur-md shadow-inner">
+                <div className="w-full bg-[var(--color-black-400)]/60 lg:bg-black/30 border border-white/10 lg:border-white/5 rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-4 mb-6 lg:mb-6 flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 backdrop-blur-md">
                   <div className="flex items-center gap-1 sm:gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[var(--color-sandybrown-100)]">
                       <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
                       <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                     </svg>
-                    <span className="text-white/95 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium drop-shadow-sm">250+ bookings<br />already done</span>
+                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br />already done</span>
                   </div>
 
                   <div className="flex items-center gap-1.5 sm:gap-3 lg:gap-3">
-                    <div className="bg-[#DA291C] w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shadow-md border border-white/5">
+                    <div className="bg-[#DA291C] w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shadow-sm">
                       <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                     </div>
-                    <div className="bg-white w-10 h-7 sm:w-12 sm:h-8 lg:w-12 lg:h-10 rounded-lg flex items-center justify-center px-1 shadow-md border border-white/5">
+                    <div className="bg-white w-10 h-7 sm:w-12 sm:h-8 lg:w-12 lg:h-10 rounded-lg flex items-center justify-center px-1 shadow-sm">
                       <span className="text-black font-extrabold text-[7px] sm:text-[8px] lg:text-[10px] tracking-tighter">CinePro</span>
                     </div>
                   </div>
 
-                  <div className="text-white/95 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium drop-shadow-sm">
+                  <div className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">
                     Possession in<br />just 9 Months
                   </div>
                 </div>

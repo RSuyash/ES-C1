@@ -123,7 +123,7 @@ export default function WhyBusinessesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section ref={sectionRef} className="relative py-28 lg:py-40 px-6 md:px-12 bg-[#020408] border-t border-white/5 overflow-hidden">
+    <section ref={sectionRef} className="relative pt-12 pb-28 lg:pt-16 lg:pb-40 px-6 md:px-12 bg-[#020408] border-t border-white/5 overflow-hidden">
       {/* Advanced SVG Topography Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 opacity-[0.4] mix-blend-screen">
