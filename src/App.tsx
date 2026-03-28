@@ -13,6 +13,7 @@ const PricingSection = React.lazy(() => import('./components/PricingSection'));
 const WhyActNow = React.lazy(() => import('./components/WhyActNow'));
 const LeadWizardModal = React.lazy(() => import('./components/LeadWizardModal'));
 const WhyBusinessesSection = React.lazy(() => import('./components/WhyBusinessesSection'));
+const FAQSection = React.lazy(() => import('./components/FAQSection'));
 
 export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
@@ -31,32 +32,33 @@ export default function App() {
       </Suspense>
 
       {/* Top Navigation Bar */}
-      <nav className="absolute top-0 w-full z-50 bg-transparent pt-6">
+      <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
           <div className="flex items-center">
             <img
               src="/logo.png"
               alt="Wagholi Highstreet Logo"
-              className="h-11 w-auto max-w-[220px] object-contain md:h-16 md:max-w-[320px]"
+              className="h-10 w-auto max-w-[200px] object-contain md:h-14 md:max-w-[300px]"
             />
           </div>
-          <div className="hidden md:flex items-center gap-8 text-white text-sm font-body">
-            <a href="#" className="hover:text-[var(--color-sandybrown-100)] transition-colors">Gallery</a>
-            <a href="#" className="hover:text-[#d6a554] transition-colors">Plans</a>
+          <div className="hidden md:flex items-center gap-10 text-white text-[15px] font-body tracking-wide">
+            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
+            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
+            <button onClick={scrollToLeadForm} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
             <button
               type="button"
               onClick={openWizard}
-              className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors"
+              className="ml-2 border border-[var(--color-sandybrown-100)]/80 text-[var(--color-sandybrown-100)] px-7 py-2.5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[var(--color-sandybrown-100)] hover:text-black transition-all shadow-[0_0_15px_rgba(214,165,84,0.15)] backdrop-blur-sm"
             >
-              Enquire Now
+              Enquire
             </button>
           </div>
           <button
             type="button"
             onClick={openWizard}
-            className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium"
+            className="md:hidden border border-[var(--color-sandybrown-100)] text-[var(--color-sandybrown-100)] bg-[var(--color-sandybrown-100)]/10 px-5 py-2 rounded-full text-[11px] uppercase tracking-widest font-bold backdrop-blur-md shadow-[0_0_10px_rgba(214,165,84,0.1)]"
           >
-            Enquire Now
+            Enquire
           </button>
         </div>
       </nav>
@@ -170,6 +172,7 @@ export default function App() {
           <LocationSection />
           <PricingSection onOpenWizard={openWizard} />
           <WhyActNow onOpenWizard={openWizard} />
+          <FAQSection />
         </Suspense>
 
         {/* Final CTA: Bottom Lead Form */}
@@ -187,32 +190,54 @@ export default function App() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-white/10 bg-[#000000]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col gap-2 items-center md:items-start">
+      {/* Premium Footer */}
+      <footer className="w-full relative border-t border-white/5 bg-[#020408] overflow-hidden">
+        {/* Subtle top edge glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent"></div>
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 lg:py-20 flex flex-col md:flex-row justify-between items-start gap-12 lg:gap-16">
+          <div className="flex flex-col gap-5 items-start max-w-sm">
             <img
               src="/logo.png"
               alt="Wagholi Highstreet Logo"
-              className="mb-2 h-10 w-auto max-w-[180px] object-contain md:h-12 md:max-w-[240px]"
+              className="h-12 lg:h-14 w-auto object-contain opacity-90"
             />
-            <p className="text-white/50 text-sm font-body antialiased max-w-xs text-center md:text-left">
-              © 2024 Wagholi Highstreet. Premium Commercial Destination on Kesnand Road, Wagholi.
+            <p className="text-white/40 text-[13px] lg:text-[14px] font-body leading-relaxed mt-1">
+              A premium 5.5-acre commercial destination on prime Kesnand Road. Setting the benchmark for future-ready infrastructure and elite investment returns.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Privacy Policy</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Terms of Service</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Investor Relations</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Sustainability</a>
+          
+          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full md:w-auto">
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Quick Links</h4>
+              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
+              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
+              <button onClick={scrollToLeadForm} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Legal</h4>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Privacy Policy</a>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Terms of Service</a>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Sustainability</a>
+            </div>
           </div>
-          <div className="flex gap-4">
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#d6a554] hover:text-black hover:border-[#d6a554] text-white transition-all">
-              <span className="material-symbols-outlined text-sm">public</span>
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#d6a554] hover:text-black hover:border-[#d6a554] text-white transition-all">
-              <span className="material-symbols-outlined text-sm">share</span>
-            </button>
+        </div>
+        
+        {/* Bottom Bar */}
+        <div className="border-t border-white/[0.03] bg-[#020408]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/30 text-xs font-body antialiased text-center md:text-left">
+              &copy; {new Date().getFullYear()} Wagholi Highstreet. All rights reserved.
+            </p>
+            <div className="flex gap-3">
+              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
+                <span className="material-symbols-outlined text-[16px]">public</span>
+              </a>
+              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
+                <span className="material-symbols-outlined text-[16px]">share</span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>
