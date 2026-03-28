@@ -2,496 +2,68 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useInView } from 'motion/react';
-import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp, Navigation } from 'lucide-react';
+import React, { useState, Suspense } from 'react';
+import { motion } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
 
-const amenitiesData = [
-  {
-    id: "01",
-    title: "Business Lounge",
-    desc: "A premium space for meetings and networking.",
-    images: [
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&q=80&w=1200"
-    ]
-  },
-  {
-    id: "02",
-    title: "Co-working Spaces",
-    desc: "A dynamic environment for collaboration and growth.",
-    images: [
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
-    ]
-  },
-  {
-    id: "03",
-    title: "Yoga Lounge",
-    desc: "A wellness-focused space for a balanced workday.",
-    images: [
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200"
-    ]
-  },
-  {
-    id: "04",
-    title: "Game Zone",
-    desc: "A refreshing lifestyle addition for teams and visitors.",
-    images: [
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&q=80&w=1200"
-    ]
-  },
-  {
-    id: "05",
-    title: "Café & Sit-Out",
-    desc: "Perfect for breaks, casual meetings, and informal discussions.",
-    images: [
-      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=1200"
-    ]
-  },
-  {
-    id: "06",
-    title: "3 Acres Dedicated Parking",
-    desc: "Better convenience for customers, staff, and visitors.",
-    images: [
-      "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1470224114660-3f6686c562eb?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?auto=format&fit=crop&q=80&w=1200"
-    ]
-  }
-];
-
-function InteractiveAmenities() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [isInteracting, setIsInteracting] = useState(false);
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Auto-cycle amenities
-  useEffect(() => {
-    if (isInteracting || !isInView) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => {
-        const next = (prev + 1) % amenitiesData.length;
-        if (window.innerWidth < 1024 && itemRefs.current[next]) {
-          itemRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        return next;
-      });
-      setImageIndex(0);
-    }, 9000); // 9 seconds per amenity (3 images * 3 seconds)
-    return () => clearInterval(interval);
-  }, [isInteracting, isInView]);
-
-  // Auto-cycle images within active amenity
-  useEffect(() => {
-    setImageIndex(0);
-    const interval = setInterval(() => {
-      setImageIndex((prev) => (prev + 1) % amenitiesData[activeIndex].images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [activeIndex]);
-
-  return (
-    <section 
-      ref={containerRef}
-      onMouseEnter={() => setIsInteracting(true)}
-      onMouseLeave={() => setIsInteracting(false)}
-      onTouchStart={() => setIsInteracting(true)}
-      onTouchEnd={() => setIsInteracting(false)}
-      className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden"
-    >
-      {/* Header */}
-      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[56px] font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
-            Amenities That Add More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business Address</span>
-          </h2>
-          <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-8"></div>
-          <p className="font-body text-[16px] lg:text-[20px] text-white/70 leading-relaxed max-w-4xl">
-            At Wagholi Highstreet, you do not just get a commercial space — you get a more premium and future-ready business environment designed for productivity, comfort, and a better everyday experience for you, your team, and your visitors.
-          </p>
-        </motion.div>
-      </div>
-
-      {/* Expanding Cards Gallery */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 h-[75vh] min-h-[600px] max-h-[800px] flex flex-col lg:flex-row gap-3 lg:gap-5">
-        {amenitiesData.map((amenity, idx) => {
-          const isActive = activeIndex === idx;
-          return (
-            <div 
-              key={amenity.id}
-              ref={(el) => { itemRefs.current[idx] = el; }}
-              onClick={() => setActiveIndex(idx)}
-              onMouseEnter={() => window.innerWidth >= 1024 && setActiveIndex(idx)}
-              className={`relative overflow-hidden rounded-2xl lg:rounded-[2rem] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex-shrink-0 lg:flex-shrink ${
-                isActive 
-                  ? 'flex-[5_5_0%] lg:flex-[6_6_0%]' 
-                  : 'flex-[1_1_0%] lg:flex-[1_1_0%]'
-              }`}
-            >
-              {/* Images */}
-              {amenity.images.map((img, imgIdx) => (
-                <img
-                  key={imgIdx}
-                  src={img}
-                  alt={`${amenity.title} ${imgIdx + 1}`}
-                  referrerPolicy="no-referrer"
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${
-                    isActive && imageIndex === imgIdx 
-                      ? 'opacity-100 scale-100' 
-                      : (imgIdx === 0 && !isActive ? 'opacity-60 grayscale scale-100' : 'opacity-0 scale-105')
-                  }`}
-                />
-              ))}
-
-              {/* Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-700 ${
-                isActive 
-                  ? 'from-[var(--color-black-200)]/90 via-[var(--color-black-200)]/30 to-transparent opacity-100' 
-                  : 'from-[var(--color-black-200)]/80 to-[var(--color-black-200)]/40 opacity-100'
-              }`}></div>
-
-              {/* Active Content */}
-              <div className={`absolute bottom-0 left-0 right-0 p-6 lg:p-10 transition-all duration-700 delay-100 flex flex-col justify-end h-full ${
-                isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-              }`}>
-                <div className="mt-auto">
-                  <div className="flex items-center gap-4 mb-3 lg:mb-4">
-                    <span className="font-mono text-[var(--color-sandybrown-100)] font-bold tracking-widest text-sm lg:text-base">{amenity.id}</span>
-                    <div className="h-[2px] w-8 lg:w-12 bg-[var(--color-sandybrown-100)]"></div>
-                  </div>
-                  <h3 className="font-headline text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-3 lg:mb-4">{amenity.title}</h3>
-                  <p className="font-body text-sm sm:text-base lg:text-xl text-white/90 max-w-2xl leading-relaxed drop-shadow-lg">{amenity.desc}</p>
-                </div>
-              </div>
-
-              {/* Inactive Content - Desktop (Vertical Text) */}
-              <div className={`hidden lg:flex absolute inset-0 flex-col items-center justify-end pb-12 transition-all duration-700 ${
-                isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
-              }`}>
-                <h3 
-                  className="font-headline text-2xl font-bold text-white whitespace-nowrap mb-8 tracking-wider"
-                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-                >
-                  {amenity.title}
-                </h3>
-                <span className="font-mono text-[var(--color-sandybrown-100)] font-bold text-lg">{amenity.id}</span>
-              </div>
-
-              {/* Inactive Content - Mobile (Horizontal Text) */}
-              <div className={`flex lg:hidden absolute inset-0 flex-row items-center justify-start px-6 transition-all duration-700 ${
-                isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-200'
-              }`}>
-                <span className="font-mono text-[var(--color-sandybrown-100)] font-bold mr-4">{amenity.id}</span>
-                <h3 className="font-headline text-lg font-bold text-white whitespace-nowrap">{amenity.title}</h3>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-const locationData = [
-  { id: 1, title: "Prime Kesnand Road Address", desc: "You place your business in a location that offers stronger visibility and better business relevance.", x: 40, y: 35, icon: MapPin },
-  { id: 2, title: "Faster Everyday Connectivity", desc: "The 120 ft. link road improves access by connecting Nagar Road to Solapur Road.", x: 65, y: 25, icon: Route },
-  { id: 3, title: "Better Traffic Movement", desc: "The three-storey flyover from Wagholi to Shikrapur helps ease congestion and improve flow.", x: 75, y: 45, icon: Car },
-  { id: 4, title: "Metro-Led Growth Potential", desc: "The Ramwadi to Wagholi metro extension adds long-term connectivity and future demand.", x: 25, y: 55, icon: Train },
-  { id: 5, title: "Stronger City-Wide Access", desc: "The proposed ring road and Samruddhi corridor are set to boost east-side connectivity.", x: 80, y: 70, icon: MapIcon },
-  { id: 6, title: "Close to Major IT Hubs", desc: "With EON IT Park and World Trade Center nearby, you benefit from stronger commercial relevance.", x: 30, y: 75, icon: Building2 },
-  { id: 7, title: "A Corridor on the Rise", desc: "Wagholi is rapidly emerging as one of Pune’s strongest growth zones for business and investment.", x: 55, y: 85, icon: TrendingUp },
-];
-
-function LocationSection() {
-  const [activeLoc, setActiveLoc] = useState(0);
-  const [isInteracting, setIsInteracting] = useState(false);
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
-  const listRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isInteracting || !isInView) return;
-    const interval = setInterval(() => {
-      setActiveLoc((prev) => {
-        const next = (prev + 1) % locationData.length;
-        // Scroll the list to keep active item visible
-        if (listRef.current) {
-          const item = listRef.current.children[next] as HTMLElement;
-          if (item) {
-            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        }
-        return next;
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isInteracting, isInView]);
-
-  return (
-    <section ref={containerRef} className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden border-t border-white/5">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1000px] max-h-[1000px] bg-[var(--color-sandybrown-100)] rounded-full blur-[200px] opacity-10 pointer-events-none"></div>
-      
-      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[56px] font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
-            A Location That Adds More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business</span>
-          </h2>
-          <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-8"></div>
-        </motion.div>
-      </div>
-
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col lg:flex-row gap-8 lg:gap-12 relative z-10">
-        
-        {/* Left: Interactive Map UI */}
-        <div 
-          className="w-full lg:w-[60%] h-[50vh] lg:h-[70vh] min-h-[400px] bg-[var(--color-black-400)]/80 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden shadow-2xl"
-          onMouseEnter={() => setIsInteracting(true)}
-          onMouseLeave={() => setIsInteracting(false)}
-          onTouchStart={() => setIsInteracting(true)}
-          onTouchEnd={() => setIsInteracting(false)}
-        >
-          {/* Map Grid Background */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-          
-          {/* Central Project Marker */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="relative flex items-center justify-center">
-              <div className="absolute w-24 h-24 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
-              <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/40 rounded-full animate-pulse"></div>
-              <div className="w-10 h-10 bg-[var(--color-sandybrown-100)] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(214,165,84,0.6)] z-10">
-                <Building2 className="w-5 h-5 text-black" />
-              </div>
-            </div>
-            <div className="mt-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg border border-[var(--color-sandybrown-100)]/30 text-white font-bold text-sm whitespace-nowrap shadow-xl">
-              Wagholi Highstreet
-            </div>
-          </div>
-
-          {/* SVG Routes */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-            {locationData.map((loc, idx) => {
-              const isActive = activeLoc === idx;
-              return (
-                <motion.line
-                  key={`route-${loc.id}`}
-                  x1="50%"
-                  y1="50%"
-                  x2={`${loc.x}%`}
-                  y2={`${loc.y}%`}
-                  stroke={isActive ? "var(--color-sandybrown-100)" : "rgba(255,255,255,0.1)"}
-                  strokeWidth={isActive ? 3 : 1}
-                  strokeDasharray={isActive ? "8,8" : "4,4"}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
-                    pathLength: isActive ? 1 : 0.5, 
-                    opacity: isActive ? 0.8 : 0.3 
-                  }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                />
-              );
-            })}
-          </svg>
-
-          {/* Location Markers */}
-          {locationData.map((loc, idx) => {
-            const isActive = activeLoc === idx;
-            const Icon = loc.icon;
-            return (
-              <div 
-                key={loc.id}
-                className="absolute z-10 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500"
-                style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-                onClick={() => setActiveLoc(idx)}
-              >
-                <div className={`relative flex flex-col items-center group ${isActive ? 'scale-110' : 'scale-100 hover:scale-105'}`}>
-                  {isActive && (
-                    <div className="absolute w-16 h-16 bg-[var(--color-sandybrown-100)]/20 rounded-full animate-ping"></div>
-                  )}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 shadow-lg border ${
-                    isActive 
-                      ? 'bg-[var(--color-sandybrown-100)] border-[var(--color-sandybrown-100)] text-black' 
-                      : 'bg-[var(--color-black-200)] border-white/20 text-white/70 group-hover:border-white/50 group-hover:text-white'
-                  }`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  
-                  {/* Tooltip for inactive, permanent label for active */}
-                  <div className={`absolute top-full mt-3 px-3 py-1.5 rounded-md text-xs font-bold whitespace-nowrap transition-all duration-300 ${
-                    isActive 
-                      ? 'bg-white text-black opacity-100 translate-y-0 shadow-xl' 
-                      : 'bg-[var(--color-black-200)] border border-white/10 text-white/70 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
-                  }`}>
-                    {loc.title}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Right: Info Cards List */}
-        <div 
-          className="w-full lg:w-[40%] flex flex-col h-[50vh] lg:h-[70vh] overflow-y-auto pr-2 lg:pr-6 custom-scrollbar"
-          ref={listRef}
-          onMouseEnter={() => setIsInteracting(true)}
-          onMouseLeave={() => setIsInteracting(false)}
-          onTouchStart={() => setIsInteracting(true)}
-          onTouchEnd={() => setIsInteracting(false)}
-        >
-          {locationData.map((loc, idx) => {
-            const isActive = activeLoc === idx;
-            const Icon = loc.icon;
-            return (
-              <div 
-                key={loc.id}
-                onClick={() => setActiveLoc(idx)}
-                className={`p-6 lg:p-8 rounded-2xl mb-4 cursor-pointer transition-all duration-500 border ${
-                  isActive 
-                    ? 'bg-[var(--color-black-400)] border-[var(--color-sandybrown-100)]/50 shadow-[0_10px_30px_rgba(214,165,84,0.15)]' 
-                    : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20'
-                }`}
-              >
-                <div className="flex items-start gap-4 lg:gap-6">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
-                    isActive ? 'bg-[var(--color-sandybrown-100)] text-black' : 'bg-white/10 text-white/60'
-                  }`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className={`font-mono text-sm font-bold ${isActive ? 'text-[var(--color-sandybrown-100)]' : 'text-white/40'}`}>0{loc.id}</span>
-                      <h3 className={`font-headline text-xl lg:text-2xl font-bold transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/70'}`}>
-                        {loc.title}
-                      </h3>
-                    </div>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.p 
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4 }}
-                          className="font-body text-white/80 text-sm lg:text-base leading-relaxed mt-3"
-                        >
-                          {loc.desc}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const FeatureCard = ({ icon, title, description }: { icon: string, title: string, description: string }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    }
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative bg-[var(--color-black-alt)]/80 backdrop-blur-xl border border-[var(--color-sandybrown-100)]/10 rounded-2xl p-6 lg:p-8 overflow-hidden group h-full flex flex-col"
-    >
-      {/* Hover Glow Effect */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100"
-        animate={{
-          background: isHovered 
-            ? `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(214, 165, 84, 0.15), transparent 40%)`
-            : `radial-gradient(400px circle at 0px 0px, rgba(214, 165, 84, 0), transparent 40%)`
-        }}
-      />
-      
-      <div className="relative z-10 flex-1 flex flex-col">
-        <div className="w-12 h-12 bg-[var(--color-sandybrown-100)]/10 rounded-xl flex items-center justify-center mb-5 border border-[var(--color-sandybrown-100)]/20 group-hover:scale-110 transition-transform duration-500">
-          <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-2xl">{icon}</span>
-        </div>
-        <h3 className="font-headline text-[18px] lg:text-[20px] font-bold text-white mb-3">{title}</h3>
-        <p className="font-body text-[13px] lg:text-[15px] text-white/70 leading-relaxed flex-1">
-          {description}
-        </p>
-      </div>
-    </div>
-  );
-};
+// Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
+const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
+const LocationSection = React.lazy(() => import('./components/LocationSection'));
+const PricingSection = React.lazy(() => import('./components/PricingSection'));
+const WhyActNow = React.lazy(() => import('./components/WhyActNow'));
+const LeadWizardModal = React.lazy(() => import('./components/LeadWizardModal'));
+const WhyBusinessesSection = React.lazy(() => import('./components/WhyBusinessesSection'));
+const FAQSection = React.lazy(() => import('./components/FAQSection'));
 
 export default function App() {
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+
   const scrollToLeadForm = () => {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const openWizard = () => setIsWizardOpen(true);
+  const closeWizard = () => setIsWizardOpen(false);
+
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
+      <Suspense fallback={null}>
+        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+      </Suspense>
+
       {/* Top Navigation Bar */}
-      <nav className="absolute top-0 w-full z-50 bg-transparent pt-6">
+      <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
           <div className="flex items-center">
             <img
               src="/logo.png"
               alt="Wagholi Highstreet Logo"
-              className="h-11 w-auto max-w-[220px] object-contain md:h-16 md:max-w-[320px]"
+              className="h-10 w-auto max-w-[200px] object-contain md:h-14 md:max-w-[300px]"
             />
           </div>
-          <div className="hidden md:flex items-center gap-8 text-white text-sm font-body">
-            <a href="#" className="hover:text-[var(--color-sandybrown-100)] transition-colors">Gallery</a>
-            <a href="#" className="hover:text-[#d6a554] transition-colors">Plans</a>
+          <div className="hidden md:flex items-center gap-10 text-white text-[15px] font-body tracking-wide">
+            <button onClick={() => scrollToSection('overview')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
+            <button onClick={() => scrollToSection('amenities')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
+            <button onClick={() => scrollToSection('pricing')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Pricing</button>
+            <button onClick={() => scrollToSection('location')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
             <button
               type="button"
-              onClick={scrollToLeadForm}
-              className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors"
+              onClick={openWizard}
+              className="ml-2 border border-[var(--color-sandybrown-100)]/80 text-[var(--color-sandybrown-100)] px-7 py-2.5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[var(--color-sandybrown-100)] hover:text-black transition-all shadow-[0_0_15px_rgba(214,165,84,0.15)] backdrop-blur-sm"
             >
-              Contact Us
+              Enquire
             </button>
           </div>
           <button
             type="button"
-            onClick={scrollToLeadForm}
-            className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium"
+            onClick={openWizard}
+            className="md:hidden border border-[var(--color-sandybrown-100)] text-[var(--color-sandybrown-100)] bg-[var(--color-sandybrown-100)]/10 px-5 py-2 rounded-full text-[11px] uppercase tracking-widest font-bold backdrop-blur-md shadow-[0_0_10px_rgba(214,165,84,0.1)]"
           >
-            Contact Us
+            Enquire
           </button>
         </div>
       </nav>
@@ -500,11 +72,11 @@ export default function App() {
         {/* Hero Section */}
         <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-12">
           {/* Background Image & Gradients */}
-          <div className="absolute inset-0 z-0">
-            <img 
-              className="w-full h-full object-cover opacity-60" 
-              alt="Wagholi Highstreet Cityscape Sunset" 
-              src="/hero.jpeg" 
+          <div className="absolute inset-0 z-0 origin-top">
+            <img
+              className="w-full h-full object-cover opacity-60"
+              alt="Wagholi Highstreet Cityscape Sunset"
+              src="/hero.jpeg"
             />
             {/* Dark gradient from left for text readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/80 to-transparent md:to-[var(--color-black-200)]/40"></div>
@@ -513,7 +85,7 @@ export default function App() {
           </div>
 
           <div className="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
-            
+
             {/* Left Column: Text Content */}
             <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left">
               {/* Mobile Badge */}
@@ -538,7 +110,7 @@ export default function App() {
             {/* Right Column: Glass Card (Desktop) / Stacked (Mobile) */}
             <div className="w-full lg:w-[45%] max-w-[550px]">
               <div className="lg:bg-[var(--color-black-400)]/40 lg:backdrop-blur-2xl lg:border lg:border-white/10 lg:rounded-[2rem] lg:p-8 flex flex-col items-center text-center lg:shadow-2xl">
-                
+
                 {/* Pricing */}
                 <h2 className="font-headline text-[18px] sm:text-[22px] lg:text-[32px] font-bold text-white mb-4 leading-tight">
                   Shops from ₹60 Lakhs <span className="text-white/50 mx-1">|</span> <br className="block lg:hidden" />
@@ -563,12 +135,12 @@ export default function App() {
                 <div className="w-full bg-[var(--color-black-400)]/60 lg:bg-black/30 border border-white/10 lg:border-white/5 rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-4 mb-6 lg:mb-6 flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 backdrop-blur-md">
                   <div className="flex items-center gap-1 sm:gap-2">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[var(--color-sandybrown-100)]">
-                      <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor"/>
-                      <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)"/>
+                      <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
+                      <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                     </svg>
-                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br/>already done</span>
+                    <span className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">250+ bookings<br />already done</span>
                   </div>
-                  
+
                   <div className="flex items-center gap-1.5 sm:gap-3 lg:gap-3">
                     <div className="bg-[#DA291C] w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shadow-sm">
                       <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
@@ -579,14 +151,14 @@ export default function App() {
                   </div>
 
                   <div className="text-white/90 text-[9px] sm:text-[10px] lg:text-[12px] text-left leading-tight font-medium">
-                    Possession in<br/>just 9 Months
+                    Possession in<br />just 9 Months
                   </div>
                 </div>
 
                 {/* CTA */}
                 <button
                   type="button"
-                  onClick={scrollToLeadForm}
+                  onClick={openWizard}
                   className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]"
                 >
                   SCHEDULE A SITE VISIT
@@ -599,205 +171,79 @@ export default function App() {
           </div>
         </section>
 
-        {/* Why Businesses & Investors Section */}
-        <section className="relative py-20 lg:py-32 px-6 md:px-12 bg-[var(--color-black-200)] overflow-hidden">
-          {/* Background effects */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--color-sandybrown-100)]/10 rounded-full blur-[120px]"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--color-darkslategray)]/20 rounded-full blur-[100px]"></div>
-          </div>
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center bg-[#020408]"><div className="w-8 h-8 rounded-full border-t-2 border-[var(--color-sandybrown-100)] border-white/10 animate-spin"></div></div>}>
+          <div id="overview"><WhyBusinessesSection /></div>
+          <div id="amenities"><InteractiveAmenities /></div>
+          <div id="location"><LocationSection /></div>
+          <div id="pricing"><PricingSection onOpenWizard={openWizard} /></div>
+          <WhyActNow onOpenWizard={openWizard} />
+          <div id="faqs"><FAQSection /></div>
+        </Suspense>
 
-          <div className="relative z-10 max-w-[1400px] mx-auto">
-            {/* Top: Heading */}
-            <div className="mb-16 lg:mb-20 w-full">
-              <h2 className="font-headline text-[28px] sm:text-[36px] lg:text-[36px] xl:text-[44px] font-extrabold text-white tracking-tight mb-4 leading-[1.1]">
-                Why Businesses & Investors Are Choosing <span className="text-[var(--color-sandybrown-100)]">Wagholi Highstreet</span>
-              </h2>
-              <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-6"></div>
-              <p className="font-body text-[16px] lg:text-[18px] text-white/70 leading-relaxed max-w-3xl">
-                At Wagholi Highstreet, you do not just buy a commercial space — you position your business in a fast-growing corridor with the visibility, convenience, and long-term potential that serious businesses and investors look for.
-              </p>
-            </div>
-
-            {/* Bottom: Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              <FeatureCard 
-                icon="groups" 
-                title="45,000+ Expected Footfall" 
-                description="At Wagholi Highstreet, you get the advantage of 45,000+ expected footfall, giving your shop, showroom, or office stronger exposure and better business potential."
-              />
-              <FeatureCard 
-                icon="storefront" 
-                title="Stronger Brand Presence" 
-                description="The value of the destination rises. With McDonald’s and CinePro already signed, you become part of a commercial environment that naturally attracts more attention, stronger confidence, and higher market interest."
-              />
-              <FeatureCard 
-                icon="local_parking" 
-                title="Offer Greater Convenience" 
-                description="At Wagholi Highstreet, you get 3 acres of dedicated parking, so your customers, employees, and visitors experience easier access and a more comfortable business environment."
-              />
-              <FeatureCard 
-                icon="trending_up" 
-                title="Invest in Strong ROI Potential" 
-                description="With 7%–9% expected ROI potential in one of Pune’s fastest-growing commercial corridors, Wagholi Highstreet offers a lucrative investment opportunity."
-              />
-              <FeatureCard 
-                icon="location_on" 
-                title="Prime Kesnand Road Location" 
-                description="Positioned strategically on Kesnand Road, offering unparalleled connectivity and visibility in one of Pune's most rapidly developing commercial hubs."
-              />
-              <FeatureCard 
-                icon="architecture" 
-                title="Future-Ready Infrastructure" 
-                description="Designed with modern businesses in mind, featuring state-of-the-art facilities, high-speed connectivity, and sustainable architecture for long-term growth."
-              />
-            </div>
-          </div>
-        </section>
-
-        <InteractiveAmenities />
-        <LocationSection />
-
-        {/* Pricing/Inventory: High-Fidelity Cards */}
-        <section className="py-20 lg:py-32 px-6 md:px-12 bg-[#0b1222] border-t border-white/5">
-          <div className="max-w-[1400px] mx-auto text-center mb-16 lg:mb-20">
-            <h2 className="font-headline text-[28px] sm:text-[36px] lg:text-[48px] font-extrabold text-white tracking-tight mb-4">Investment <span className="text-[#d6a554]">Tiers</span></h2>
-            <p className="text-white/70 max-w-xl mx-auto text-[15px] lg:text-[18px]">Scalable footprints designed for boutique firms and multinational conglomerates alike.</p>
-          </div>
-          <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {/* Tier 1 */}
-            <div className="bg-white/5 backdrop-blur-md p-8 lg:p-12 border border-white/10 rounded-2xl flex flex-col items-center hover:bg-white/10 transition-colors">
-              <span className="font-label text-xs uppercase tracking-[0.2em] mb-6 lg:mb-8 text-[#d6a554]">The Studio</span>
-              <h3 className="font-headline text-2xl lg:text-3xl font-bold mb-4 text-white">Core Office</h3>
-              <div className="text-4xl lg:text-5xl font-headline font-extrabold mb-2 text-white">₹60<span className="text-lg text-white/70">L*</span></div>
-              <p className="text-white/50 font-label mb-8 lg:mb-12 text-sm">Starting Investment</p>
-              <ul className="w-full space-y-4 mb-8 lg:mb-12 text-left">
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  Smart Office Spaces
-                </li>
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  High-Speed Fibre Ready
-                </li>
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  Premium Common Areas
-                </li>
-              </ul>
-              <button
-                type="button"
-                onClick={scrollToLeadForm}
-                className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all"
-              >
-                Download Brochure
-              </button>
-            </div>
-            {/* Tier 2 (Featured) */}
-            <div className="bg-[#d6a554] text-black p-8 lg:p-12 rounded-2xl relative transform md:-translate-y-4 lg:-translate-y-8 shadow-[0_20px_40px_rgba(229,184,105,0.15)] flex flex-col items-center">
-              <div className="absolute top-0 right-0 bg-black text-[#d6a554] font-label text-[10px] font-bold px-4 py-2 uppercase tracking-tighter rounded-bl-xl rounded-tr-2xl">Recommended</div>
-              <span className="font-label text-xs uppercase tracking-[0.2em] mb-6 lg:mb-8 text-black/70">The Floor</span>
-              <h3 className="font-headline text-2xl lg:text-3xl font-bold mb-4">Showrooms</h3>
-              <div className="text-4xl lg:text-5xl font-headline font-extrabold mb-2">₹1.10<span className="text-lg text-black/70">Cr*</span></div>
-              <p className="text-black/60 font-label mb-8 lg:mb-12 text-sm">Premium Frontage</p>
-              <ul className="w-full space-y-4 mb-8 lg:mb-12 text-left">
-                <li className="flex items-center gap-3 text-sm font-medium">
-                  <span className="material-symbols-outlined text-black text-lg">check_circle</span>
-                  Maximum Visibility
-                </li>
-                <li className="flex items-center gap-3 text-sm font-medium">
-                  <span className="material-symbols-outlined text-black text-lg">check_circle</span>
-                  High Footfall Zone
-                </li>
-                <li className="flex items-center gap-3 text-sm font-medium">
-                  <span className="material-symbols-outlined text-black text-lg">check_circle</span>
-                  Double Height Options
-                </li>
-                <li className="flex items-center gap-3 text-sm font-medium">
-                  <span className="material-symbols-outlined text-black text-lg">check_circle</span>
-                  Dedicated Signage
-                </li>
-              </ul>
-              <button
-                type="button"
-                onClick={scrollToLeadForm}
-                className="w-full bg-black text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-black/90 transition-all"
-              >
-                Contact Advisor
-              </button>
-            </div>
-            {/* Tier 3 */}
-            <div className="bg-white/5 backdrop-blur-md p-8 lg:p-12 border border-white/10 rounded-2xl flex flex-col items-center hover:bg-white/10 transition-colors">
-              <span className="font-label text-xs uppercase tracking-[0.2em] mb-6 lg:mb-8 text-[#d6a554]">The Anchor</span>
-              <h3 className="font-headline text-2xl lg:text-3xl font-bold mb-4 text-white">Signature HQ</h3>
-              <div className="text-3xl lg:text-4xl font-headline font-extrabold mb-2 uppercase text-white mt-2">Custom</div>
-              <p className="text-white/50 font-label mb-8 lg:mb-12 text-sm">Bespoke Standalone Block</p>
-              <ul className="w-full space-y-4 mb-8 lg:mb-12 text-left">
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  50,000+ Sq. Ft.
-                </li>
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  Naming Rights Available
-                </li>
-                <li className="flex items-center gap-3 text-sm text-white/80">
-                  <span className="material-symbols-outlined text-[#d6a554] text-lg">check_circle</span>
-                  Custom Architectural Facade
-                </li>
-              </ul>
-              <button
-                type="button"
-                onClick={scrollToLeadForm}
-                className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all"
-              >
-                Submit RFP
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA: Minimalist Full Width */}
+        {/* Final CTA: Bottom Lead Form */}
         <section id="lead-form" className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
           <div className="absolute inset-0 z-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#d6a554]/5 rounded-full blur-[150px]"></div>
           </div>
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 text-center">
-            <h2 className="font-headline text-[36px] sm:text-[48px] lg:text-[64px] font-extrabold text-white mb-6 lg:mb-8 tracking-tight italic">Secure Your <span className="text-[#d6a554]">Authority.</span></h2>
+            <h2 className="font-headline text-[36px] sm:text-[48px] lg:text-[64px] font-extrabold text-white mb-6 lg:mb-8 tracking-tight italic">Secure Your <span className="text-[#d6a554]">Future.</span></h2>
             <p className="text-white/70 font-body text-[16px] lg:text-[20px] mb-10 lg:mb-12 max-w-2xl mx-auto leading-relaxed">
-              Limited inventory remains for our Q4 release. Join the roster of elite global tenants at Wagholi Highstreet.
+              Limited inventory remaining. Join the roster of forward-thinking businesses and investors at Wagholi Highstreet.
             </p>
             <LeadCaptureForm className="mx-auto max-w-2xl" />
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-white/10 bg-[#000000]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex flex-col gap-2 items-center md:items-start">
+      {/* Premium Footer */}
+      <footer className="w-full relative border-t border-white/5 bg-[#020408] overflow-hidden">
+        {/* Subtle top edge glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent"></div>
+        
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 lg:py-20 flex flex-col md:flex-row justify-between items-start gap-12 lg:gap-16">
+          <div className="flex flex-col gap-5 items-start max-w-sm">
             <img
               src="/logo.png"
               alt="Wagholi Highstreet Logo"
-              className="mb-2 h-10 w-auto max-w-[180px] object-contain md:h-12 md:max-w-[240px]"
+              className="h-12 lg:h-14 w-auto object-contain opacity-90"
             />
-            <p className="text-white/50 text-sm font-body antialiased max-w-xs text-center md:text-left">
-              © 2024 Wagholi Highstreet. Architectural Authority in Corporate Real Estate.
+            <p className="text-white/40 text-[13px] lg:text-[14px] font-body leading-relaxed mt-1">
+              A premium 5.5-acre commercial destination on prime Kesnand Road. Setting the benchmark for future-ready infrastructure and elite investment returns.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Privacy Policy</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Terms of Service</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Investor Relations</a>
-            <a className="text-white/50 text-sm font-body hover:text-[#d6a554] transition-colors" href="#">Sustainability</a>
+          
+          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full md:w-auto">
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Quick Links</h4>
+              <button onClick={() => scrollToSection('overview')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
+              <button onClick={() => scrollToSection('amenities')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
+              <button onClick={() => scrollToSection('pricing')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
+              <button onClick={() => scrollToSection('faqs')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">FAQs</button>
+            </div>
+            
+            <div className="flex flex-col gap-4">
+              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Legal</h4>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Privacy Policy</a>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Terms of Service</a>
+              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Sustainability</a>
+            </div>
           </div>
-          <div className="flex gap-4">
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#d6a554] hover:text-black hover:border-[#d6a554] text-white transition-all">
-              <span className="material-symbols-outlined text-sm">public</span>
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#d6a554] hover:text-black hover:border-[#d6a554] text-white transition-all">
-              <span className="material-symbols-outlined text-sm">share</span>
-            </button>
+        </div>
+        
+        {/* Bottom Bar */}
+        <div className="border-t border-white/[0.03] bg-[#020408]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/30 text-xs font-body antialiased text-center md:text-left">
+              &copy; {new Date().getFullYear()} Wagholi Highstreet. All rights reserved.
+            </p>
+            <div className="flex gap-3">
+              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
+                <span className="material-symbols-outlined text-[16px]">public</span>
+              </a>
+              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
+                <span className="material-symbols-outlined text-[16px]">share</span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

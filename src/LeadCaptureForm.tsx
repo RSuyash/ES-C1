@@ -8,6 +8,8 @@ type LeadFormValues = {
   fullName: string;
   phone: string;
   email: string;
+  spaceType: string;
+  budget: string;
   consent: boolean;
 };
 
@@ -15,6 +17,8 @@ const initialFormValues: LeadFormValues = {
   fullName: '',
   phone: '',
   email: '',
+  spaceType: '',
+  budget: '',
   consent: false,
 };
 
@@ -33,6 +37,22 @@ function getLeadSourceHost() {
   return 'wagholihighstreet.in';
 }
 
+const spaceOptions = [
+  { value: '', label: 'Select space type...' },
+  { value: 'premium-shop', label: 'Premium Shop' },
+  { value: 'showroom', label: 'Showroom' },
+  { value: 'office-space', label: 'Office Space' },
+  { value: 'exploring', label: 'Exploring the right option' },
+];
+
+const budgetOptions = [
+  { value: '', label: 'Select budget range...' },
+  { value: 'upto-50l', label: 'Up to ₹50 Lakhs' },
+  { value: '50l-75l', label: '₹50 Lakhs – ₹75 Lakhs' },
+  { value: '75l-125cr', label: '₹75 Lakhs – ₹1.25 Cr' },
+  { value: '125cr-above', label: '₹1.25 Cr & Above' },
+];
+
 export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
   const [values, setValues] = useState(initialFormValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,9 +68,9 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
     };
   }, []);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = event.currentTarget;
-    const nextValue = target.type === 'checkbox' ? target.checked : target.value;
+    const nextValue = (target as HTMLInputElement).type === 'checkbox' ? (target as HTMLInputElement).checked : target.value;
 
     setValues((current) => ({
       ...current,
@@ -73,6 +93,9 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
     setStatus({ tone: 'idle', message: '' });
 
     const sourceHost = getLeadSourceHost();
+    const spaceLabel = spaceOptions.find((s) => s.value === values.spaceType)?.label ?? values.spaceType;
+    const budgetLabel = budgetOptions.find((b) => b.value === values.budget)?.label ?? values.budget;
+
     const payload = {
       fullName: values.fullName.trim(),
       email: values.email.trim(),
@@ -80,13 +103,13 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       companyName: 'Wagholi Highstreet Enquiry',
       companyType: 'other' as const,
       websiteUrl: '',
-      serviceInterest: ['commercial-space-enquiry'],
-      budgetRange: 'On Request',
+      serviceInterest: [values.spaceType || 'commercial-space-enquiry'],
+      budgetRange: budgetLabel || 'On Request',
       timeline: 'Immediate',
-      problemSummary: `Commercial property enquiry submitted from ${sourceHost}.`,
+      problemSummary: `Space: ${spaceLabel}. Budget: ${budgetLabel}. Submitted from ${sourceHost}.`,
       consent: values.consent,
       sourcePage: window.location.href,
-      sourceCta: 'priority-access',
+      sourceCta: 'bottom-form',
       ...utmValues,
     };
 
@@ -128,8 +151,15 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
     }
   };
 
+  const selectClasses = "w-full rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white outline-none transition-all focus:border-[#d6a554] focus:ring-1 focus:ring-[#d6a554] appearance-none";
+
   return (
     <form className={className} onSubmit={handleSubmit} noValidate>
+      {/* Headline */}
+      <p className="text-white/60 text-sm leading-relaxed mb-6 text-center">
+        Fill in your details to access the latest pricing, available shop and showroom options, and the best booking advantage currently available at Wagholi Highstreet.
+      </p>
+
       <div className="grid gap-4 text-left md:grid-cols-2">
         <div className="md:col-span-1">
           <label className="mb-2 block text-sm font-semibold text-white/80" htmlFor="fullName">
@@ -150,7 +180,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         </div>
         <div className="md:col-span-1">
           <label className="mb-2 block text-sm font-semibold text-white/80" htmlFor="phone">
-            Phone Number
+            Contact Number
           </label>
           <input
             id="phone"
@@ -166,7 +196,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         </div>
         <div className="md:col-span-2">
           <label className="mb-2 block text-sm font-semibold text-white/80" htmlFor="email">
-            Email Address
+            Email ID
           </label>
           <input
             id="email"
@@ -180,7 +210,48 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
             placeholder="Professional Email Address"
           />
         </div>
+
+        {/* NEW: Space Type Dropdown */}
+        <div className="md:col-span-1">
+          <label className="mb-2 block text-sm font-semibold text-white/80" htmlFor="spaceType">
+            Type of Commercial Space
+          </label>
+          <select
+            id="spaceType"
+            name="spaceType"
+            value={values.spaceType}
+            onChange={handleChange}
+            className={`${selectClasses} ${!values.spaceType ? 'text-white/35' : ''}`}
+          >
+            {spaceOptions.map((opt) => (
+              <option key={opt.value} value={opt.value} className="bg-[#0a0f18] text-white">
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* NEW: Budget Dropdown */}
+        <div className="md:col-span-1">
+          <label className="mb-2 block text-sm font-semibold text-white/80" htmlFor="budget">
+            Budget Range
+          </label>
+          <select
+            id="budget"
+            name="budget"
+            value={values.budget}
+            onChange={handleChange}
+            className={`${selectClasses} ${!values.budget ? 'text-white/35' : ''}`}
+          >
+            {budgetOptions.map((opt) => (
+              <option key={opt.value} value={opt.value} className="bg-[#0a0f18] text-white">
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
+
       <div className="mt-4 flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 px-5 py-4">
         <input
           id="consent"
