@@ -2,15 +2,17 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { motion } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
-import InteractiveAmenities from './components/InteractiveAmenities';
-import LocationSection from './components/LocationSection';
-import PricingSection from './components/PricingSection';
-import WhyActNow from './components/WhyActNow';
-import LeadWizardModal from './components/LeadWizardModal';
-import WhyBusinessesSection from './components/WhyBusinessesSection';
+
+// Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
+const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
+const LocationSection = React.lazy(() => import('./components/LocationSection'));
+const PricingSection = React.lazy(() => import('./components/PricingSection'));
+const WhyActNow = React.lazy(() => import('./components/WhyActNow'));
+const LeadWizardModal = React.lazy(() => import('./components/LeadWizardModal'));
+const WhyBusinessesSection = React.lazy(() => import('./components/WhyBusinessesSection'));
 
 export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
@@ -24,8 +26,9 @@ export default function App() {
 
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
-      {/* Floating Lead Wizard Modal */}
-      <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+      <Suspense fallback={null}>
+        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+      </Suspense>
 
       {/* Top Navigation Bar */}
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6">
@@ -161,12 +164,13 @@ export default function App() {
           </div>
         </section>
 
-        <WhyBusinessesSection />
-
-        <InteractiveAmenities />
-        <LocationSection />
-        <PricingSection onOpenWizard={openWizard} />
-        <WhyActNow onOpenWizard={openWizard} />
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center bg-[#020408]"><div className="w-8 h-8 rounded-full border-t-2 border-[var(--color-sandybrown-100)] border-white/10 animate-spin"></div></div>}>
+          <WhyBusinessesSection />
+          <InteractiveAmenities />
+          <LocationSection />
+          <PricingSection onOpenWizard={openWizard} />
+          <WhyActNow onOpenWizard={openWizard} />
+        </Suspense>
 
         {/* Final CTA: Bottom Lead Form */}
         <section id="lead-form" className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
