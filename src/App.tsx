@@ -5,6 +5,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp, Navigation } from 'lucide-react';
+import { LeadCaptureForm } from './LeadCaptureForm';
 
 const amenitiesData = [
   {
@@ -458,6 +459,10 @@ const FeatureCard = ({ icon, title, description }: { icon: string, title: string
 };
 
 export default function App() {
+  const scrollToLeadForm = () => {
+    document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
       {/* Top Navigation Bar */}
@@ -469,11 +474,19 @@ export default function App() {
           <div className="hidden md:flex items-center gap-8 text-white text-sm font-body">
             <a href="#" className="hover:text-[var(--color-sandybrown-100)] transition-colors">Gallery</a>
             <a href="#" className="hover:text-[#d6a554] transition-colors">Plans</a>
-            <button className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors">
+            <button
+              type="button"
+              onClick={scrollToLeadForm}
+              className="border border-[#d6a554] text-[#d6a554] px-6 py-2 rounded-md font-medium hover:bg-[#d6a554] hover:text-black transition-colors"
+            >
               Contact Us
             </button>
           </div>
-          <button className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium">
+          <button
+            type="button"
+            onClick={scrollToLeadForm}
+            className="md:hidden border border-[#d6a554] text-[#d6a554] px-4 py-2 rounded-md text-xs font-medium"
+          >
             Contact Us
           </button>
         </div>
@@ -567,7 +580,11 @@ export default function App() {
                 </div>
 
                 {/* CTA */}
-                <button className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]">
+                <button
+                  type="button"
+                  onClick={scrollToLeadForm}
+                  className="bg-[#d6a554] text-black font-bold uppercase tracking-[0.05em] py-3.5 sm:py-4 lg:py-4 w-full rounded-full flex items-center justify-center gap-2 hover:bg-[var(--color-tan-100)] transition-colors text-[13px] sm:text-[14px] lg:text-[15px] shadow-[0_4px_20px_rgba(229,184,105,0.3)]"
+                >
                   SCHEDULE A SITE VISIT
                   <span className="material-symbols-outlined font-bold text-lg lg:text-xl">arrow_forward</span>
                 </button>
@@ -664,7 +681,13 @@ export default function App() {
                   Premium Common Areas
                 </li>
               </ul>
-              <button className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Download Brochure</button>
+              <button
+                type="button"
+                onClick={scrollToLeadForm}
+                className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all"
+              >
+                Download Brochure
+              </button>
             </div>
             {/* Tier 2 (Featured) */}
             <div className="bg-[#d6a554] text-black p-8 lg:p-12 rounded-2xl relative transform md:-translate-y-4 lg:-translate-y-8 shadow-[0_20px_40px_rgba(229,184,105,0.15)] flex flex-col items-center">
@@ -691,7 +714,13 @@ export default function App() {
                   Dedicated Signage
                 </li>
               </ul>
-              <button className="w-full bg-black text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-black/90 transition-all">Contact Advisor</button>
+              <button
+                type="button"
+                onClick={scrollToLeadForm}
+                className="w-full bg-black text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-black/90 transition-all"
+              >
+                Contact Advisor
+              </button>
             </div>
             {/* Tier 3 */}
             <div className="bg-white/5 backdrop-blur-md p-8 lg:p-12 border border-white/10 rounded-2xl flex flex-col items-center hover:bg-white/10 transition-colors">
@@ -713,13 +742,19 @@ export default function App() {
                   Custom Architectural Facade
                 </li>
               </ul>
-              <button className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all">Submit RFP</button>
+              <button
+                type="button"
+                onClick={scrollToLeadForm}
+                className="w-full border border-[#d6a554] text-[#d6a554] py-3 lg:py-4 rounded-full font-headline font-bold hover:bg-[#d6a554] hover:text-black transition-all"
+              >
+                Submit RFP
+              </button>
             </div>
           </div>
         </section>
 
         {/* Final CTA: Minimalist Full Width */}
-        <section className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
+        <section id="lead-form" className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
           <div className="absolute inset-0 z-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#d6a554]/5 rounded-full blur-[150px]"></div>
           </div>
@@ -728,10 +763,7 @@ export default function App() {
             <p className="text-white/70 font-body text-[16px] lg:text-[20px] mb-10 lg:mb-12 max-w-2xl mx-auto leading-relaxed">
               Limited inventory remains for our Q4 release. Join the roster of elite global tenants at Wagholi Highstreet.
             </p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
-              <input className="bg-white/5 border border-white/10 focus:border-[#d6a554] focus:ring-1 focus:ring-[#d6a554] px-6 lg:px-8 py-4 w-full md:w-96 text-base lg:text-lg rounded-full text-white placeholder-white/40 outline-none transition-all" placeholder="Professional Email Address" type="email" />
-              <button className="bg-[#d6a554] text-black px-8 lg:px-12 py-4 font-headline font-bold text-base lg:text-lg rounded-full hover:bg-[#d4a758] transition-colors shadow-[0_4px_20px_rgba(229,184,105,0.2)]">Request Priority Access</button>
-            </div>
+            <LeadCaptureForm className="mx-auto max-w-2xl" />
           </div>
         </section>
       </main>
