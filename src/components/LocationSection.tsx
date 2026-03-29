@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp } from 'lucide-react';
 
@@ -14,7 +14,7 @@ const locationData = [
 
 
 
-const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
+const BackgroundImage = ({ loc, idx, total, scrollYProgress, isMobile }: any) => {
   const peak = idx / (total - 1);
   const spread = 0.26;
 
@@ -43,6 +43,9 @@ const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
   const opacity = useTransform(scrollYProgress, domain, range);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const imageSrc = isMobile
+    ? `/images/location/mobile/${loc.id}.webp`
+    : `/images/location/desktop/${loc.id}.webp`;
 
   return (
     <motion.div
@@ -50,13 +53,13 @@ const BackgroundImage = ({ loc, idx, total, scrollYProgress }: any) => {
       style={{ opacity }}
     >
       <motion.img
-        src={`/images/location/desktop/${loc.id}.webp`}
-        className="w-full h-full object-cover hidden md:block will-change-transform"
-        style={{ scale, y }}
-      />
-      <motion.img
-        src={`/images/location/mobile/${loc.id}.webp`}
-        className="w-full h-full object-cover md:hidden will-change-transform"
+        src={imageSrc}
+        alt=""
+        aria-hidden="true"
+        loading={idx === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchPriority={idx === 0 ? 'high' : 'low'}
+        className="w-full h-full object-cover will-change-transform"
         style={{ scale, y }}
       />
       <div className="absolute inset-0 bg-[#020408]/60 backdrop-blur-sm"></div>
@@ -144,16 +147,23 @@ const TimelineCard = ({ loc, idx, total, scrollYProgress, isEven }: any) => {
 };
 
 export default function LocationSection() {
-  const containerRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start center", "end center"]
   });
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const sync = () => setIsMobile(mediaQuery.matches);
+    sync();
+    mediaQuery.addEventListener('change', sync);
+    return () => mediaQuery.removeEventListener('change', sync);
+  }, []);
+
   return (
     <section 
-      id="location" 
       className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-b from-black via-neutral-900 to-[#111111] text-white border-t border-white/5"
       style={{
         borderRadius: '48px 48px 0 0',
@@ -169,7 +179,7 @@ export default function LocationSection() {
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#020408]">
           {locationData.map((loc, idx) => (
-            <BackgroundImage key={`bg-${loc.id}`} loc={loc} idx={idx} total={locationData.length} scrollYProgress={scrollYProgress} />
+            <BackgroundImage key={`bg-${loc.id}`} loc={loc} idx={idx} total={locationData.length} scrollYProgress={scrollYProgress} isMobile={isMobile} />
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-[#020408] via-[#020408]/30 to-[#020408] z-10 w-full h-full"></div>
           <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[var(--color-sandybrown-100)]/15 via-transparent to-transparent pointer-events-none z-20"></div>

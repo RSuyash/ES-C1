@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
+import { SymbolIcon } from './SymbolIcon';
 
 const pricingTiers = [
   {
@@ -109,7 +110,7 @@ function PricingCard({
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-[var(--color-sandybrown-100)]/70 group-hover:text-[var(--color-sandybrown-100)] group-hover:border-[var(--color-sandybrown-100)]/20 group-hover:bg-[var(--color-sandybrown-100)]/10 transition-all duration-500">
-              <span className="material-symbols-outlined text-lg">{tier.icon}</span>
+              <SymbolIcon name={tier.icon} className="h-5 w-5" />
             </div>
             <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-white/20 group-hover:text-[var(--color-sandybrown-100)]/40 transition-colors duration-500">
               {tier.id}
@@ -141,7 +142,7 @@ function PricingCard({
           <ul className="space-y-2 mb-6 flex-1">
             {tier.features.map((f) => (
               <li key={f} className="flex items-center gap-1.5 text-[12px] leading-snug text-white/50 group-hover:text-white/70 transition-colors">
-                <span className="material-symbols-outlined text-[var(--color-sandybrown-100)]/50 text-[11px]">check</span>
+                <SymbolIcon name="check" className="mt-0.5 h-3.5 w-3.5 text-[var(--color-sandybrown-100)]/50" />
                 {f}
               </li>
             ))}
@@ -215,7 +216,7 @@ export default function PricingSection({ onOpenWizard }: { onOpenWizard: () => v
         </h2>
         <div className="flex items-center justify-center gap-4 mt-6 mb-2">
           <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[var(--color-sandybrown-100)]/40" />
-          <span className="material-symbols-outlined text-[var(--color-sandybrown-100)]/40 text-sm">diamond</span>
+          <SymbolIcon name="diamond" className="h-4 w-4 text-[var(--color-sandybrown-100)]/40" />
           <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[var(--color-sandybrown-100)]/40" />
         </div>
       </motion.div>
@@ -241,7 +242,7 @@ export default function PricingSection({ onOpenWizard }: { onOpenWizard: () => v
           onClick={onOpenWizard}
           className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-[var(--color-sandybrown-100)] text-black font-bold text-sm uppercase tracking-widest hover:bg-white transition-colors duration-300 shadow-[0_0_30px_rgba(214,165,84,0.2)]"
         >
-          <span className="material-symbols-outlined text-lg">download</span>
+          <SymbolIcon name="download" className="h-5 w-5" />
           Download Floor Plan
         </button>
         <button
@@ -249,7 +250,7 @@ export default function PricingSection({ onOpenWizard }: { onOpenWizard: () => v
           onClick={onOpenWizard}
           className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl border border-white/10 text-white/70 font-bold text-sm uppercase tracking-widest hover:border-[var(--color-sandybrown-100)]/40 hover:text-[var(--color-sandybrown-100)] transition-all duration-300"
         >
-          <span className="material-symbols-outlined text-lg">menu_book</span>
+          <SymbolIcon name="menu_book" className="h-5 w-5" />
           Download Brochure
         </button>
       </motion.div>

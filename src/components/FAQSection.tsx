@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
+import { SymbolIcon } from './SymbolIcon';
 
 const faqs = [
   {
@@ -102,7 +103,7 @@ export default function FAQSection() {
                     {faq.q}
                   </h3>
                   <div className={`shrink-0 flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-500 ${isOpen ? 'bg-[var(--color-sandybrown-100)] border-[var(--color-sandybrown-100)] text-black rotate-180' : 'border-white/20 text-white/50 bg-transparent'}`}>
-                    <span className="material-symbols-outlined text-xl">expand_more</span>
+                    <SymbolIcon name="expand_more" className="h-5 w-5" />
                   </div>
                 </button>
                 

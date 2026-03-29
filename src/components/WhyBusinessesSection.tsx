@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
+import { SymbolIcon } from './SymbolIcon';
 
 const businessFeatures = [
   {
@@ -94,13 +95,12 @@ function FeatureCard({
       <div className="relative z-10 flex-1 flex flex-col">
         {/* Animated Icon */}
         <div className="w-14 h-14 bg-gradient-to-br from-[var(--color-black-400)] to-[#111827] rounded-xl flex items-center justify-center mb-6 shadow-inner border border-white/5 group-hover:bg-[var(--color-sandybrown-100)]/10 group-hover:border-[var(--color-sandybrown-100)]/30 transition-all duration-500">
-          <motion.span
+          <motion.div
             animate={isHovered ? { scale: [1, 1.2, 1], rotate: [0, -5, 5, 0] } : {}}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
-            className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-3xl"
           >
-            {icon}
-          </motion.span>
+            <SymbolIcon name={icon} className="h-8 w-8 text-[var(--color-sandybrown-100)]" />
+          </motion.div>
         </div>
 
         {/* Content Typography */}
@@ -115,7 +115,7 @@ function FeatureCard({
       {/* Subtle bottom arrow / indicator to show interactivity */}
       <div className="mt-6 flex items-center text-[var(--color-sandybrown-100)]/0 group-hover:text-[var(--color-sandybrown-100)] transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
         <span className="text-[11px] uppercase tracking-widest font-bold">Discover More</span>
-        <span className="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+        <SymbolIcon name="arrow_forward" className="ml-1 h-4 w-4" />
       </div>
     </motion.div>
   );

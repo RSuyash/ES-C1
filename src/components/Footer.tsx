@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LegalModal from './LegalModal';
+import { SymbolIcon } from './SymbolIcon';
 
 type ModalType = 'privacy' | 'terms' | 'disclaimer' | null;
 
@@ -33,9 +34,13 @@ export default function Footer() {
             
             {/* Column 1: Brand & Identity */}
             <div className="flex flex-col gap-6">
-              <img 
-                src="/logo-light-text.png" 
-                alt="Wagholi Highstreet" 
+              <img
+                src="/logo-light-text.webp"
+                alt="Wagholi Highstreet"
+                width={360}
+                height={339}
+                loading="lazy"
+                decoding="async"
                 className="h-12 lg:h-14 w-auto object-contain self-start"
               />
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
@@ -43,10 +48,10 @@ export default function Footer() {
               </p>
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300">
-                  <span className="material-symbols-outlined text-xl">public</span>
+                  <SymbolIcon name="public" className="h-5 w-5" />
                 </a>
                 <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300">
-                  <span className="material-symbols-outlined text-xl">share</span>
+                  <SymbolIcon name="share" className="h-5 w-5" />
                 </a>
               </div>
             </div>
@@ -94,7 +99,7 @@ export default function Footer() {
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--color-sandybrown-100)] group-hover:bg-[var(--color-sandybrown-100)] group-hover:text-black transition-all duration-500 shrink-0">
-                    <span className="material-symbols-outlined text-xl">location_on</span>
+                    <SymbolIcon name="location_on" className="h-5 w-5" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white/30 text-[10px] uppercase font-bold tracking-tighter">Sales Office</span>
@@ -106,7 +111,7 @@ export default function Footer() {
 
                 <div className="flex gap-4 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--color-sandybrown-100)] group-hover:bg-[var(--color-sandybrown-100)] group-hover:text-black transition-all duration-500 shrink-0">
-                    <span className="material-symbols-outlined text-xl">call</span>
+                    <SymbolIcon name="call" className="h-5 w-5" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white/30 text-[10px] uppercase font-bold tracking-tighter">Priority Line</span>
@@ -118,7 +123,7 @@ export default function Footer() {
 
                 <div className="flex gap-4 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--color-sandybrown-100)] group-hover:bg-[var(--color-sandybrown-100)] group-hover:text-black transition-all duration-500 shrink-0">
-                    <span className="material-symbols-outlined text-xl">mail</span>
+                    <SymbolIcon name="mail" className="h-5 w-5" />
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white/30 text-[10px] uppercase font-bold tracking-tighter">Official Email</span>

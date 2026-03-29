@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SymbolIcon } from './SymbolIcon';
 
 interface ThankYouModalProps {
   isOpen: boolean;
@@ -48,9 +49,7 @@ function AchievementBadge({ icon, text, delay }: { icon: string; text: string; d
       transition={{ delay, duration: 0.5, type: 'spring', bounce: 0.5 }}
       className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-[var(--color-sandybrown-100)]/20 to-[var(--color-sandybrown-100)]/5 border border-[var(--color-sandybrown-100)]/30 backdrop-blur-sm"
     >
-      <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-2xl">
-        {icon}
-      </span>
+      <SymbolIcon name={icon} className="h-6 w-6 text-[var(--color-sandybrown-100)]" />
       <span className="text-white/90 font-medium text-sm">{text}</span>
     </motion.div>
   );
@@ -135,7 +134,7 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
                     transition={{ delay: 0.3, duration: 0.6, type: 'spring', bounce: 0.5 }}
                     className="relative w-24 h-24 rounded-full bg-gradient-to-br from-[var(--color-sandybrown-100)] to-[#fcd99a] flex items-center justify-center shadow-[0_0_60px_rgba(214,165,84,0.4)]"
                   >
-                    <span className="material-symbols-outlined text-5xl text-black">check</span>
+                    <SymbolIcon name="check" className="h-12 w-12 text-black" />
                   </motion.div>
                 </div>
 
@@ -190,9 +189,7 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-[var(--color-sandybrown-100)]/20 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-xl">
-                          call
-                        </span>
+                        <SymbolIcon name="call" className="h-5 w-5 text-[var(--color-sandybrown-100)]" />
                       </div>
                       <div className="text-left">
                         <p className="text-white/90 font-semibold text-sm">Priority Call</p>
@@ -202,9 +199,7 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
                     <div className="hidden sm:block w-12 h-[1px] bg-[var(--color-sandybrown-100)]/30" />
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-[var(--color-sandybrown-100)]/20 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-xl">
-                          calendar_month
-                        </span>
+                        <SymbolIcon name="calendar_month" className="h-5 w-5 text-[var(--color-sandybrown-100)]" />
                       </div>
                       <div className="text-left">
                         <p className="text-white/90 font-semibold text-sm">Site Visit</p>
@@ -214,9 +209,7 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
                     <div className="hidden sm:block w-12 h-[1px] bg-[var(--color-sandybrown-100)]/30" />
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-[var(--color-sandybrown-100)]/20 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-xl">
-                          contract
-                        </span>
+                        <SymbolIcon name="contract" className="h-5 w-5 text-[var(--color-sandybrown-100)]" />
                       </div>
                       <div className="text-left">
                         <p className="text-white/90 font-semibold text-sm">Investment</p>
@@ -237,7 +230,7 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
                     href="tel:+91XXXXXXXXXX"
                     className="w-full sm:w-auto px-8 py-4 rounded-full bg-[var(--color-sandybrown-100)] text-black font-bold text-sm uppercase tracking-widest hover:bg-[#e5b565] hover:shadow-[0_0_30px_rgba(214,165,84,0.4)] transition-all duration-300 flex items-center justify-center gap-2"
                   >
-                    <span className="material-symbols-outlined text-lg">phone</span>
+                    <SymbolIcon name="phone" className="h-5 w-5" />
                     Call Now
                   </a>
                   <button

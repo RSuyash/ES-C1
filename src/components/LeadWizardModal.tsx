@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import ThankYouModal from './ThankYouModal';
+import { SymbolIcon } from './SymbolIcon';
 
 const spaceTypes = [
   { value: 'premium-shop', label: 'Premium Shop', icon: 'shopping_bag' },
@@ -186,7 +187,7 @@ export default function LeadWizardModal({
               onClick={handleClose}
               className="absolute top-5 right-5 z-50 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
             >
-              <span className="material-symbols-outlined text-lg">close</span>
+              <SymbolIcon name="close" className="h-5 w-5" />
             </button>
 
             {/* Progress bar */}
@@ -240,13 +241,12 @@ export default function LeadWizardModal({
                                 : 'border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]'
                             }`}
                           >
-                            <span
-                              className={`material-symbols-outlined text-xl ${
+                            <SymbolIcon
+                              name={st.icon}
+                              className={`h-5 w-5 ${
                                 isSelected ? 'text-[var(--color-sandybrown-100)]' : 'text-white/30'
                               }`}
-                            >
-                              {st.icon}
-                            </span>
+                            />
                             <span
                               className={`text-sm font-medium leading-tight ${
                                 isSelected ? 'text-[var(--color-sandybrown-100)]' : 'text-white/70'
@@ -259,9 +259,7 @@ export default function LeadWizardModal({
                                 layoutId="selectedCheck"
                                 className="absolute top-3 right-3"
                               >
-                                <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-sm">
-                                  check_circle
-                                </span>
+                                <SymbolIcon name="check_circle" className="h-4 w-4 text-[var(--color-sandybrown-100)]" />
                               </motion.div>
                             )}
                           </button>
@@ -463,9 +461,7 @@ export default function LeadWizardModal({
                     className="flex-1 flex flex-col items-center justify-center text-center py-8"
                   >
                     <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6">
-                      <span className="material-symbols-outlined text-emerald-400 text-4xl">
-                        check_circle
-                      </span>
+                      <SymbolIcon name="check_circle" className="h-10 w-10 text-emerald-400" />
                     </div>
                     <h3 className="font-headline text-2xl font-bold text-white mb-3">
                       Thank You!

@@ -66,17 +66,11 @@
   --color-darkslategray: rgb(54, 73, 82);
   --color-black-alt: rgb(23, 38, 48);
 
-  --font-headline: "Manrope", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-label: "Inter", sans-serif;
-  --font-manrope: "Manrope", sans-serif;
-  --font-inter: "Inter", sans-serif;
-}
-
-@layer base {
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  }
+  --font-headline: "Avenir Next", "Segoe UI", "SF Pro Display", system-ui, sans-serif;
+  --font-body: "Inter Variable", "Segoe UI", system-ui, sans-serif;
+  --font-label: "Inter Variable", "Segoe UI", system-ui, sans-serif;
+  --font-manrope: "Avenir Next", "Segoe UI", "SF Pro Display", system-ui, sans-serif;
+  --font-inter: "Inter Variable", "Segoe UI", system-ui, sans-serif;
 }
 
 @layer utilities {

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
+import { SymbolIcon } from './SymbolIcon';
 
 const urgencyPoints = [
   {
@@ -143,9 +144,10 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
               <div className="relative z-10 p-10 lg:p-12 h-full flex flex-col">
                 <div className="flex items-start justify-between mb-auto">
                   <div className="w-14 h-14 rounded-2xl bg-[#111724] border border-white/5 flex items-center justify-center group-hover:bg-[var(--color-sandybrown-100)] group-hover:scale-110 transition-all duration-500 shadow-xl">
-                    <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] group-hover:text-[#020408] transition-colors duration-500 text-2xl">
-                      {point.icon}
-                    </span>
+                    <SymbolIcon
+                      name={point.icon}
+                      className="h-8 w-8 text-[var(--color-sandybrown-100)] transition-colors duration-500 group-hover:text-[#020408]"
+                    />
                   </div>
                   <span className="font-mono text-[40px] font-black tracking-tighter text-white/[0.03] group-hover:text-[var(--color-sandybrown-100)]/20 transition-colors duration-500 leading-none">
                     {point.id}
@@ -188,9 +190,9 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
             
             {/* Content */}
             <span className="relative z-10 flex items-center gap-3">
-              <span className="material-symbols-outlined text-lg group-hover:rotate-12 transition-transform duration-300">calendar_today</span>
+              <SymbolIcon name="calendar_today" className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
               Schedule a Site Visit
-              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+              <SymbolIcon name="arrow_forward" className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
 
             {/* Particle sparkles on hover */}

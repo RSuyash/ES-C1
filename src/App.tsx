@@ -5,8 +5,10 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
+import { DeferredSection } from './components/DeferredSection';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
+import { SymbolIcon } from './components/SymbolIcon';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -52,17 +54,24 @@ export default function App() {
 
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
-      <Suspense fallback={null}>
-        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
-      </Suspense>
+      {isWizardOpen ? (
+        <Suspense fallback={null}>
+          <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+        </Suspense>
+      ) : null}
 
       {/* Top Navigation Bar */}
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
           <div className="flex items-center">
             <img
-              src="/logo-light-text.png"
+              src="/logo-light-text.webp"
               alt="Wagholi Highstreet Logo"
+              width={360}
+              height={339}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="h-10 w-auto max-w-[200px] object-contain md:h-14 md:max-w-[300px]"
             />
           </div>
@@ -80,7 +89,7 @@ export default function App() {
               onClick={openWizard}
               className="hidden lg:flex items-center gap-2 bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-full text-[11px] hover:bg-[#e5b565] hover:shadow-[0_0_25px_rgba(214,165,84,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span className="material-symbols-outlined text-sm">calendar_today</span>
+              <SymbolIcon name="calendar_today" className="h-4 w-4" />
               Schedule a Site Visit
             </button>
             {/* Tablet CTA - Yellow Button (no icon) */}
@@ -111,7 +120,12 @@ export default function App() {
             <img
               className="w-full h-full object-cover opacity-80"
               alt="Wagholi Highstreet Cityscape Sunset"
-              src="/hero.jpeg"
+              src="/hero.webp"
+              width={1280}
+              height={896}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             {/* Dark gradient from left for text readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/60 to-transparent md:to-[var(--color-black-200)]/30"></div>
@@ -181,7 +195,7 @@ export default function App() {
                       <div className="flex items-center gap-3 sm:gap-4">
                         <div className="group relative">
                           <div className="bg-[#DA291C]/90 backdrop-blur-md w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(218,41,28,0.4)]">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-5 h-5 sm:w-6 sm:h-6" />
+                            <span className="font-black text-xl leading-none text-[#ffc72c]">M</span>
                           </div>
                         </div>
                         <div className="group relative">
@@ -225,7 +239,10 @@ export default function App() {
                 >
                   <span className="relative z-10 flex items-center gap-2 text-[13px] sm:text-[14px]">
                     SCHEDULE A SITE VISIT
-                    <span className="material-symbols-outlined font-normal text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    <SymbolIcon
+                      name="arrow_forward"
+                      className="h-5 w-5 font-normal transition-transform group-hover:translate-x-1"
+                    />
                   </span>
                 </button>
 
@@ -235,14 +252,36 @@ export default function App() {
           </div>
         </section>
 
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center bg-[#020408]"><div className="w-8 h-8 rounded-full border-t-2 border-[var(--color-sandybrown-100)] border-white/10 animate-spin"></div></div>}>
-          <div id="overview"><WhyBusinessesSection onOpenWizard={openWizard} /></div>
-          <div id="amenities"><InteractiveAmenities /></div>
-          <div id="location"><LocationSection /></div>
-          <div id="pricing"><PricingSection onOpenWizard={openWizard} /></div>
-          <WhyActNow onOpenWizard={openWizard} />
-          <div id="faqs"><FAQSection /></div>
-        </Suspense>
+        <DeferredSection id="overview" minHeight={900} initiallyVisible>
+          <Suspense fallback={<div className="min-h-[50vh] bg-[#020408]" />}>
+            <WhyBusinessesSection onOpenWizard={openWizard} />
+          </Suspense>
+        </DeferredSection>
+        <DeferredSection id="amenities" minHeight={780}>
+          <Suspense fallback={<div className="min-h-[60vh] bg-[#0b1222]" />}>
+            <InteractiveAmenities />
+          </Suspense>
+        </DeferredSection>
+        <DeferredSection id="location" minHeight={1800}>
+          <Suspense fallback={<div className="min-h-[100vh] bg-[#020408]" />}>
+            <LocationSection />
+          </Suspense>
+        </DeferredSection>
+        <DeferredSection id="pricing" minHeight={760}>
+          <Suspense fallback={<div className="min-h-[55vh] bg-[#020408]" />}>
+            <PricingSection onOpenWizard={openWizard} />
+          </Suspense>
+        </DeferredSection>
+        <DeferredSection id="act-now" minHeight={980}>
+          <Suspense fallback={<div className="min-h-[70vh] bg-[#020408]" />}>
+            <WhyActNow onOpenWizard={openWizard} />
+          </Suspense>
+        </DeferredSection>
+        <DeferredSection id="faqs" minHeight={920}>
+          <Suspense fallback={<div className="min-h-[55vh] bg-[#020408]" />}>
+            <FAQSection />
+          </Suspense>
+        </DeferredSection>
 
         {/* Final CTA: Bottom Lead Form */}
         <section id="lead-form" className="relative py-32 lg:py-40 bg-[#0b1222] overflow-hidden border-t border-white/5">
@@ -261,11 +300,6 @@ export default function App() {
 
       {/* Footer with Legal Modals */}
       <Footer />
-
-      {/* Lead Wizard Modal */}
-      <Suspense fallback={null}>
-        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
-      </Suspense>
     </div>
   );
 }

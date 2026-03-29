@@ -7,9 +7,9 @@ const amenitiesData = [
     title: "Business Lounge",
     desc: "A premium space for meetings and networking.",
     images: [
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1560179707-f14e90ef362b?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1560179707-f14e90ef362b?auto=format&fit=crop&q=58&w=840"
     ]
   },
   {
@@ -17,9 +17,9 @@ const amenitiesData = [
     title: "Co-working Spaces",
     desc: "A dynamic environment for collaboration and growth.",
     images: [
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=58&w=840"
     ]
   },
   {
@@ -27,9 +27,9 @@ const amenitiesData = [
     title: "Yoga Lounge",
     desc: "A wellness-focused space for a balanced workday.",
     images: [
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=58&w=840"
     ]
   },
   {
@@ -37,9 +37,9 @@ const amenitiesData = [
     title: "Game Zone",
     desc: "A refreshing lifestyle addition for teams and visitors.",
     images: [
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&q=58&w=840"
     ]
   },
   {
@@ -47,9 +47,9 @@ const amenitiesData = [
     title: "Café & Sit-Out",
     desc: "Perfect for breaks, casual meetings, and informal discussions.",
     images: [
-      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=58&w=840"
     ]
   },
   {
@@ -57,9 +57,9 @@ const amenitiesData = [
     title: "3 Acres Dedicated Parking",
     desc: "Better convenience for customers, staff, and visitors.",
     images: [
-      "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1470224114660-3f6686c562eb?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&q=62&w=960",
+      "https://images.unsplash.com/photo-1470224114660-3f6686c562eb?auto=format&fit=crop&q=58&w=840",
+      "https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?auto=format&fit=crop&q=58&w=840"
     ]
   }
 ];
@@ -157,15 +157,15 @@ export default function InteractiveAmenities() {
                 }`}
             >
               {/* Images */}
-              {amenity.images.map((img, imgIdx) => (
+              {(isActive ? amenity.images : [amenity.images[0]]).map((img, imgIdx) => (
                 <img
                   key={imgIdx}
                   src={img}
                   alt={`${amenity.title} ${imgIdx + 1}`}
                   referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200';
-                  }}
+                  loading={isActive && imgIdx === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={isActive && imgIdx === 0 ? 'high' : 'low'}
                   className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${isActive && imageIndex === imgIdx
                     ? 'opacity-100 scale-100'
                     : (imgIdx === 0 && !isActive ? 'opacity-60 grayscale scale-100' : 'opacity-0 scale-105')
