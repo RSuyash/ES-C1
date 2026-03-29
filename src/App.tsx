@@ -2,9 +2,11 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
+import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
+import Footer from './components/Footer';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -17,6 +19,7 @@ const FAQSection = React.lazy(() => import('./components/FAQSection'));
 
 export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [hasAutoTriggered, setHasAutoTriggered] = useState(false);
 
   const scrollToLeadForm = () => {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -29,6 +32,24 @@ export default function App() {
   const openWizard = () => setIsWizardOpen(true);
   const closeWizard = () => setIsWizardOpen(false);
 
+  // Auto-trigger wizard at 30-35% scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+
+      // Trigger at 30% scroll, only once per session
+      if (scrollPercent >= 0.30 && !hasAutoTriggered) {
+        setIsWizardOpen(true);
+        setHasAutoTriggered(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasAutoTriggered]);
+
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
       <Suspense fallback={null}>
@@ -40,31 +61,45 @@ export default function App() {
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
           <div className="flex items-center">
             <img
-              src="/logo.png"
+              src="/logo-light-text.png"
               alt="Wagholi Highstreet Logo"
               className="h-10 w-auto max-w-[200px] object-contain md:h-14 md:max-w-[300px]"
             />
           </div>
-          <div className="hidden md:flex items-center gap-10 text-white text-[15px] font-body tracking-wide">
-            <button onClick={() => scrollToSection('overview')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
-            <button onClick={() => scrollToSection('amenities')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
-            <button onClick={() => scrollToSection('pricing')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Pricing</button>
-            <button onClick={() => scrollToSection('location')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
+          <div className="flex items-center gap-4">
+            {/* Desktop Nav Links - Right Aligned */}
+            <div className="hidden lg:flex items-center gap-8 text-white text-[14px] font-body tracking-wide">
+              <button onClick={() => scrollToSection('overview')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
+              <button onClick={() => scrollToSection('amenities')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
+              <button onClick={() => scrollToSection('pricing')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Pricing</button>
+              <button onClick={() => scrollToSection('location')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
+            </div>
+            {/* Desktop CTA - Yellow Button */}
             <button
               type="button"
               onClick={openWizard}
-              className="ml-2 border border-[var(--color-sandybrown-100)]/80 text-[var(--color-sandybrown-100)] px-7 py-2.5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[var(--color-sandybrown-100)] hover:text-black transition-all shadow-[0_0_15px_rgba(214,165,84,0.15)] backdrop-blur-sm"
+              className="hidden lg:flex items-center gap-2 bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-full text-[11px] hover:bg-[#e5b565] hover:shadow-[0_0_25px_rgba(214,165,84,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
-              Enquire
+              <span className="material-symbols-outlined text-sm">calendar_today</span>
+              Schedule a Site Visit
+            </button>
+            {/* Tablet CTA - Yellow Button (no icon) */}
+            <button
+              type="button"
+              onClick={openWizard}
+              className="hidden md:flex lg:hidden items-center gap-2 bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.08em] px-4 py-2 rounded-full text-[9px] hover:bg-[#e5b565] hover:shadow-[0_0_20px_rgba(214,165,84,0.4)] transition-all duration-300"
+            >
+              Site Visit
+            </button>
+            {/* Mobile CTA - Compact */}
+            <button
+              type="button"
+              onClick={openWizard}
+              className="lg:hidden border border-[var(--color-sandybrown-100)] text-[var(--color-sandybrown-100)] bg-[var(--color-sandybrown-100)]/10 px-4 py-2 rounded-full text-[9px] uppercase tracking-widest font-bold backdrop-blur-md shadow-[0_0_10px_rgba(214,165,84,0.1)]"
+            >
+              Visit
             </button>
           </div>
-          <button
-            type="button"
-            onClick={openWizard}
-            className="md:hidden border border-[var(--color-sandybrown-100)] text-[var(--color-sandybrown-100)] bg-[var(--color-sandybrown-100)]/10 px-5 py-2 rounded-full text-[11px] uppercase tracking-widest font-bold backdrop-blur-md shadow-[0_0_10px_rgba(214,165,84,0.1)]"
-          >
-            Enquire
-          </button>
         </div>
       </nav>
 
@@ -74,14 +109,14 @@ export default function App() {
           {/* Background Image & Gradients */}
           <div className="absolute inset-0 z-0 origin-top">
             <img
-              className="w-full h-full object-cover opacity-60"
+              className="w-full h-full object-cover opacity-80"
               alt="Wagholi Highstreet Cityscape Sunset"
               src="/hero.jpeg"
             />
             {/* Dark gradient from left for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/80 to-transparent md:to-[var(--color-black-200)]/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/60 to-transparent md:to-[var(--color-black-200)]/30"></div>
             {/* Bottom gradient to blend with next section */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-black-200)] via-[var(--color-black-200)]/60 lg:via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-black-200)] via-[var(--color-black-200)]/40 lg:via-transparent to-transparent"></div>
           </div>
 
           <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 mt-8 lg:mt-0">
@@ -123,52 +158,75 @@ export default function App() {
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-5"></div>
 
                 {/* Early Bird */}
-                <div className="flex items-center justify-center gap-2 mb-5">
-                  <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] text-sm lg:text-lg transform -rotate-90">local_offer</span>
-                  <p className="text-white/80 font-medium text-[12px] sm:text-sm lg:text-[15px] tracking-wide">
-                    Early Bird Benefit up to <span className="text-[var(--color-sandybrown-100)] font-bold">₹5 Lakhs</span>
-                  </p>
-                </div>
+                {/* Change variant: 'original' | 'motion' | 'gsap' | 'spline' | 'particles' */}
+                <EarlyBirdBenefit variant="gsap" />
 
                 {/* Divider 2 */}
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
 
                 {/* Trust Box */}
-                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 mb-8 flex flex-row items-center justify-between gap-2 lg:gap-4 shadow-inner">
-                  <div className="flex items-center gap-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[var(--color-sandybrown-100)]">
-                      <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
-                      <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
-                    </svg>
-                    <span className="text-white/80 text-[10px] sm:text-[11px] lg:text-[12px] text-left leading-snug font-medium">250+ bookings<br />already done</span>
-                  </div>
+                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 md:p-5 mb-8 shadow-inner">
+                  {/* Changed to flex-col on mobile, flex-row on desktop */}
+                  <div className="flex flex-col xl:flex-row items-center justify-center gap-4 sm:gap-5">
+                    
+                    {/* Brands Section */}
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 w-full xl:w-auto">
+                      {/* Trusted By Label */}
+                      <div className="flex flex-col justify-center text-left">
+                        <span className="text-white/50 text-[8px] uppercase tracking-[0.2em] font-medium">Trusted</span>
+                        <span className="text-white/70 text-[11px] font-bold tracking-wide">By Brands</span>
+                      </div>
 
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="bg-[#DA291C]/90 backdrop-blur-md w-8 h-8 lg:w-10 lg:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-4 h-4 lg:w-5 lg:h-5" />
+                      {/* Brand Logos with Animation */}
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="group relative">
+                          <div className="bg-[#DA291C]/90 backdrop-blur-md w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(218,41,28,0.4)]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-5 h-5 sm:w-6 sm:h-6" />
+                          </div>
+                        </div>
+                        <div className="group relative">
+                          <div className="bg-white/90 backdrop-blur-md w-11 h-9 sm:w-12 sm:h-10 rounded-[10px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                            <span className="text-black font-extrabold text-[9px] sm:text-[10px] tracking-tighter">CinePro</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="bg-white/90 backdrop-blur-md w-10 h-8 lg:w-12 lg:h-10 rounded-[10px] flex items-center justify-center px-1 shadow-lg border border-white/30">
-                      <span className="text-black font-extrabold text-[8px] lg:text-[10px] tracking-tighter">CinePro</span>
-                    </div>
-                  </div>
 
-                  <div className="text-white/80 text-[10px] sm:text-[11px] lg:text-[12px] text-left leading-snug font-medium border-l border-white/10 pl-3">
-                    Possession in<br />just 9 Months
+                    {/* Responsive Divider: Horizontal on mobile, Vertical on desktop */}
+                    <div className="w-3/4 h-[1px] xl:w-[1px] xl:h-8 bg-gradient-to-r xl:bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+
+                    {/* Stats Section */}
+                    <div className="flex items-center justify-center gap-4 sm:gap-5 w-full xl:w-auto">
+                      <div className="flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-sandybrown-100)]">
+                          <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
+                          <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
+                        </svg>
+                        <div>
+                          <span className="text-white/80 text-[13px] sm:text-[15px] font-bold leading-tight">250+</span>
+                          <span className="text-white/60 text-[10px] sm:text-[11px] font-medium block">bookings</span>
+                        </div>
+                      </div>
+                      <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                      <div className="text-left">
+                        <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block leading-tight">Possession in</span>
+                        <span className="text-white/90 font-bold text-[13px] sm:text-[15px] block leading-tight">9 Months</span>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
 
-                {/* CTA Premium Apple Glass Button */}
+                {/* CTA Premium Yellow Button */}
                 <button
                   type="button"
                   onClick={openWizard}
-                  className="relative group overflow-hidden bg-white/[0.03] backdrop-blur-2xl border border-white/10 text-white font-bold uppercase tracking-[0.1em] py-4 w-full rounded-full flex items-center justify-center gap-3 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]"
+                  className="relative group overflow-hidden bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.1em] py-4 w-full rounded-full flex items-center justify-center gap-3 transition-all duration-300 hover:bg-[#e5b565] hover:shadow-[0_0_30px_rgba(214,165,84,0.4)] hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span className="relative z-10 flex items-center gap-2 text-[13px] sm:text-[14px]">
                     SCHEDULE A SITE VISIT
                     <span className="material-symbols-outlined font-normal text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </span>
-                  {/* Sweep highlight */}
-                  <div className="absolute inset-0 h-full w-[200%] -translate-x-full bg-gradient-to-r from-transparent via-white/[0.1] to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></div>
                 </button>
 
               </div>
@@ -178,7 +236,7 @@ export default function App() {
         </section>
 
         <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center bg-[#020408]"><div className="w-8 h-8 rounded-full border-t-2 border-[var(--color-sandybrown-100)] border-white/10 animate-spin"></div></div>}>
-          <div id="overview"><WhyBusinessesSection /></div>
+          <div id="overview"><WhyBusinessesSection onOpenWizard={openWizard} /></div>
           <div id="amenities"><InteractiveAmenities /></div>
           <div id="location"><LocationSection /></div>
           <div id="pricing"><PricingSection onOpenWizard={openWizard} /></div>
@@ -201,58 +259,13 @@ export default function App() {
         </section>
       </main>
 
-      {/* Premium Footer */}
-      <footer className="w-full relative border-t border-white/5 bg-[#020408] overflow-hidden">
-        {/* Subtle top edge glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent"></div>
-        
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 lg:py-20 flex flex-col md:flex-row justify-between items-start gap-12 lg:gap-16">
-          <div className="flex flex-col gap-5 items-start max-w-sm">
-            <img
-              src="/logo.png"
-              alt="Wagholi Highstreet Logo"
-              className="h-12 lg:h-14 w-auto object-contain opacity-90"
-            />
-            <p className="text-white/40 text-[13px] lg:text-[14px] font-body leading-relaxed mt-1">
-              A premium 5.5-acre commercial destination on prime Kesnand Road. Setting the benchmark for future-ready infrastructure and elite investment returns.
-            </p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full md:w-auto">
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Quick Links</h4>
-              <button onClick={() => scrollToSection('overview')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
-              <button onClick={() => scrollToSection('amenities')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
-              <button onClick={() => scrollToSection('pricing')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
-              <button onClick={() => scrollToSection('faqs')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">FAQs</button>
-            </div>
-            
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Legal</h4>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Privacy Policy</a>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Terms of Service</a>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Sustainability</a>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom Bar */}
-        <div className="border-t border-white/[0.03] bg-[#020408]">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/30 text-xs font-body antialiased text-center md:text-left">
-              &copy; {new Date().getFullYear()} Wagholi Highstreet. All rights reserved.
-            </p>
-            <div className="flex gap-3">
-              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
-                <span className="material-symbols-outlined text-[16px]">public</span>
-              </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
-                <span className="material-symbols-outlined text-[16px]">share</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer with Legal Modals */}
+      <Footer />
+
+      {/* Lead Wizard Modal */}
+      <Suspense fallback={null}>
+        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+      </Suspense>
     </div>
   );
 }

@@ -19,7 +19,7 @@ const urgencyPoints = [
   },
   {
     id: '02',
-    title: 'Nearing Possession',
+    title: 'Possession in 9 Months',
     desc: 'With possession approaching, you enter at a stage where decision confidence is stronger and waiting time is heavily reduced.',
     icon: 'schedule',
     colSpan: 'md:col-span-1 lg:col-span-4',
@@ -121,7 +121,7 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
         </div>
 
         {/* Premium Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 lg:gap-6 auto-rows-[280px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 lg:gap-6 auto-rows-[320px]">
           {urgencyPoints.map((point, idx) => (
             <motion.div
               key={point.id}
@@ -136,11 +136,11 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
             >
               {/* Dynamic glass hover orb */}
               <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--color-sandybrown-100)]/0 rounded-full blur-[80px] group-hover:bg-[var(--color-sandybrown-100)]/10 transition-colors duration-700 pointer-events-none transform -translate-y-1/2 translate-x-1/2" />
-              
+
               {/* Abstract Artwork Component */}
               {point.art}
 
-              <div className="relative z-10 p-8 lg:p-10 h-full flex flex-col">
+              <div className="relative z-10 p-10 lg:p-12 h-full flex flex-col">
                 <div className="flex items-start justify-between mb-auto">
                   <div className="w-14 h-14 rounded-2xl bg-[#111724] border border-white/5 flex items-center justify-center group-hover:bg-[var(--color-sandybrown-100)] group-hover:scale-110 transition-all duration-500 shadow-xl">
                     <span className="material-symbols-outlined text-[var(--color-sandybrown-100)] group-hover:text-[#020408] transition-colors duration-500 text-2xl">
@@ -156,7 +156,7 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
                   <h3 className="font-headline text-2xl lg:text-[28px] font-bold text-white mb-4 leading-tight group-hover:text-[var(--color-sandybrown-100)] transition-colors duration-500">
                     {point.title}
                   </h3>
-                  <p className="font-body text-[15px] lg:text-[16px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors duration-500 max-w-[90%]">
+                  <p className="font-body text-[15px] lg:text-[16px] text-white/50 leading-relaxed group-hover:text-white/80 transition-colors duration-500 max-w-[85%]">
                     {point.desc}
                   </p>
                 </div>
@@ -168,25 +168,35 @@ export default function WhyActNow({ onOpenWizard }: { onOpenWizard: () => void }
           ))}
         </div>
 
-        {/* Action Trigger Block */}
+        {/* Action Trigger Block - Golden CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="mt-20 flex justify-center"
         >
-          <div className="relative p-1 rounded-full bg-gradient-to-r from-[#111724] via-[var(--color-sandybrown-100)]/30 to-[#111724] hover:via-[var(--color-sandybrown-100)]/60 transition-colors duration-500">
-            <button
-              type="button"
-              onClick={onOpenWizard}
-              className="flex items-center gap-4 pl-10 pr-6 py-5 rounded-full bg-[#0a0f1a] text-white font-bold text-[13px] sm:text-sm uppercase tracking-[0.15em] hover:bg-transparent hover:text-[var(--color-sandybrown-100)] transition-all duration-500"
-            >
-              Secure The Early Advantage
-              <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white/10 group-hover:border-white/40">
-                <span className="material-symbols-outlined text-sm">arrow_outward</span>
-              </div>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onOpenWizard}
+            className="group relative px-8 py-4 bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.15em] text-[12px] sm:text-[13px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(214,165,84,0.6)] hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {/* Animated shimmer effect */}
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+            
+            {/* Inner glow */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--color-sandybrown-100)] via-[#fcd99a] to-[var(--color-sandybrown-100)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            {/* Content */}
+            <span className="relative z-10 flex items-center gap-3">
+              <span className="material-symbols-outlined text-lg group-hover:rotate-12 transition-transform duration-300">calendar_today</span>
+              Schedule a Site Visit
+              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+            </span>
+
+            {/* Particle sparkles on hover */}
+            <div className="absolute -top-1 -left-1 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-[ping_1s_ease-in-out_infinite]" />
+            <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[var(--color-sandybrown-100)] rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-[ping_1.2s_ease-in-out_infinite]" />
+          </button>
         </motion.div>
       </div>
     </section>

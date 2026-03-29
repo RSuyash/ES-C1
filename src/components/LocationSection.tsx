@@ -152,7 +152,8 @@ export default function LocationSection() {
   });
 
   return (
-    <section ref={containerRef} className="pt-24 lg:pt-32 pb-32 lg:pb-60 bg-[#020408] relative border-t border-white/5">
+    <section ref={containerRef} className="pt-12 lg:pt-32 pb-24 lg:pb-60 bg-[#020408] relative border-t border-white/5">
+
 
       {/* Scroll-Synced Cinematic Background */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
@@ -166,7 +167,10 @@ export default function LocationSection() {
       </div>
 
       {/* Content Layer */}
-      <div className="relative z-20">
+      <div className="relative z-20 pt-32">
+        {/* Top fade from Amenities section curved edge */}
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#020408] via-[#060a14] to-transparent z-10 pointer-events-none"></div>
+
         {/* Header */}
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20 lg:mb-32">
           <motion.div

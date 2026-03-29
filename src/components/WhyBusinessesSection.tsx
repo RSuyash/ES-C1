@@ -39,11 +39,13 @@ function FeatureCard({
   title,
   description,
   index,
+  onOpenWizard,
 }: {
   icon: string;
   title: string;
   description: string;
   index: number;
+  onOpenWizard: () => void;
 }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -73,7 +75,8 @@ function FeatureCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative bg-[#070b12] border border-[var(--color-sandybrown-100)]/10 rounded-2xl p-6 lg:p-8 overflow-hidden group h-full flex flex-col hover:border-[var(--color-sandybrown-100)]/30 transition-colors duration-500 shadow-lg will-change-transform"
+      onClick={onOpenWizard}
+      className="relative bg-[#070b12] border border-[var(--color-sandybrown-100)]/10 rounded-2xl p-6 lg:p-8 overflow-hidden group h-full flex flex-col hover:border-[var(--color-sandybrown-100)]/30 transition-colors duration-500 shadow-lg will-change-transform cursor-pointer"
     >
       {/* Dynamic Hover Glow Effect */}
       <motion.div
@@ -118,29 +121,34 @@ function FeatureCard({
   );
 }
 
-export default function WhyBusinessesSection() {
+export default function WhyBusinessesSection({ onOpenWizard }: { onOpenWizard?: () => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
     <section ref={sectionRef} className="relative pt-12 pb-28 lg:pt-16 lg:pb-40 px-6 md:px-12 bg-[#020408] border-t border-white/5 overflow-hidden">
+      {/* Top gradient fade from Hero section - smooth dark blue transition */}
+      <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-[var(--color-black-200)]/80 via-[#060a14] to-[#020408] z-0 pointer-events-none"></div>
+
       {/* Advanced CSS Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 opacity-[0.07]"
+        <div className="absolute inset-0 opacity-[0.3]"
              style={{
                backgroundImage: 'linear-gradient(var(--color-sandybrown-100) 1px, transparent 1px), linear-gradient(90deg, var(--color-sandybrown-100) 1px, transparent 1px)',
                backgroundSize: '40px 40px',
-               maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%)',
-               WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%)'
+               maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%), linear-gradient(to bottom, black 0%, black 60%, transparent 100%)',
+               WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%), linear-gradient(to bottom, black 0%, black 60%, transparent 100%)'
              }}
         />
+        {/* Diagonal feathered blend transition to next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b from-[#020408] via-[#050810] to-[#0b1222] opacity-90"></div>
         {/* Giant ambient color orbs built for premium feel */}
         <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[var(--color-black-200)] via-[var(--color-sandybrown-100)]/5 to-transparent"></div>
         <div className="absolute -left-1/4 top-1/4 w-[800px] h-[800px] bg-[var(--color-sandybrown-100)]/5 rounded-full blur-[150px]"></div>
         <div className="absolute -right-1/4 bottom-0 w-[600px] h-[600px] bg-[#080d15] rounded-full blur-[150px]"></div>
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto">
+      <div className="relative z-10 max-w-[1400px] mx-auto pt-32">
         {/* Section Header with Staggered Entrance */}
         <div className="mb-16 lg:mb-24 w-full flex flex-col items-center text-center max-w-4xl mx-auto">
           <motion.div
@@ -182,6 +190,7 @@ export default function WhyBusinessesSection() {
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}
+                onOpenWizard={onOpenWizard || (() => {})}
               />
             </div>
           ))}
