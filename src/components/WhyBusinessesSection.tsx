@@ -126,7 +126,7 @@ export default function WhyBusinessesSection({ onOpenWizard }: { onOpenWizard?: 
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section ref={sectionRef} className="relative pt-12 pb-28 lg:pt-16 lg:pb-40 px-6 md:px-12 bg-[#020408] border-t border-white/5 overflow-hidden">
+    <section ref={sectionRef} className="relative h-auto lg:h-auto pt-12 pb-16 lg:pt-16 lg:pb-40 px-6 md:px-12 bg-[#020408] border-t border-white/5 overflow-hidden">
       {/* Top gradient fade from Hero section - smooth dark blue transition */}
       <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-[var(--color-black-200)]/80 via-[#060a14] to-[#020408] z-0 pointer-events-none"></div>
 
