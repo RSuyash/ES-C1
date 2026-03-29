@@ -154,7 +154,13 @@ export default function LocationSection() {
   return (
     <section 
       id="location" 
-      className="relative w-full pt-20 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-b from-black via-neutral-900 to-[#111111] text-white border-t border-white/5"
+      className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-b from-black via-neutral-900 to-[#111111] text-white border-t border-white/5"
+      style={{
+        borderRadius: '48px 48px 0 0',
+        marginTop: '-48px',
+        position: 'relative',
+        zIndex: 30
+      }}
     >
       {/* Subtle glowing separator line for a premium transition effect */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-40"></div>
