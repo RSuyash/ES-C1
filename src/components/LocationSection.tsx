@@ -166,7 +166,10 @@ export default function LocationSection() {
       </div>
 
       {/* Content Layer */}
-      <div className="relative z-20">
+      <div className="relative z-20 pt-32">
+        {/* Top fade from Amenities section curved edge */}
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#020408] via-[#060a14] to-transparent z-10 pointer-events-none"></div>
+
         {/* Header */}
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20 lg:mb-32">
           <motion.div

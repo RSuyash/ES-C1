@@ -9,7 +9,7 @@ const amenitiesData = [
     images: [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&q=80&w=1200"
+      "https://images.unsplash.com/photo-1560179707-f14e90ef362b?auto=format&fit=crop&q=80&w=1200"
     ]
   },
   {
@@ -105,19 +105,36 @@ export default function InteractiveAmenities() {
       onTouchStart={() => setIsInteracting(true)}
       onTouchEnd={() => setIsInteracting(false)}
       className="py-20 lg:py-32 bg-[var(--color-black-200)] relative overflow-hidden"
+      style={{
+        borderRadius: '48px 48px 48px 48px',
+        marginTop: '-12px',
+        marginBottom: '-12px',
+      }}
     >
+      {/* Top fade transition from Why Businesses section - starts with same color, fades to blue */}
+      <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-[#020408] via-[#060a14] to-transparent z-10 pointer-events-none"
+           style={{
+             borderRadius: '48px 48px 0 0',
+           }}></div>
+
       {/* Header */}
-      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 mb-10 lg:mb-16 pt-12 lg:pt-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* Label with gradient lines - Left Aligned */}
+          <div className="flex items-center justify-start gap-3 mb-6">
+            <span className="text-[var(--color-sandybrown-100)] font-bold text-[10px] tracking-[0.25em] uppercase">Lifestyle & Convenience</span>
+            <div className="h-[1px] w-12 bg-gradient-to-r from-[var(--color-sandybrown-100)]/40 to-transparent"></div>
+          </div>
+
           <h2 className="font-headline text-[32px] sm:text-[42px] lg:text-[56px] font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
             Amenities That Add More Value to Your <span className="text-[var(--color-sandybrown-100)]">Business Address</span>
           </h2>
-          <div className="w-24 h-1 bg-[var(--color-sandybrown-100)] mb-8"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[var(--color-sandybrown-100)] to-transparent mb-8"></div>
           <p className="font-body text-[16px] lg:text-[20px] text-white/70 leading-relaxed max-w-4xl">
             At Wagholi Highstreet, you do not just get a commercial space — you get a more premium and future-ready business environment designed for productivity, comfort, and a better everyday experience for you, your team, and your visitors.
           </p>
@@ -146,6 +163,9 @@ export default function InteractiveAmenities() {
                   src={img}
                   alt={`${amenity.title} ${imgIdx + 1}`}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200';
+                  }}
                   className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${isActive && imageIndex === imgIdx
                     ? 'opacity-100 scale-100'
                     : (imgIdx === 0 && !isActive ? 'opacity-60 grayscale scale-100' : 'opacity-0 scale-105')
@@ -194,6 +214,15 @@ export default function InteractiveAmenities() {
           );
         })}
       </div>
+
+      {/* Bottom curved edge for smooth transition to next section */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#020408] via-[#060a14] to-transparent z-20 pointer-events-none"
+        style={{
+          borderRadius: '0 0 48px 48px',
+          boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.5)',
+        }}
+      ></div>
     </section>
   );
 }

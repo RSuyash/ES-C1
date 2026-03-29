@@ -83,4 +83,13 @@
   .hero-gradient {
     background: linear-gradient(to right, rgba(247, 249, 251, 1) 30%, rgba(247, 249, 251, 0) 100%);
   }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
