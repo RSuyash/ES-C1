@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 interface ThankYouModalProps {
   isOpen: boolean;
@@ -7,7 +7,7 @@ interface ThankYouModalProps {
 }
 
 // Confetti particle component
-function Confetti({ delay }: { delay: number }) {
+const Confetti: React.FC<{ delay: number }> = ({ delay }) => {
   const colors = ['#d6a554', '#fcd99a', '#ee6e25', '#ffffff', '#4dc247'];
   const color = colors[Math.floor(Math.random() * colors.length)];
   const left = Math.random() * 100;
