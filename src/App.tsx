@@ -6,6 +6,7 @@ import React, { useState, Suspense, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LeadCaptureForm } from './LeadCaptureForm';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
+import Footer from './components/Footer';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -252,58 +253,13 @@ export default function App() {
         </section>
       </main>
 
-      {/* Premium Footer */}
-      <footer className="w-full relative border-t border-white/5 bg-[#020408] overflow-hidden">
-        {/* Subtle top edge glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-sandybrown-100)]/30 to-transparent"></div>
-        
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 lg:py-20 flex flex-col md:flex-row justify-between items-start gap-12 lg:gap-16">
-          <div className="flex flex-col gap-5 items-start max-w-sm">
-            <img
-              src="/logo-light-text.png"
-              alt="Wagholi Highstreet Logo"
-              className="h-12 lg:h-14 w-auto object-contain opacity-90"
-            />
-            <p className="text-white/40 text-[13px] lg:text-[14px] font-body leading-relaxed mt-1">
-              A premium 5.5-acre commercial destination on prime Kesnand Road. Setting the benchmark for future-ready infrastructure and elite investment returns.
-            </p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 w-full md:w-auto">
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Quick Links</h4>
-              <button onClick={() => scrollToSection('overview')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Overview</button>
-              <button onClick={() => scrollToSection('amenities')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Amenities</button>
-              <button onClick={() => scrollToSection('pricing')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Pricing</button>
-              <button onClick={() => scrollToSection('faqs')} className="text-left text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">FAQs</button>
-            </div>
-            
-            <div className="flex flex-col gap-4">
-              <h4 className="text-white font-bold tracking-widest uppercase text-xs mb-1">Legal</h4>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Privacy Policy</a>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Terms of Service</a>
-              <a href="#" className="text-white/50 text-sm font-body hover:text-[var(--color-sandybrown-100)] hover:translate-x-1 transition-all">Sustainability</a>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom Bar */}
-        <div className="border-t border-white/[0.03] bg-[#020408]">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/30 text-xs font-body antialiased text-center md:text-left">
-              &copy; {new Date().getFullYear()} Wagholi Highstreet. All rights reserved.
-            </p>
-            <div className="flex gap-3">
-              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
-                <span className="material-symbols-outlined text-[16px]">public</span>
-              </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 border border-white/5 hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:scale-110 text-white/60 transition-all">
-                <span className="material-symbols-outlined text-[16px]">share</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer with Legal Modals */}
+      <Footer />
+
+      {/* Lead Wizard Modal */}
+      <Suspense fallback={null}>
+        <LeadWizardModal isOpen={isWizardOpen} onClose={closeWizard} />
+      </Suspense>
     </div>
   );
 }

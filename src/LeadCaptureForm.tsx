@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import ThankYouModal from './components/ThankYouModal';
 
 type LeadCaptureFormProps = {
   className?: string;
@@ -57,6 +58,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
   const [values, setValues] = useState(initialFormValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
+  const [showThankYou, setShowThankYou] = useState(false);
 
   const utmValues = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -136,6 +138,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
       });
+      setShowThankYou(true);
     } catch (error) {
       const message =
         error instanceof Error && error.message
@@ -287,6 +290,8 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       >
         {isSubmitting ? 'Submitting...' : 'Request Priority Access'}
       </button>
+
+      <ThankYouModal isOpen={showThankYou} onClose={() => setShowThankYou(false)} />
     </form>
   );
 }

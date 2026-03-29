@@ -1,5 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import ThankYouModal from './ThankYouModal';
 
 const spaceTypes = [
   { value: 'premium-shop', label: 'Premium Shop', icon: 'shopping_bag' },
@@ -57,6 +58,7 @@ export default function LeadWizardModal({
   const [values, setValues] = useState<WizardValues>(initialValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
+  const [showThankYou, setShowThankYou] = useState(false);
 
   const utmValues = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -134,7 +136,7 @@ export default function LeadWizardModal({
       }
 
       setValues(initialValues);
-      setStep(3); // Success screen
+      setShowThankYou(true);
       setStatus({
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
@@ -512,6 +514,9 @@ export default function LeadWizardModal({
           </motion.div>
         </motion.div>
       )}
+
+      {/* Thank You Modal - Full Screen Celebration */}
+      <ThankYouModal isOpen={showThankYou} onClose={() => setShowThankYou(false)} />
     </AnimatePresence>
   );
 }
