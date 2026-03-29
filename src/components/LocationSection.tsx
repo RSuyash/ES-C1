@@ -152,7 +152,8 @@ export default function LocationSection() {
   });
 
   return (
-    <section ref={containerRef} className="pt-24 lg:pt-32 pb-32 lg:pb-60 bg-[#020408] relative border-t border-white/5">
+    <section ref={containerRef} className="pt-12 lg:pt-32 pb-24 lg:pb-60 bg-[#020408] relative border-t border-white/5">
+
 
       {/* Scroll-Synced Cinematic Background */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">

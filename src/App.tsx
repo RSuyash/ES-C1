@@ -165,33 +165,38 @@ export default function App() {
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
 
                 {/* Trust Box */}
-                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 mb-8 shadow-inner">
-                  <div className="flex items-center gap-4 sm:gap-5">
-                    {/* Trusted By Label */}
-                    <div className="flex flex-col justify-center">
-                      <span className="text-white/50 text-[8px] uppercase tracking-[0.2em] font-medium">Trusted</span>
-                      <span className="text-white/70 text-[11px] font-bold tracking-wide">By Brands</span>
-                    </div>
+                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 md:p-5 mb-8 shadow-inner">
+                  {/* Changed to flex-col on mobile, flex-row on desktop */}
+                  <div className="flex flex-col xl:flex-row items-center justify-center gap-4 sm:gap-5">
+                    
+                    {/* Brands Section */}
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 w-full xl:w-auto">
+                      {/* Trusted By Label */}
+                      <div className="flex flex-col justify-center text-left">
+                        <span className="text-white/50 text-[8px] uppercase tracking-[0.2em] font-medium">Trusted</span>
+                        <span className="text-white/70 text-[11px] font-bold tracking-wide">By Brands</span>
+                      </div>
 
-                    {/* Brand Logos with Animation */}
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="group relative">
-                        <div className="bg-[#DA291C]/90 backdrop-blur-md w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(218,41,28,0.4)]">
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-5 h-5 sm:w-6 sm:h-6" />
+                      {/* Brand Logos with Animation */}
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="group relative">
+                          <div className="bg-[#DA291C]/90 backdrop-blur-md w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] flex items-center justify-center shadow-lg border border-red-500/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(218,41,28,0.4)]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" alt="McDonald's" className="w-5 h-5 sm:w-6 sm:h-6" />
+                          </div>
+                        </div>
+                        <div className="group relative">
+                          <div className="bg-white/90 backdrop-blur-md w-11 h-9 sm:w-12 sm:h-10 rounded-[10px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                            <span className="text-black font-extrabold text-[9px] sm:text-[10px] tracking-tighter">CinePro</span>
+                          </div>
                         </div>
                       </div>
-                      <div className="group relative">
-                        <div className="bg-white/90 backdrop-blur-md w-11 h-9 sm:w-12 sm:h-10 rounded-[10px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                          <span className="text-black font-extrabold text-[9px] sm:text-[10px] tracking-tighter">CinePro</span>
-                        </div>
-                      </div>
                     </div>
 
-                    {/* Divider */}
-                    <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                    {/* Responsive Divider: Horizontal on mobile, Vertical on desktop */}
+                    <div className="w-3/4 h-[1px] xl:w-[1px] xl:h-8 bg-gradient-to-r xl:bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
 
-                    {/* Stats */}
-                    <div className="flex items-center gap-4 sm:gap-5">
+                    {/* Stats Section */}
+                    <div className="flex items-center justify-center gap-4 sm:gap-5 w-full xl:w-auto">
                       <div className="flex items-center gap-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-sandybrown-100)]">
                           <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
@@ -203,11 +208,12 @@ export default function App() {
                         </div>
                       </div>
                       <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
-                      <div>
+                      <div className="text-left">
                         <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block leading-tight">Possession in</span>
                         <span className="text-white/90 font-bold text-[13px] sm:text-[15px] block leading-tight">9 Months</span>
                       </div>
                     </div>
+
                   </div>
                 </div>
 

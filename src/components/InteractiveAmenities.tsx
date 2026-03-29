@@ -142,7 +142,7 @@ export default function InteractiveAmenities() {
       </div>
 
       {/* Expanding Cards Gallery */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 h-[75vh] min-h-[600px] max-h-[800px] flex flex-col lg:flex-row gap-3 lg:gap-5">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 h-auto lg:h-[75vh] lg:min-h-[600px] lg:max-h-[800px] flex flex-col lg:flex-row gap-3 lg:gap-5 pb-8 lg:pb-0">
         {amenitiesData.map((amenity, idx) => {
           const isActive = activeIndex === idx;
           return (
@@ -152,8 +152,8 @@ export default function InteractiveAmenities() {
               onClick={() => setActiveIndex(idx)}
               onMouseEnter={() => window.innerWidth >= 1024 && setActiveIndex(idx)}
               className={`relative overflow-hidden rounded-2xl lg:rounded-[2rem] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex-shrink-0 lg:flex-shrink ${isActive
-                ? 'flex-[5_5_0%] lg:flex-[6_6_0%]'
-                : 'flex-[1_1_0%] lg:flex-[1_1_0%]'
+                ? 'h-[400px] lg:h-auto lg:flex-[6_6_0%]'
+                : 'h-[80px] lg:h-auto lg:flex-[1_1_0%]'
                 }`}
             >
               {/* Images */}
