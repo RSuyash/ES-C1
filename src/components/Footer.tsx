@@ -39,9 +39,9 @@ export default function Footer() {
                 Contact
               </h4>
               <div className="space-y-2 text-white/70 text-[15px]">
-                <p>📍 Survey No. 659, Wagholi, Pune - 412207</p>
-                <p>📞 <a href="tel:+91XXXXXXXXXX" className="hover:text-[var(--color-sandybrown-100)] transition-colors">+91 XX XXXXX XXXXX</a></p>
-                <p>✉️ <a href="mailto:info@wagholihighstreet.com" className="hover:text-[var(--color-sandybrown-100)] transition-colors">info@wagholihighstreet.com</a></p>
+                <p>📍 Wagholi High Street, SALES OFFICE, GS CROWN PLAZAA, Kesnand, Pune, Maharashtra 412207</p>
+                <p>📞 <a href="tel:+917742080757" className="hover:text-[var(--color-sandybrown-100)] transition-colors">+91 77420 80757</a></p>
+                <p>✉️ <a href="mailto:wagholihighstreet12@gmail.com" className="hover:text-[var(--color-sandybrown-100)] transition-colors">wagholihighstreet12@gmail.com</a></p>
               </div>
             </div>
 

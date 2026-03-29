@@ -83,14 +83,6 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!values.consent) {
-      setStatus({
-        tone: 'error',
-        message: 'Please confirm consent so our team can reach you with pricing and availability.',
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setStatus({ tone: 'idle', message: '' });
 
@@ -109,7 +101,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       budgetRange: budgetLabel || 'On Request',
       timeline: 'Immediate',
       problemSummary: `Space: ${spaceLabel}. Budget: ${budgetLabel}. Submitted from ${sourceHost}.`,
-      consent: values.consent,
+      consent: true,
       sourcePage: window.location.href,
       sourceCta: 'bottom-form',
       ...utmValues,
@@ -255,20 +247,6 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         </div>
       </div>
 
-      <div className="mt-4 flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 px-5 py-4">
-        <input
-          id="consent"
-          name="consent"
-          type="checkbox"
-          required
-          checked={values.consent}
-          onChange={handleChange}
-          className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-[#d6a554]"
-        />
-        <label className="text-sm leading-relaxed text-white/70" htmlFor="consent">
-          I agree to be contacted about pricing, availability, and project updates.
-        </label>
-      </div>
       <input type="text" name="website_url_extra" className="hidden" tabIndex={-1} autoComplete="off" />
       {status.message ? (
         <p

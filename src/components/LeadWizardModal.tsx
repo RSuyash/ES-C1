@@ -87,13 +87,6 @@ export default function LeadWizardModal({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!values.consent) {
-      setStatus({
-        tone: 'error',
-        message: 'Please confirm consent so our team can reach you.',
-      });
-      return;
-    }
 
     setIsSubmitting(true);
     setStatus({ tone: 'idle', message: '' });
@@ -113,7 +106,7 @@ export default function LeadWizardModal({
       budgetRange: budgetLabel || 'On Request',
       timeline: 'Immediate',
       problemSummary: `Space: ${spaceLabel}. Budget: ${budgetLabel}. Submitted from ${sourceHost}.`,
-      consent: values.consent,
+      consent: true,
       sourcePage: window.location.href,
       sourceCta: 'lead-wizard',
       ...utmValues,
@@ -416,25 +409,6 @@ export default function LeadWizardModal({
                         placeholder="Email ID"
                         className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-3.5 text-sm text-white outline-none placeholder:text-white/25 focus:border-[var(--color-sandybrown-100)]/40 focus:ring-1 focus:ring-[var(--color-sandybrown-100)]/20 transition-all"
                       />
-
-                      {/* Consent */}
-                      <div className="flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-                        <input
-                          id="wizard-consent"
-                          name="consent"
-                          type="checkbox"
-                          required
-                          checked={values.consent}
-                          onChange={handleInputChange}
-                          className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent accent-[var(--color-sandybrown-100)]"
-                        />
-                        <label
-                          className="text-xs leading-relaxed text-white/50"
-                          htmlFor="wizard-consent"
-                        >
-                          I agree to be contacted about pricing, availability, and project updates.
-                        </label>
-                      </div>
 
                       {/* Honeypot */}
                       <input
