@@ -63,7 +63,7 @@ export default function App() {
       {/* Top Navigation Bar */}
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <img
               src="/logo-light-text.webp"
               alt="Wagholi Highstreet Logo"
@@ -72,7 +72,14 @@ export default function App() {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="h-10 w-auto max-w-[200px] object-contain md:h-14 md:max-w-[300px]"
+              className="h-10 w-auto max-w-[150px] object-contain md:h-12 md:max-w-[200px]"
+            />
+            {/* Vertical Divider */}
+            <div className="h-8 w-[1px] bg-white/20 hidden sm:block"></div>
+            <img
+              src="/wagholi_high_street.png"
+              alt="Partner Logo"
+              className="h-8 w-auto md:h-10 object-contain brightness-0 invert"
             />
           </div>
           <div className="flex items-center gap-4">
