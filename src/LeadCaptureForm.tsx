@@ -247,6 +247,18 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         </div>
       </div>
 
+      {/* RERA Trust Seal */}
+      <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+        <div className="shrink-0 bg-white p-1 rounded-lg">
+          <img src="/qr-code.jpeg" alt="MahaRERA QR Code" className="w-16 h-16 object-contain" />
+        </div>
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">MahaRERA Registered</p>
+          <p className="text-white/80 font-mono text-sm tracking-wider">Registration No: <span className="text-[#d6a554] font-bold">P52100056495</span></p>
+          <p className="text-[11px] text-white/30 mt-1 leading-tight">Scan QR code to verify project details on MahaRERA website.</p>
+        </div>
+      </div>
+
       <input type="text" name="website_url_extra" className="hidden" tabIndex={-1} autoComplete="off" />
       {status.message ? (
         <p

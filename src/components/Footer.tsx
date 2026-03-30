@@ -46,6 +46,16 @@ export default function Footer() {
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
                 A premium 5.5-acre commercial destination setting new benchmarks for infrastructure and business growth in Pune's fastest-growing corridor.
               </p>
+              
+              {/* RERA Section */}
+              <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 w-fit">
+                <img src="/qr-code.jpeg" alt="MahaRERA QR" className="w-12 h-12 rounded bg-white p-0.5" />
+                <div className="flex flex-col">
+                  <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">MahaRERA Reg.</span>
+                  <span className="text-[12px] text-white/70 font-mono font-bold">P52100056495</span>
+                </div>
+              </div>
+
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300">
                   <SymbolIcon name="public" className="h-5 w-5" />
