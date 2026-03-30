@@ -156,7 +156,7 @@ export default function App() {
                   Future-Ready
                 </span> Address on <br className="hidden lg:block" />
                 Wagholi Link Road, <br className="hidden lg:block" />
-                Wagholi with 45,000+ <br className="hidden lg:block" />
+                Wagholi with <span className="text-[var(--color-sandybrown-100)] italic">45,000+</span> <br className="hidden lg:block" />
                 Expected Footfall.
               </h1>
               <p className="font-body text-[13px] sm:text-[15px] lg:text-[17px] text-white/80 leading-relaxed max-w-2xl mb-2 lg:mb-0 px-2 lg:px-0">
