@@ -7,6 +7,7 @@ type ModalType = 'privacy' | 'terms' | 'disclaimer' | null;
 export default function Footer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>(null);
+  const [isQrEnlarged, setIsQrEnlarged] = useState(false);
 
   const openModal = (type: ModalType) => {
     setModalType(type);
@@ -16,6 +17,13 @@ export default function Footer() {
   const closeModal = () => {
     setIsModalOpen(false);
     setTimeout(() => setModalType(null), 300);
+  };
+
+  const toggleQr = () => {
+    setIsQrEnlarged(!isQrEnlarged);
+    if (!isQrEnlarged) {
+      setTimeout(() => setIsQrEnlarged(false), 5000);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -48,12 +56,39 @@ export default function Footer() {
               </p>
               
               {/* RERA Section */}
-              <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 w-fit">
-                <img src="/qr-code.jpeg" alt="MahaRERA QR" className="w-12 h-12 rounded bg-white p-0.5" />
+              <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 w-fit relative">
+                <div 
+                  className="shrink-0 bg-white p-0.5 rounded cursor-pointer group relative"
+                  onClick={toggleQr}
+                >
+                  <img src="/qr-code.jpeg" alt="MahaRERA QR" className="w-12 h-12 rounded transition-transform md:group-hover:scale-110" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded">
+                    <span className="material-symbols-outlined text-white text-[10px]">zoom_in</span>
+                  </div>
+                </div>
                 <div className="flex flex-col">
                   <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">MahaRERA Reg.</span>
                   <span className="text-[12px] text-white/70 font-mono font-bold">P52100056495</span>
                 </div>
+
+                {/* QR Enlarged Overlay */}
+                {isQrEnlarged && (
+                  <div 
+                    className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
+                    onClick={(e) => { e.stopPropagation(); setIsQrEnlarged(false); }}
+                  >
+                    <div className="relative bg-white p-4 rounded-2xl animate-in zoom-in-95 duration-300 max-w-xs w-full">
+                      <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-lg" />
+                      <button 
+                        className="absolute -top-12 right-0 text-white flex items-center gap-2 font-bold"
+                        onClick={() => setIsQrEnlarged(false)}
+                      >
+                        CLOSE <span className="material-symbols-outlined">close</span>
+                      </button>
+                      <p className="text-black text-center text-xs font-bold mt-4 uppercase tracking-tighter">Scan to verify registration</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-4">

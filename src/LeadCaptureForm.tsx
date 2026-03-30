@@ -59,6 +59,7 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
   const [showThankYou, setShowThankYou] = useState(false);
+  const [isQrEnlarged, setIsQrEnlarged] = useState(false);
 
   const utmValues = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -78,6 +79,13 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       ...current,
       [target.name]: nextValue,
     }));
+  };
+
+  const toggleQr = () => {
+    setIsQrEnlarged(!isQrEnlarged);
+    if (!isQrEnlarged) {
+      setTimeout(() => setIsQrEnlarged(false), 5000);
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -248,15 +256,45 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       </div>
 
       {/* RERA Trust Seal */}
-      <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-        <div className="shrink-0 bg-white p-1 rounded-lg">
-          <img src="/qr-code.jpeg" alt="MahaRERA QR Code" className="w-16 h-16 object-contain" />
+      <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left relative">
+        <div 
+          className="shrink-0 bg-white p-1 rounded-lg cursor-pointer group relative"
+          onClick={toggleQr}
+        >
+          <img 
+            src="/qr-code.jpeg" 
+            alt="MahaRERA QR Code" 
+            className="w-16 h-16 object-contain transition-transform duration-300 md:group-hover:scale-110" 
+          />
+          {/* Magnify icon hint */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+            <span className="material-symbols-outlined text-white text-sm">zoom_in</span>
+          </div>
         </div>
         <div>
           <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">MahaRERA Registered</p>
           <p className="text-white/80 font-mono text-sm tracking-wider">Registration No: <span className="text-[#d6a554] font-bold">P52100056495</span></p>
           <p className="text-[11px] text-white/30 mt-1 leading-tight">Scan QR code to verify project details on MahaRERA website.</p>
         </div>
+
+        {/* QR Enlarged Overlay (Mobile & Desktop) */}
+        {isQrEnlarged && (
+          <div 
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
+            onClick={(e) => { e.stopPropagation(); setIsQrEnlarged(false); }}
+          >
+            <div className="relative bg-white p-4 rounded-2xl animate-in zoom-in-95 duration-300 max-w-xs w-full">
+              <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-lg" />
+              <button 
+                className="absolute -top-12 right-0 text-white flex items-center gap-2 font-bold"
+                onClick={() => setIsQrEnlarged(false)}
+              >
+                CLOSE <span className="material-symbols-outlined">close</span>
+              </button>
+              <p className="text-black text-center text-xs font-bold mt-4 uppercase tracking-tighter">Scan to verify registration</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <input type="text" name="website_url_extra" className="hidden" tabIndex={-1} autoComplete="off" />
@@ -276,9 +314,9 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-5 w-full rounded-full bg-[#d6a554] px-8 py-4 font-headline text-base font-bold text-black transition-colors hover:bg-[#d4a758] disabled:cursor-not-allowed disabled:opacity-70 md:w-auto md:px-12 lg:text-lg"
+        className="mt-5 w-full rounded-full bg-[#d6a554] px-8 py-4 font-headline text-base font-bold text-black transition-colors hover:bg-[#d4a758] disabled:cursor-not-allowed disabled:opacity-70 md:w-auto md:px-12 lg:text-lg uppercase"
       >
-        {isSubmitting ? 'Submitting...' : 'Request Priority Access'}
+        {isSubmitting ? 'Submitting...' : 'Schedule a Site Visit'}
       </button>
 
       <ThankYouModal isOpen={showThankYou} onClose={() => setShowThankYou(false)} />

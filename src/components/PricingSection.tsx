@@ -152,9 +152,9 @@ function PricingCard({
           <button
             type="button"
             onClick={onEnquire}
-            className="w-full py-2.5 rounded-lg border border-white/[0.08] bg-white/[0.02] text-white/80 font-medium text-xs tracking-wide hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:border-[var(--color-sandybrown-100)] transition-all duration-300 group-hover:border-[var(--color-sandybrown-100)]/30"
+            className="w-full py-2.5 rounded-lg border border-white/[0.08] bg-white/[0.02] text-white/80 font-medium text-xs tracking-wide hover:bg-[var(--color-sandybrown-100)] hover:text-black hover:border-[var(--color-sandybrown-100)] transition-all duration-300 group-hover:border-[var(--color-sandybrown-100)]/30 uppercase"
           >
-            Enquire Now
+            Schedule A Site Visit
           </button>
         </div>
 

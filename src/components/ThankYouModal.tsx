@@ -104,6 +104,14 @@ export default function ThankYouModal({ isOpen, onClose }: ThankYouModalProps) {
 
             {/* Main content container */}
             <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+              {/* Close button top right */}
+              <button 
+                onClick={onClose}
+                className="fixed top-6 right-6 md:top-10 md:right-10 z-[10001] w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all group"
+              >
+                <SymbolIcon name="close" className="h-6 w-6 transition-transform group-hover:rotate-90" />
+              </button>
+
               <motion.div
                 initial={{ scale: 0.8, opacity: 0, y: 40 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}

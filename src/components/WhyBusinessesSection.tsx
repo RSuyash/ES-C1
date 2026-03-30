@@ -114,7 +114,7 @@ function FeatureCard({
 
       {/* Subtle bottom arrow / indicator to show interactivity */}
       <div className="mt-6 flex items-center text-[var(--color-sandybrown-100)]/0 group-hover:text-[var(--color-sandybrown-100)] transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-        <span className="text-[11px] uppercase tracking-widest font-bold">Discover More</span>
+        <span className="text-[11px] uppercase tracking-widest font-bold">Schedule A Site Visit</span>
         <SymbolIcon name="arrow_forward" className="ml-1 h-4 w-4" />
       </div>
     </motion.div>
