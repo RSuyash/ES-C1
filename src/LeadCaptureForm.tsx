@@ -273,25 +273,46 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
         </div>
         <div>
           <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">MahaRERA Registered</p>
-          <p className="text-white/80 font-mono text-sm tracking-wider">Registration No: <span className="text-[#d6a554] font-bold">P52100056495</span></p>
-          <p className="text-[11px] text-white/30 mt-1 leading-tight">Scan QR code to verify project details on MahaRERA website.</p>
+          <p className="text-white/80 font-mono text-sm tracking-wider">
+            Registration No: <a 
+              href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ==" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[#d6a554] font-bold hover:underline"
+            >P52100056495</a>
+          </p>
+          <p className="text-[11px] text-white/30 mt-1 leading-tight text-balance">Scan QR code or click registration number to verify project details.</p>
         </div>
 
         {/* QR Enlarged Overlay (Mobile & Desktop) */}
         {isQrEnlarged && (
           <div 
-            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/90 backdrop-blur-md p-6"
             onClick={(e) => { e.stopPropagation(); setIsQrEnlarged(false); }}
           >
-            <div className="relative bg-white p-4 rounded-2xl animate-in zoom-in-95 duration-300 max-w-xs w-full">
-              <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-lg" />
+            <div className="relative bg-white p-4 rounded-3xl animate-in zoom-in-95 duration-300 max-w-xs w-full shadow-[0_0_50px_rgba(255,255,255,0.1)]">
               <button 
-                className="absolute -top-12 right-0 text-white flex items-center gap-2 font-bold"
+                className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white"
                 onClick={() => setIsQrEnlarged(false)}
               >
-                CLOSE <span className="material-symbols-outlined">close</span>
+                <span className="material-symbols-outlined">close</span>
               </button>
-              <p className="text-black text-center text-xs font-bold mt-4 uppercase tracking-tighter">Scan to verify registration</p>
+              
+              <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-xl shadow-inner" />
+              
+              <div className="mt-6 flex flex-col gap-3">
+                <p className="text-black text-center text-xs font-bold uppercase tracking-tight">Scan to verify registration</p>
+                
+                <a 
+                  href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 bg-black text-white text-[11px] font-bold uppercase tracking-widest rounded-xl text-center hover:bg-neutral-800 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Verify on MahaRERA Website
+                </a>
+              </div>
             </div>
           </div>
         )}

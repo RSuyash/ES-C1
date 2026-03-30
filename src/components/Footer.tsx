@@ -68,24 +68,43 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">MahaRERA Reg.</span>
-                  <span className="text-[12px] text-white/70 font-mono font-bold">P52100056495</span>
+                  <a 
+                    href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ==" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[12px] text-white/70 font-mono font-bold hover:text-[var(--color-sandybrown-100)] transition-colors"
+                  >P52100056495</a>
                 </div>
 
                 {/* QR Enlarged Overlay */}
                 {isQrEnlarged && (
                   <div 
-                    className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
+                    className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/90 backdrop-blur-md p-6"
                     onClick={(e) => { e.stopPropagation(); setIsQrEnlarged(false); }}
                   >
-                    <div className="relative bg-white p-4 rounded-2xl animate-in zoom-in-95 duration-300 max-w-xs w-full">
-                      <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-lg" />
+                    <div className="relative bg-white p-4 rounded-3xl animate-in zoom-in-95 duration-300 max-w-xs w-full shadow-[0_0_50px_rgba(255,255,255,0.1)]">
                       <button 
-                        className="absolute -top-12 right-0 text-white flex items-center gap-2 font-bold"
+                        className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white"
                         onClick={() => setIsQrEnlarged(false)}
                       >
-                        CLOSE <span className="material-symbols-outlined">close</span>
+                        <span className="material-symbols-outlined">close</span>
                       </button>
-                      <p className="text-black text-center text-xs font-bold mt-4 uppercase tracking-tighter">Scan to verify registration</p>
+                      
+                      <img src="/qr-code.jpeg" alt="MahaRERA QR Code Large" className="w-full h-auto rounded-xl shadow-inner" />
+                      
+                      <div className="mt-6 flex flex-col gap-3">
+                        <p className="text-black text-center text-xs font-bold uppercase tracking-tight">Scan to verify registration</p>
+                        
+                        <a 
+                          href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ=="
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-3 bg-black text-white text-[11px] font-bold uppercase tracking-widest rounded-xl text-center hover:bg-neutral-800 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Verify on MahaRERA Website
+                        </a>
+                      </div>
                     </div>
                   </div>
                 )}
