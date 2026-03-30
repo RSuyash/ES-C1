@@ -26,8 +26,28 @@ export default function Footer() {
     }
   };
 
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Wagholi Highstreet',
+      text: 'Premium Commercial Destination on Wagholi Link Road. Shops, Showrooms & Offices.',
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('Error sharing:', err);
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      } catch (err) {
+        console.error('Could not copy text: ', err);
+      }
+    }
   };
 
   return (
@@ -111,12 +131,20 @@ export default function Footer() {
               </div>
 
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300">
+                <a 
+                  href="https://wagholihighstreet.in" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300"
+                >
                   <SymbolIcon name="public" className="h-5 w-5" />
                 </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300">
+                <button 
+                  onClick={handleShare}
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--color-sandybrown-100)] hover:border-[var(--color-sandybrown-100)]/30 hover:bg-[var(--color-sandybrown-100)]/5 transition-all duration-300"
+                >
                   <SymbolIcon name="share" className="h-5 w-5" />
-                </a>
+                </button>
               </div>
             </div>
 
