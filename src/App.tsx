@@ -147,7 +147,7 @@ export default function App() {
                 <span className="text-[var(--color-sandybrown-100)]" style={{ textShadow: '0px 4px 15px rgba(214, 165, 84, 0.4)' }}>
                   Future-Ready
                 </span> Address on <br className="hidden lg:block" />
-                Prime Kesnand Road, <br className="hidden lg:block" />
+                Wagholi Link Road, <br className="hidden lg:block" />
                 Wagholi with 45,000+ <br className="hidden lg:block" />
                 Expected Footfall.
               </h1>

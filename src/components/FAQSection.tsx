@@ -5,11 +5,11 @@ import { SymbolIcon } from './SymbolIcon';
 const faqs = [
   {
     q: "What is Wagholi Highstreet offering?",
-    a: "Wagholi Highstreet offers premium shops, showrooms, and office spaces within a 5.5-acre commercial development on prime Kesnand Road, Wagholi."
+    a: "Wagholi Highstreet offers premium shops, showrooms, and office spaces within a 5.5-acre commercial development on Wagholi Link Road, Wagholi."
   },
   {
     q: "Where is the project located?",
-    a: "The project is located on prime Kesnand Road, Wagholi, one of Pune’s fast-growing commercial corridors with improving connectivity and rising business demand."
+    a: "The project is located on Wagholi Link Road, Wagholi, one of Pune’s fast-growing commercial corridors with improving connectivity and rising business demand."
   },
   {
     q: "What is the starting price?",

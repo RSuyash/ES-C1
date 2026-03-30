@@ -25,7 +25,7 @@ const businessFeatures = [
   },
   {
     icon: 'location_on',
-    title: 'Prime Kesnand Road Location',
+    title: 'Wagholi Link Road Location',
     description: 'Positioned strategically on Kesnand Road, offering unparalleled connectivity and visibility in one of Pune\'s most rapidly developing commercial hubs.',
   },
   {

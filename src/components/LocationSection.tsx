@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { MapPin, Route, Car, Train, Map as MapIcon, Building2, TrendingUp } from 'lucide-react';
 
 const locationData = [
-  { id: 1, title: "Prime Kesnand Road Address", desc: "You place your business in a location that offers stronger visibility and better business relevance.", x: 40, y: 35, icon: MapPin },
+  { id: 1, title: "Wagholi Link Road Address", desc: "You place your business in a location that offers stronger visibility and better business relevance.", x: 40, y: 35, icon: MapPin },
   { id: 2, title: "Faster Everyday Connectivity", desc: "The 120 ft. link road improves access by connecting Nagar Road to Solapur Road.", x: 65, y: 25, icon: Route },
   { id: 3, title: "Better Traffic Movement", desc: "The three-storey flyover from Wagholi to Shikrapur helps ease congestion and improve flow.", x: 75, y: 45, icon: Car },
   { id: 4, title: "Metro-Led Growth Potential", desc: "The Ramwadi to Wagholi metro extension adds long-term connectivity and future demand.", x: 25, y: 55, icon: Train },
