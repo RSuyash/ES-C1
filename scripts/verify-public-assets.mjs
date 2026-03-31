@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const projectRoot = path.resolve(import.meta.dirname, "..");
+const projectRoot = path.join(import.meta.dirname, "..");
 
 const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 const jpgSignature = Buffer.from([0xff, 0xd8, 0xff]);
@@ -19,7 +19,19 @@ function assertSignature(relativePath, expectedSignature, label) {
 
 assertSignature("public/logo.png", pngSignature, "PNG");
 assertSignature("public/icon.png", pngSignature, "PNG");
-assertSignature("public/hero.jpeg", jpgSignature, "JPEG");
+
+// Verify hero background carousel images
+const heroSlides = [
+  "public/images/location/hero-background/hero-1.jpeg",
+  "public/images/location/hero-background/hero-2.jpeg",
+  "public/images/location/hero-background/hero-3.jpeg",
+  "public/images/location/hero-background/hero-4.jpeg",
+  "public/images/location/hero-background/hero-5.jpeg",
+];
+
+heroSlides.forEach((slidePath) => {
+  assertSignature(slidePath, jpgSignature, "JPEG");
+});
 
 const faviconPath = path.join(projectRoot, "public/favicon.ico");
 const faviconBuffer = fs.readFileSync(faviconPath);

@@ -19,6 +19,10 @@ export default function Footer() {
     setTimeout(() => setModalType(null), 300);
   };
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const toggleQr = () => {
     setIsQrEnlarged(!isQrEnlarged);
     if (!isQrEnlarged) {

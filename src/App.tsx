@@ -9,6 +9,7 @@ import { DeferredSection } from './components/DeferredSection';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
 import { SymbolIcon } from './components/SymbolIcon';
+import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -123,18 +124,10 @@ export default function App() {
       <main>
         {/* Hero Section */}
         <section className="relative min-h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-[var(--color-black-200)] pt-28 lg:pt-32 pb-12 lg:pb-16">
-          {/* Background Image & Gradients */}
+          {/* Background Carousel & Gradients */}
           <div className="absolute inset-0 z-0 origin-top">
-            <img
-              className="w-full h-full object-cover opacity-80"
-              alt="Wagholi Highstreet Cityscape Sunset"
-              src="/hero.webp"
-              width={1280}
-              height={896}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
+            {/* Hero Background Carousel */}
+            <HeroBackgroundCarousel />
             {/* Dark gradient from left for text readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-black-200)] via-[var(--color-black-200)]/60 to-transparent md:to-[var(--color-black-200)]/30"></div>
             {/* Bottom gradient to blend with next section */}
