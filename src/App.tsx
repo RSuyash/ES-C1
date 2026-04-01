@@ -10,6 +10,7 @@ import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
 import { SymbolIcon } from './components/SymbolIcon';
 import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
+import { GalleryPage } from './components/Gallery/GalleryPage';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -21,6 +22,7 @@ const WhyBusinessesSection = React.lazy(() => import('./components/WhyBusinesses
 const FAQSection = React.lazy(() => import('./components/FAQSection'));
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home');
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [hasAutoTriggered, setHasAutoTriggered] = useState(false);
 
@@ -32,11 +34,23 @@ export default function App() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const navigateToGallery = () => {
+    setCurrentPage('gallery');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToHome = () => {
+    setCurrentPage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const openWizard = () => setIsWizardOpen(true);
   const closeWizard = () => setIsWizardOpen(false);
 
-  // Auto-trigger wizard at 30-35% scroll
+  // Auto-trigger wizard at 30-35% scroll (only on home page)
   useEffect(() => {
+    if (currentPage !== 'home') return;
+    
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -51,8 +65,62 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasAutoTriggered]);
+  }, [currentPage, hasAutoTriggered]);
 
+  // Render Gallery Page
+  if (currentPage === 'gallery') {
+    return (
+      <div className="bg-[#0b1222] font-body text-white antialiased min-h-screen">
+        {/* Top Navigation Bar - Gallery Page */}
+        <nav className="fixed top-0 w-full z-50 bg-[#0b1222]/90 backdrop-blur-md border-b border-white/10">
+          <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto py-4">
+            <div 
+              className="flex items-center gap-5 md:gap-8 cursor-pointer" 
+              onClick={navigateToHome}
+            >
+              <img
+                src="/logo-light-text.webp"
+                alt="Wagholi Highstreet Logo"
+                className="h-9 w-auto max-w-[120px] md:h-12 md:max-w-[180px] object-contain"
+              />
+              <div className="h-6 w-[1px] bg-white/15 hidden xs:block"></div>
+              <img
+                src="/wagholi_high_street.png"
+                alt="Partner Brand"
+                className="h-7 w-auto md:h-10 object-contain"
+                style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.1)' }}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={navigateToHome} 
+                className="text-white text-[14px] font-body tracking-wide hover:text-[var(--color-sandybrown-100)] transition-colors"
+              >
+                Home
+              </button>
+              <button
+                type="button"
+                onClick={openWizard}
+                className="flex items-center gap-2 bg-[var(--color-sandybrown-100)] text-black font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-full text-[11px] hover:bg-[#e5b565] hover:shadow-[0_0_25px_rgba(214,165,84,0.4)] transition-all duration-300"
+              >
+                <SymbolIcon name="calendar_today" className="h-4 w-4" />
+                Schedule Visit
+              </button>
+            </div>
+          </div>
+        </nav>
+        
+        <div className="pt-20">
+          <GalleryPage onNavigateHome={navigateToHome} onOpenWizard={openWizard} />
+        </div>
+        
+        {/* Footer */}
+        <Footer />
+      </div>
+    );
+  }
+
+  // Render Home Page
   return (
     <div className="bg-[var(--color-black-200)] font-body text-white antialiased">
       {isWizardOpen ? (
@@ -88,6 +156,7 @@ export default function App() {
             {/* Desktop Nav Links - Right Aligned */}
             <div className="hidden lg:flex items-center gap-8 text-white text-[14px] font-body tracking-wide">
               <button onClick={() => scrollToSection('overview')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Overview</button>
+              <button onClick={navigateToGallery} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Gallery</button>
               <button onClick={() => scrollToSection('amenities')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Amenities</button>
               <button onClick={() => scrollToSection('pricing')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Pricing</button>
               <button onClick={() => scrollToSection('location')} className="hover:text-[var(--color-sandybrown-100)] transition-colors drop-shadow-md">Location</button>
