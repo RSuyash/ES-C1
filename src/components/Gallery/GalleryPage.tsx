@@ -125,7 +125,9 @@ export function GalleryPage({ onNavigateHome, onOpenWizard }: GalleryPageProps) 
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {galleryImages.map((image, index) => (
-              <GalleryImageCard key={image.id} image={image} index={index} />
+              <React.Fragment key={image.id}>
+                <GalleryImageCard image={image} index={index} />
+              </React.Fragment>
             ))}
           </div>
         </div>
