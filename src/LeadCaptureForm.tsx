@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import ThankYouModal from './components/ThankYouModal';
+import { trackLandingLeadSubmit } from './lib/tracking-runtime';
 
 type LeadCaptureFormProps = {
   className?: string;
+  sourceCta?: string;
 };
 
 type LeadFormValues = {
@@ -54,7 +56,7 @@ const budgetOptions = [
   { value: '125cr-above', label: '₹1.25 Cr & Above' },
 ];
 
-export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
+export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: LeadCaptureFormProps) {
   const [values, setValues] = useState(initialFormValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
@@ -137,6 +139,12 @@ export function LeadCaptureForm({ className = '' }: LeadCaptureFormProps) {
       setStatus({
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
+      });
+      trackLandingLeadSubmit({
+        sourceCta,
+        serviceInterest: spaceLabel,
+        budgetRange: budgetLabel,
+        projectName: 'Wagholi Highstreet',
       });
       setShowThankYou(true);
     } catch (error) {
