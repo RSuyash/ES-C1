@@ -12,16 +12,9 @@ export function SiteLogo({
   fetchPriority = "auto",
 }: SiteLogoProps) {
   return (
-    <div
-      className={[
-        "inline-flex items-center rounded-[1.25rem] border border-white/10 bg-white/[0.97] px-3 py-2 shadow-[0_16px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl",
-        wrapperClassName,
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <div className={["inline-flex items-center", wrapperClassName].filter(Boolean).join(" ")}>
       <img
-        src="/wagholi_high_street.webp"
+        src="/wagholi_high_street_light.webp"
         alt="Wagholi Highstreet"
         width={1174}
         height={389}
@@ -29,7 +22,7 @@ export function SiteLogo({
         fetchPriority={fetchPriority}
         decoding="async"
         className={[
-          "h-auto w-[168px] max-w-full object-contain sm:w-[210px] lg:w-[280px]",
+          "h-auto w-[136px] max-w-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.38)] sm:w-[162px] lg:w-[210px]",
           imageClassName,
         ]
           .filter(Boolean)

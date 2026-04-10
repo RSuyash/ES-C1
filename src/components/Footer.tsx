@@ -68,8 +68,8 @@ export default function Footer() {
             {/* Column 1: Brand & Identity */}
             <div className="flex flex-col gap-6">
               <SiteLogo
-                wrapperClassName="self-start rounded-[1.35rem] px-3 py-2.5 lg:px-4"
-                imageClassName="w-[185px] sm:w-[220px] lg:w-[250px]"
+                wrapperClassName="self-start"
+                imageClassName="w-[158px] sm:w-[182px] lg:w-[212px]"
               />
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
                 A premium 5.5-acre commercial destination setting new benchmarks for infrastructure and business growth in Pune's fastest-growing corridor.

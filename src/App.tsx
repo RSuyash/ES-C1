@@ -82,8 +82,7 @@ export default function App() {
               <SiteLogo
                 loading="eager"
                 fetchPriority="high"
-                wrapperClassName="rounded-[1.15rem] px-2.5 py-2 md:px-3.5"
-                imageClassName="w-[145px] sm:w-[168px] md:w-[220px]"
+                imageClassName="w-[132px] sm:w-[148px] md:w-[188px]"
               />
             </div>
             <div className="flex items-center gap-4">
@@ -131,8 +130,7 @@ export default function App() {
             <SiteLogo
               loading="eager"
               fetchPriority="high"
-              wrapperClassName="rounded-[1.15rem] px-2.5 py-2 md:px-3.5"
-              imageClassName="w-[150px] sm:w-[172px] md:w-[228px] lg:w-[270px]"
+              imageClassName="w-[134px] sm:w-[152px] md:w-[196px] lg:w-[228px]"
             />
           </div>
           <div className="flex items-center gap-4">
