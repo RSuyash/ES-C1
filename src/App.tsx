@@ -8,6 +8,7 @@ import { LeadCaptureForm } from './LeadCaptureForm';
 import { DeferredSection } from './components/DeferredSection';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
+import { SiteLogo } from './components/SiteLogo';
 import { SymbolIcon } from './components/SymbolIcon';
 import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
 import { GalleryPage } from './components/Gallery/GalleryPage';
@@ -75,20 +76,14 @@ export default function App() {
         <nav className="fixed top-0 w-full z-50 bg-[#0b1222]/90 backdrop-blur-md border-b border-white/10">
           <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto py-4">
             <div 
-              className="flex items-center gap-5 md:gap-8 cursor-pointer" 
+              className="flex items-center cursor-pointer" 
               onClick={navigateToHome}
             >
-              <img
-                src="/logo-light-text.webp"
-                alt="Wagholi Highstreet Logo"
-                className="h-9 w-auto max-w-[120px] md:h-12 md:max-w-[180px] object-contain"
-              />
-              <div className="h-6 w-[1px] bg-white/15 hidden xs:block"></div>
-              <img
-                src="/wagholi_high_street.png"
-                alt="Partner Brand"
-                className="h-7 w-auto md:h-10 object-contain"
-                style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.1)' }}
+              <SiteLogo
+                loading="eager"
+                fetchPriority="high"
+                wrapperClassName="rounded-[1.15rem] px-2.5 py-2 md:px-3.5"
+                imageClassName="w-[145px] sm:w-[168px] md:w-[220px]"
               />
             </div>
             <div className="flex items-center gap-4">
@@ -132,24 +127,12 @@ export default function App() {
       {/* Top Navigation Bar */}
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
-          <div className="flex items-center gap-5 md:gap-8">
-            <img
-              src="/logo-light-text.webp"
-              alt="Wagholi Highstreet Logo"
-              width={360}
-              height={339}
+          <div className="flex items-center">
+            <SiteLogo
               loading="eager"
               fetchPriority="high"
-              decoding="async"
-              className="h-9 w-auto max-w-[120px] md:h-12 md:max-w-[180px] object-contain"
-            />
-            {/* Elegant Vertical Divider */}
-            <div className="h-6 w-[1px] bg-white/15 hidden xs:block"></div>
-            <img
-              src="/wagholi_high_street.png"
-              alt="Partner Brand"
-              className="h-7 w-auto md:h-10 object-contain"
-              style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.1)' }}
+              wrapperClassName="rounded-[1.15rem] px-2.5 py-2 md:px-3.5"
+              imageClassName="w-[150px] sm:w-[172px] md:w-[228px] lg:w-[270px]"
             />
           </div>
           <div className="flex items-center gap-4">

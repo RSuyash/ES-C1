@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LegalModal from './LegalModal';
+import { SiteLogo } from './SiteLogo';
 import { SymbolIcon } from './SymbolIcon';
 
 type ModalType = 'privacy' | 'terms' | 'disclaimer' | null;
@@ -66,14 +67,9 @@ export default function Footer() {
             
             {/* Column 1: Brand & Identity */}
             <div className="flex flex-col gap-6">
-              <img
-                src="/logo-light-text.webp"
-                alt="Wagholi Highstreet"
-                width={360}
-                height={339}
-                loading="lazy"
-                decoding="async"
-                className="h-12 lg:h-14 w-auto object-contain self-start"
+              <SiteLogo
+                wrapperClassName="self-start rounded-[1.35rem] px-3 py-2.5 lg:px-4"
+                imageClassName="w-[185px] sm:w-[220px] lg:w-[250px]"
               />
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
                 A premium 5.5-acre commercial destination setting new benchmarks for infrastructure and business growth in Pune's fastest-growing corridor.
