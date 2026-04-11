@@ -87,7 +87,7 @@ export default function App() {
                 imageClassName="w-[132px] sm:w-[148px] md:w-[188px]"
               />
               <div className="hidden h-6 w-px bg-white/15 xs:block" />
-              <GsGroupLogo className="h-7 md:h-9" />
+              <GsGroupLogo className="w-[66px] sm:w-[74px] md:w-[82px]" />
             </div>
             <div className="flex items-center gap-4">
               <button 
@@ -137,7 +137,7 @@ export default function App() {
               imageClassName="w-[134px] sm:w-[152px] md:w-[196px] lg:w-[228px]"
             />
             <div className="hidden h-6 w-px bg-white/15 xs:block" />
-            <GsGroupLogo className="h-7 md:h-10" />
+            <GsGroupLogo className="w-[68px] sm:w-[78px] md:w-[88px]" />
           </div>
           <div className="flex items-center gap-4">
             {/* Desktop Nav Links - Right Aligned */}
