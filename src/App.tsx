@@ -8,6 +8,7 @@ import { LeadCaptureForm } from './LeadCaptureForm';
 import { DeferredSection } from './components/DeferredSection';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
+import { GsGroupLogo } from './components/GsGroupLogo';
 import { HeroBrandMomentumStrip } from './components/HeroBrandMomentumStrip';
 import { SiteLogo } from './components/SiteLogo';
 import { SymbolIcon } from './components/SymbolIcon';
@@ -77,7 +78,7 @@ export default function App() {
         <nav className="fixed top-0 w-full z-50 bg-[#0b1222]/90 backdrop-blur-md border-b border-white/10">
           <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto py-4">
             <div 
-              className="flex items-center cursor-pointer" 
+              className="flex items-center gap-5 md:gap-8 cursor-pointer" 
               onClick={navigateToHome}
             >
               <SiteLogo
@@ -85,6 +86,8 @@ export default function App() {
                 fetchPriority="high"
                 imageClassName="w-[132px] sm:w-[148px] md:w-[188px]"
               />
+              <div className="hidden h-6 w-px bg-white/15 xs:block" />
+              <GsGroupLogo className="h-7 md:h-9" />
             </div>
             <div className="flex items-center gap-4">
               <button 
@@ -127,12 +130,14 @@ export default function App() {
       {/* Top Navigation Bar */}
       <nav className="absolute top-0 w-full z-50 bg-transparent pt-6 pb-6 lg:pt-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex justify-between items-center w-full px-6 md:px-12 max-w-[1400px] mx-auto">
-          <div className="flex items-center">
+          <div className="flex items-center gap-5 md:gap-8">
             <SiteLogo
               loading="eager"
               fetchPriority="high"
               imageClassName="w-[134px] sm:w-[152px] md:w-[196px] lg:w-[228px]"
             />
+            <div className="hidden h-6 w-px bg-white/15 xs:block" />
+            <GsGroupLogo className="h-7 md:h-10" />
           </div>
           <div className="flex items-center gap-4">
             {/* Desktop Nav Links - Right Aligned */}
