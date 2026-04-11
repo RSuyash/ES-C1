@@ -8,6 +8,7 @@ import { LeadCaptureForm } from './LeadCaptureForm';
 import { DeferredSection } from './components/DeferredSection';
 import { EarlyBirdBenefit } from './components/EarlyBirdBenefit';
 import Footer from './components/Footer';
+import { HeroBrandMomentumStrip } from './components/HeroBrandMomentumStrip';
 import { SiteLogo } from './components/SiteLogo';
 import { SymbolIcon } from './components/SymbolIcon';
 import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
@@ -293,6 +294,8 @@ export default function App() {
 
                   </div>
                 </div>
+
+                <HeroBrandMomentumStrip />
 
                 {/* CTA Premium Yellow Button */}
                 <button
