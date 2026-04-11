@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { GsGroupLogo } from './GsGroupLogo';
 import LegalModal from './LegalModal';
 import { SiteLogo } from './SiteLogo';
 import { SymbolIcon } from './SymbolIcon';
@@ -67,10 +68,19 @@ export default function Footer() {
             
             {/* Column 1: Brand & Identity */}
             <div className="flex flex-col gap-6">
-              <SiteLogo
-                wrapperClassName="self-start"
-                imageClassName="w-[158px] sm:w-[182px] lg:w-[212px]"
-              />
+              <div className="flex flex-wrap items-center gap-4 self-start rounded-[22px] border border-white/6 bg-white/[0.03] px-4 py-3">
+                <SiteLogo
+                  wrapperClassName="self-start"
+                  imageClassName="w-[148px] sm:w-[170px] lg:w-[192px]"
+                />
+                <div className="hidden h-10 w-px bg-white/10 sm:block" />
+                <div className="flex items-center gap-3">
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/35">
+                    By
+                  </span>
+                  <GsGroupLogo className="h-7 md:h-8" />
+                </div>
+              </div>
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
                 A premium 5.5-acre commercial destination setting new benchmarks for infrastructure and business growth in Pune's fastest-growing corridor.
               </p>
