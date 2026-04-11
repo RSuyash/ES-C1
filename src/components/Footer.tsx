@@ -78,7 +78,7 @@ export default function Footer() {
                   <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/35">
                     By
                   </span>
-                  <GsGroupLogo className="h-7 md:h-8" />
+                  <GsGroupLogo className="w-[72px] md:w-[82px]" />
                 </div>
               </div>
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
