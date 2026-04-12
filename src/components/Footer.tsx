@@ -68,17 +68,17 @@ export default function Footer() {
             
             {/* Column 1: Brand & Identity */}
             <div className="flex flex-col gap-6">
-              <div className="flex flex-wrap items-center gap-4 self-start rounded-[22px] border border-white/6 bg-white/[0.03] px-4 py-3">
-                <SiteLogo
-                  wrapperClassName="self-start"
-                  imageClassName="w-[148px] sm:w-[170px] lg:w-[192px]"
-                />
-                <div className="hidden h-10 w-px bg-white/10 sm:block" />
-                <div className="flex items-center gap-3">
-                  <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/35">
-                    By
-                  </span>
-                  <GsGroupLogo className="w-[72px] md:w-[82px]" />
+              <div className="flex w-full max-w-[360px] flex-col gap-4 rounded-[24px] border border-white/8 bg-white/[0.04] px-5 py-5 shadow-[0_20px_50px_rgba(0,0,0,0.16)]">
+                <span className="text-[9px] font-semibold uppercase tracking-[0.32em] text-white/38">
+                  GS Group x Wagholi Highstreet
+                </span>
+                <div className="flex items-center justify-between gap-4">
+                  <GsGroupLogo className="w-[84px] sm:w-[92px] md:w-[96px]" />
+                  <div className="h-10 w-px shrink-0 bg-gradient-to-b from-transparent via-white/14 to-transparent" />
+                  <SiteLogo
+                    wrapperClassName="justify-end"
+                    imageClassName="w-[142px] sm:w-[156px] lg:w-[170px]"
+                  />
                 </div>
               </div>
               <p className="text-white/50 text-[14px] leading-relaxed max-w-xs">
