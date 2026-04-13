@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import ThankYouModal from './components/ThankYouModal';
 import { trackLandingLeadSubmit } from './lib/tracking-runtime';
 
 type LeadCaptureFormProps = {
@@ -60,7 +59,6 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
   const [values, setValues] = useState(initialFormValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
-  const [showThankYou, setShowThankYou] = useState(false);
   const [isQrEnlarged, setIsQrEnlarged] = useState(false);
 
   const utmValues = useMemo(() => {
@@ -146,7 +144,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
         budgetRange: budgetLabel,
         projectName: 'Wagholi Highstreet',
       });
-      setShowThankYou(true);
+      window.location.assign('/thank-you');
     } catch (error) {
       const message =
         error instanceof Error && error.message
@@ -347,8 +345,6 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
       >
         {isSubmitting ? 'Submitting...' : 'Schedule a Site Visit'}
       </button>
-
-      <ThankYouModal isOpen={showThankYou} onClose={() => setShowThankYou(false)} />
     </form>
   );
 }
