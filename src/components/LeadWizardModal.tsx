@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import ThankYouModal from './ThankYouModal';
 import { SymbolIcon } from './SymbolIcon';
+import { trackLandingLeadSubmit } from '../lib/tracking-runtime';
 
 const spaceTypes = [
   { value: 'premium-shop', label: 'Premium Shop', icon: 'shopping_bag' },
@@ -59,7 +59,6 @@ export default function LeadWizardModal({
   const [values, setValues] = useState<WizardValues>(initialValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
-  const [showThankYou, setShowThankYou] = useState(false);
 
   const utmValues = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -130,11 +129,17 @@ export default function LeadWizardModal({
       }
 
       setValues(initialValues);
-      setShowThankYou(true);
+      trackLandingLeadSubmit({
+        sourceCta: 'lead-wizard',
+        serviceInterest: spaceLabel,
+        budgetRange: budgetLabel,
+        projectName: 'Wagholi Highstreet',
+      });
       setStatus({
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
       });
+      window.location.assign('/thank-you');
     } catch (error) {
       const message =
         error instanceof Error && error.message
@@ -448,45 +453,11 @@ export default function LeadWizardModal({
                     </form>
                   </motion.div>
                 )}
-
-                {/* Step 3: Success */}
-                {step === 3 && (
-                  <motion.div
-                    key="step3"
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                    className="flex-1 flex flex-col items-center justify-center text-center py-8"
-                  >
-                    <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6">
-                      <SymbolIcon name="check_circle" className="h-10 w-10 text-emerald-400" />
-                    </div>
-                    <h3 className="font-headline text-2xl font-bold text-white mb-3">
-                      Thank You!
-                    </h3>
-                    <p className="text-white/50 text-sm leading-relaxed max-w-xs mb-8">
-                      {status.message ||
-                        'Your request is in. Our team will contact you shortly with pricing and availability.'}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={handleClose}
-                      className="px-8 py-3 rounded-xl border border-white/10 text-white/70 font-medium text-sm hover:text-white hover:border-white/20 transition-all"
-                    >
-                      Close
-                    </button>
-                  </motion.div>
-                )}
               </AnimatePresence>
             </div>
           </motion.div>
         </motion.div>
       )}
-
-      {/* Thank You Modal - Full Screen Celebration */}
-      <ThankYouModal isOpen={showThankYou} onClose={() => setShowThankYou(false)} />
     </AnimatePresence>
   );
 }

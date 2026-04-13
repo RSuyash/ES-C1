@@ -12,6 +12,7 @@ import { GsGroupLogo } from './components/GsGroupLogo';
 import { HeroBrandMomentumStrip } from './components/HeroBrandMomentumStrip';
 import { SiteLogo } from './components/SiteLogo';
 import { SymbolIcon } from './components/SymbolIcon';
+import ThankYouPage from './components/ThankYouPage';
 import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
 import { GalleryPage } from './components/Gallery/GalleryPage';
 
@@ -24,10 +25,12 @@ const LeadWizardModal = React.lazy(() => import('./components/LeadWizardModal'))
 const WhyBusinessesSection = React.lazy(() => import('./components/WhyBusinessesSection'));
 const FAQSection = React.lazy(() => import('./components/FAQSection'));
 
-export default function App() {
+export default function App({ initialPath }: { initialPath?: string }) {
   const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home');
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [hasAutoTriggered, setHasAutoTriggered] = useState(false);
+  const resolvedPath =
+    initialPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
 
   const scrollToLeadForm = () => {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -52,6 +55,7 @@ export default function App() {
 
   // Auto-trigger wizard at 30-35% scroll (only on home page)
   useEffect(() => {
+    if (resolvedPath === '/thank-you') return;
     if (currentPage !== 'home') return;
     
     const handleScroll = () => {
@@ -68,7 +72,11 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [currentPage, hasAutoTriggered]);
+  }, [currentPage, hasAutoTriggered, resolvedPath]);
+
+  if (resolvedPath === '/thank-you') {
+    return <ThankYouPage />;
+  }
 
   // Render Gallery Page
   if (currentPage === 'gallery') {
