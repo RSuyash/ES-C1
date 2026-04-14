@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SymbolIcon } from './SymbolIcon';
 import { trackLandingLeadSubmit } from '../lib/tracking-runtime';
+import { navigateToLandingPath } from '../lib/landing-navigation';
 
 const spaceTypes = [
   { value: 'premium-shop', label: 'Premium Shop', icon: 'shopping_bag' },
@@ -139,7 +140,7 @@ export default function LeadWizardModal({
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
       });
-      window.location.assign('/thank-you');
+      navigateToLandingPath('/thank-you');
     } catch (error) {
       const message =
         error instanceof Error && error.message

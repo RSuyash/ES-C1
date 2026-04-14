@@ -15,6 +15,7 @@ import { SymbolIcon } from './components/SymbolIcon';
 import ThankYouPage from './components/ThankYouPage';
 import HeroBackgroundCarousel from './components/HeroBackgroundCarousel';
 import { GalleryPage } from './components/Gallery/GalleryPage';
+import { readLandingPath } from './lib/landing-navigation';
 
 // Lazy load below-the-fold components for extreme Lighthouse TTFB/FCP speed
 const InteractiveAmenities = React.lazy(() => import('./components/InteractiveAmenities'));
@@ -29,8 +30,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
   const [currentPage, setCurrentPage] = useState<'home' | 'gallery'>('home');
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [hasAutoTriggered, setHasAutoTriggered] = useState(false);
-  const resolvedPath =
-    initialPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const [resolvedPath, setResolvedPath] = useState(() => readLandingPath(initialPath));
 
   const scrollToLeadForm = () => {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -52,6 +52,23 @@ export default function App({ initialPath }: { initialPath?: string }) {
 
   const openWizard = () => setIsWizardOpen(true);
   const closeWizard = () => setIsWizardOpen(false);
+
+  useEffect(() => {
+    if (initialPath || typeof window === 'undefined') return;
+
+    const syncRouteState = () => {
+      setResolvedPath(readLandingPath());
+      setIsWizardOpen(false);
+    };
+
+    window.addEventListener('popstate', syncRouteState);
+    window.addEventListener('pageshow', syncRouteState);
+
+    return () => {
+      window.removeEventListener('popstate', syncRouteState);
+      window.removeEventListener('pageshow', syncRouteState);
+    };
+  }, [initialPath]);
 
   // Auto-trigger wizard at 30-35% scroll (only on home page)
   useEffect(() => {
