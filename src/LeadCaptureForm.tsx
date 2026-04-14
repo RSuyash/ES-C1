@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { trackLandingLeadSubmit } from './lib/tracking-runtime';
+import { navigateToLandingPath } from './lib/landing-navigation';
 
 type LeadCaptureFormProps = {
   className?: string;
@@ -144,7 +145,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
         budgetRange: budgetLabel,
         projectName: 'Wagholi Highstreet',
       });
-      window.location.assign('/thank-you');
+      navigateToLandingPath('/thank-you');
     } catch (error) {
       const message =
         error instanceof Error && error.message
