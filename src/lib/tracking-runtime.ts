@@ -9,6 +9,7 @@ type TrackingRuntimeConfig = {
   previewUrl: string | null;
   ga4MeasurementId: string | null;
   googleAdsTagId: string | null;
+  googleAdsConversionMode: "DIRECT_LABEL" | "GA4_IMPORTED";
   googleAdsLeadConversionLabel: string | null;
   gtmContainerId: string | null;
   metaPixelId: string | null;
@@ -138,9 +139,10 @@ export function takePendingLeadTrackingForThankYou(
 
 export function buildGoogleAdsSendTo(input: {
   googleAdsTagId: string | null;
+  googleAdsConversionMode?: "DIRECT_LABEL" | "GA4_IMPORTED";
   googleAdsLeadConversionLabel: string | null;
 }) {
-  if (!input.googleAdsTagId || !input.googleAdsLeadConversionLabel) {
+  if (!input.googleAdsTagId || input.googleAdsConversionMode === "GA4_IMPORTED" || !input.googleAdsLeadConversionLabel) {
     return null;
   }
 
@@ -378,6 +380,7 @@ function syncTrackingDebugArtifacts(config: TrackingRuntimeConfig) {
   ensureTrackingDebugMeta("site-slug", config.siteSlug);
   ensureTrackingDebugMeta("ga4", config.ga4MeasurementId);
   ensureTrackingDebugMeta("google-ads", config.googleAdsTagId);
+  ensureTrackingDebugMeta("google-ads-mode", config.googleAdsConversionMode);
   ensureTrackingDebugMeta("gtm", config.gtmContainerId);
   ensureTrackingDebugMeta("meta", config.metaPixelId);
   renderTrackingDebugOverlay();
@@ -643,6 +646,17 @@ function emitLeadTracking(config: TrackingRuntimeConfig, payload: LeadTrackingPa
       source_page: payload.sourcePage ?? undefined,
     });
     recordTrackingDebug("Google Ads conversion queued", googleAdsSendTo, "success");
+  } else if (
+    config.leadEventTargets.googleAds &&
+    window.gtag &&
+    config.googleAdsConversionMode === "GA4_IMPORTED" &&
+    config.googleAdsTagId
+  ) {
+    recordTrackingDebug(
+      "Google Ads conversion delegated to GA4 import",
+      config.googleAdsTagId,
+      "neutral",
+    );
   }
 
   if (config.leadEventTargets.metaPixel && window.fbq) {

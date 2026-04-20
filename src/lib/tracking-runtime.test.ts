@@ -28,6 +28,7 @@ test("buildGoogleAdsSendTo returns the canonical AW/label pair", () => {
   assert.equal(
     buildGoogleAdsSendTo({
       googleAdsTagId: "AW-18098571219",
+      googleAdsConversionMode: "DIRECT_LABEL",
       googleAdsLeadConversionLabel: "wagholiLeadPrimary_01",
     }),
     "AW-18098571219/wagholiLeadPrimary_01",
@@ -38,7 +39,19 @@ test("buildGoogleAdsSendTo returns null when the conversion label is missing", (
   assert.equal(
     buildGoogleAdsSendTo({
       googleAdsTagId: "AW-18098571219",
+      googleAdsConversionMode: "DIRECT_LABEL",
       googleAdsLeadConversionLabel: null,
+    }),
+    null,
+  );
+});
+
+test("buildGoogleAdsSendTo returns null when Google Ads imports conversions from GA4", () => {
+  assert.equal(
+    buildGoogleAdsSendTo({
+      googleAdsTagId: "AW-18098571219",
+      googleAdsConversionMode: "GA4_IMPORTED",
+      googleAdsLeadConversionLabel: "wagholiLeadPrimary_01",
     }),
     null,
   );
