@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+
 import { GsGroupLogo } from './GsGroupLogo';
 import { SiteLogo } from './SiteLogo';
 import { SymbolIcon } from './SymbolIcon';
+import { consumePendingLeadTrackingForThankYou } from '../lib/tracking-runtime';
 
 type ThankYouPageProps = {
   onReturnHome?: () => void;
@@ -11,6 +14,10 @@ const salesPhoneDisplay = '+91 77420 80757';
 const salesEmail = 'wagholihighstreet12@gmail.com';
 
 export default function ThankYouPage({ onReturnHome }: ThankYouPageProps) {
+  useEffect(() => {
+    void consumePendingLeadTrackingForThankYou();
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020408] px-4 py-8 sm:px-6 sm:py-12">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,165,84,0.16),transparent_40%)]" />

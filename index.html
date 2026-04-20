@@ -20,6 +20,17 @@
 
     <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/wagholi_high_street_light.webp" />
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag =
+        window.gtag ||
+        function gtag() {
+          window.dataLayer.push(arguments);
+        };
+      window.__NAYA_TRACKING_BOOTSTRAP__ = {
+        initializedAt: new Date().toISOString(),
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>

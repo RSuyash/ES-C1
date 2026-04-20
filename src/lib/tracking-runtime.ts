@@ -8,26 +8,40 @@ type TrackingRuntimeConfig = {
   liveUrl: string | null;
   previewUrl: string | null;
   ga4MeasurementId: string | null;
+  googleAdsTagId: string | null;
+  googleAdsLeadConversionLabel: string | null;
   gtmContainerId: string | null;
   metaPixelId: string | null;
   injectGtm: boolean;
   injectGa4: boolean;
+  injectGoogleAds: boolean;
   injectMetaPixel: boolean;
   suppressGa4PageView: boolean;
   leadEventTargets: {
     dataLayer: boolean;
     ga4: boolean;
+    googleAds: boolean;
     metaPixel: boolean;
   };
   warnings: string[];
 };
 
-type LeadTrackingPayload = {
+export type LeadTrackingPayload = {
   sourceCta: string;
   serviceInterest?: string;
+  configuration?: string;
   budgetRange?: string;
   projectName?: string;
+  sourcePage?: string;
 };
+
+type PendingLeadTrackingEnvelope = LeadTrackingPayload & {
+  id: string;
+  queuedAt: string;
+  sourcePage: string;
+};
+
+type TrackingStorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 type TrackingDebugTone = "success" | "warning" | "neutral";
 
@@ -60,12 +74,78 @@ declare global {
     __NAYA_TRACKING_RUNTIME__?: TrackingRuntimeConfig | null;
     __NAYA_TRACKING_RUNTIME_PROMISE__?: Promise<TrackingRuntimeConfig | null>;
     __NAYA_TRACKING_DEBUG__?: TrackingDebugState;
+    __NAYA_TRACKING_BOOTSTRAP__?: {
+      initializedAt?: string;
+    };
   }
 }
 
 const ENDPOINT = "/api/landing/runtime/tracking-config";
 const DEBUG_QUERY_KEY = "nayaTrackingDebug";
+const PENDING_LEAD_TRACKING_STORAGE_KEY = "nayaPendingLeadTracking";
 let debugLogSequence = 0;
+
+function getSessionStorageSafe() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    return window.sessionStorage;
+  } catch {
+    return null;
+  }
+}
+
+function createPendingLeadTrackingEnvelope(
+  payload: LeadTrackingPayload,
+  sourcePage: string,
+): PendingLeadTrackingEnvelope {
+  return {
+    ...payload,
+    id: `lead-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+    queuedAt: new Date().toISOString(),
+    sourcePage,
+  };
+}
+
+export function storePendingLeadTrackingForThankYou(
+  storage: TrackingStorageLike,
+  payload: LeadTrackingPayload,
+  sourcePage: string,
+) {
+  const envelope = createPendingLeadTrackingEnvelope(payload, sourcePage);
+  storage.setItem(PENDING_LEAD_TRACKING_STORAGE_KEY, JSON.stringify(envelope));
+  return envelope;
+}
+
+export function takePendingLeadTrackingForThankYou(
+  storage: TrackingStorageLike,
+): PendingLeadTrackingEnvelope | null {
+  const raw = storage.getItem(PENDING_LEAD_TRACKING_STORAGE_KEY);
+  if (!raw) {
+    return null;
+  }
+
+  storage.removeItem(PENDING_LEAD_TRACKING_STORAGE_KEY);
+
+  try {
+    return JSON.parse(raw) as PendingLeadTrackingEnvelope;
+  } catch {
+    return null;
+  }
+}
+
+export function buildGoogleAdsSendTo(input: {
+  googleAdsTagId: string | null;
+  googleAdsLeadConversionLabel: string | null;
+}) {
+  if (!input.googleAdsTagId || !input.googleAdsLeadConversionLabel) {
+    return null;
+  }
+
+  return `${input.googleAdsTagId}/${input.googleAdsLeadConversionLabel}`;
+}
 
 function isTrackingDebugEnabled() {
   if (typeof window === "undefined") {
@@ -174,6 +254,7 @@ function renderTrackingDebugOverlay() {
   const config = state.config;
   const providerRows = [
     ["GA4", config?.ga4MeasurementId ?? null, config?.injectGa4 ?? false],
+    ["Google Ads", config?.googleAdsTagId ?? null, config?.injectGoogleAds ?? false],
     ["GTM", config?.gtmContainerId ?? null, config?.injectGtm ?? false],
     ["Meta", config?.metaPixelId ?? null, config?.injectMetaPixel ?? false],
   ] as const;
@@ -296,6 +377,7 @@ function syncTrackingDebugArtifacts(config: TrackingRuntimeConfig) {
   ensureTrackingDebugMeta("site-id", config.siteId);
   ensureTrackingDebugMeta("site-slug", config.siteSlug);
   ensureTrackingDebugMeta("ga4", config.ga4MeasurementId);
+  ensureTrackingDebugMeta("google-ads", config.googleAdsTagId);
   ensureTrackingDebugMeta("gtm", config.gtmContainerId);
   ensureTrackingDebugMeta("meta", config.metaPixelId);
   renderTrackingDebugOverlay();
@@ -363,7 +445,12 @@ function ensureGtm(containerId: string) {
   }
 }
 
-function ensureGa4(measurementId: string, suppressPageView: boolean) {
+function ensureGoogleTag(config: TrackingRuntimeConfig) {
+  const primaryTagId = config.ga4MeasurementId || config.googleAdsTagId;
+  if (!primaryTagId) {
+    return;
+  }
+
   window.dataLayer = window.dataLayer || [];
   if (!window.gtag) {
     window.gtag = function gtag(...args: unknown[]) {
@@ -371,29 +458,37 @@ function ensureGa4(measurementId: string, suppressPageView: boolean) {
     };
   }
 
-  if (!document.getElementById(`naya-ga4-${measurementId}`)) {
+  if (!document.getElementById("naya-google-tag-loader")) {
     const script = document.createElement("script");
-    script.id = `naya-ga4-${measurementId}`;
+    script.id = "naya-google-tag-loader";
     script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(primaryTagId)}`;
     script.addEventListener("load", () => {
-      recordTrackingDebug("GA4 library loaded", measurementId, "success");
+      recordTrackingDebug("Google tag library loaded", primaryTagId, "success");
     });
     script.addEventListener("error", () => {
-      recordTrackingDebug("GA4 library failed", measurementId, "warning");
+      recordTrackingDebug("Google tag library failed", primaryTagId, "warning");
     });
     document.head.appendChild(script);
   }
 
   window.gtag("js", new Date());
-  window.gtag("config", measurementId, {
-    send_page_view: !suppressPageView,
-  });
-  recordTrackingDebug(
-    "GA4 configured",
-    `${measurementId}${suppressPageView ? " · page_view suppressed (GTM active)" : ""}`,
-    "success",
-  );
+
+  if (config.ga4MeasurementId) {
+    window.gtag("config", config.ga4MeasurementId, {
+      send_page_view: !config.suppressGa4PageView,
+    });
+    recordTrackingDebug(
+      "GA4 configured",
+      `${config.ga4MeasurementId}${config.suppressGa4PageView ? " · page_view suppressed (GTM active)" : ""}`,
+      "success",
+    );
+  }
+
+  if (config.googleAdsTagId) {
+    window.gtag("config", config.googleAdsTagId);
+    recordTrackingDebug("Google Ads configured", config.googleAdsTagId, "success");
+  }
 }
 
 function ensureMetaPixel(pixelId: string) {
@@ -435,8 +530,8 @@ function wireProviders(config: TrackingRuntimeConfig) {
   if (config.injectGtm && config.gtmContainerId) {
     ensureGtm(config.gtmContainerId);
   }
-  if (config.injectGa4 && config.ga4MeasurementId) {
-    ensureGa4(config.ga4MeasurementId, config.suppressGa4PageView);
+  if ((config.injectGa4 && config.ga4MeasurementId) || (config.injectGoogleAds && config.googleAdsTagId)) {
+    ensureGoogleTag(config);
   }
   if (config.injectMetaPixel && config.metaPixelId) {
     ensureMetaPixel(config.metaPixelId);
@@ -502,14 +597,17 @@ export function initializeLandingTrackingRuntime() {
 }
 
 function emitLeadTracking(config: TrackingRuntimeConfig, payload: LeadTrackingPayload) {
+  const googleAdsSendTo = buildGoogleAdsSendTo(config);
   const eventPayload = {
     event: "naya_lead_submit",
     source_cta: payload.sourceCta,
     service_interest: payload.serviceInterest ?? null,
+    configuration: payload.configuration ?? null,
     budget_range: payload.budgetRange ?? null,
     page_location: window.location.href,
     page_title: document.title,
     host: window.location.host,
+    source_page: payload.sourcePage ?? null,
     project_id: config.projectId,
     project_name: payload.projectName ?? config.projectName,
     site_slug: config.siteSlug,
@@ -526,11 +624,25 @@ function emitLeadTracking(config: TrackingRuntimeConfig, payload: LeadTrackingPa
       currency: "INR",
       source_cta: payload.sourceCta,
       service_interest: payload.serviceInterest ?? undefined,
+      configuration: payload.configuration ?? undefined,
       budget_range: payload.budgetRange ?? undefined,
       page_location: window.location.href,
       page_title: document.title,
+      source_page: payload.sourcePage ?? undefined,
     });
     recordTrackingDebug("GA4 lead event queued", payload.sourceCta, "success");
+  }
+
+  if (config.leadEventTargets.googleAds && window.gtag && googleAdsSendTo) {
+    window.gtag("event", "conversion", {
+      send_to: googleAdsSendTo,
+      currency: "INR",
+      value: 1,
+      source_cta: payload.sourceCta,
+      page_location: window.location.href,
+      source_page: payload.sourcePage ?? undefined,
+    });
+    recordTrackingDebug("Google Ads conversion queued", googleAdsSendTo, "success");
   }
 
   if (config.leadEventTargets.metaPixel && window.fbq) {
@@ -546,21 +658,39 @@ function emitLeadTracking(config: TrackingRuntimeConfig, payload: LeadTrackingPa
 }
 
 export function trackLandingLeadSubmit(payload: LeadTrackingPayload) {
-  if (typeof window === "undefined") {
+  const storage = getSessionStorageSafe();
+  if (!storage) {
     return;
   }
 
-  const config = window.__NAYA_TRACKING_RUNTIME__;
-  if (config) {
-    emitLeadTracking(config, payload);
-    return;
+  const sourcePage = payload.sourcePage ?? window.location.href;
+  const stored = storePendingLeadTrackingForThankYou(storage, payload, sourcePage);
+  recordTrackingDebug("Lead event queued for /thank-you", stored.id, "neutral");
+}
+
+export async function consumePendingLeadTrackingForThankYou() {
+  const storage = getSessionStorageSafe();
+  if (!storage) {
+    return false;
   }
 
-  window.__NAYA_TRACKING_RUNTIME_PROMISE__
-    ?.then((resolvedConfig) => {
-      if (resolvedConfig) {
-        emitLeadTracking(resolvedConfig, payload);
-      }
-    })
-    .catch(() => {});
+  const pending = takePendingLeadTrackingForThankYou(storage);
+  if (!pending) {
+    return false;
+  }
+
+  const config =
+    window.__NAYA_TRACKING_RUNTIME__ ??
+    (window.__NAYA_TRACKING_RUNTIME_PROMISE__
+      ? await window.__NAYA_TRACKING_RUNTIME_PROMISE__
+      : await initializeLandingTrackingRuntime());
+
+  if (!config) {
+    recordTrackingDebug("No runtime config for queued lead", pending.id, "warning");
+    return false;
+  }
+
+  emitLeadTracking(config, pending);
+  recordTrackingDebug("Queued lead consumed on /thank-you", pending.id, "success");
+  return true;
 }

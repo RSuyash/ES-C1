@@ -135,6 +135,7 @@ export default function LeadWizardModal({
         serviceInterest: spaceLabel,
         budgetRange: budgetLabel,
         projectName: 'Wagholi Highstreet',
+        sourcePage: window.location.href,
       });
       setStatus({
         tone: 'success',
