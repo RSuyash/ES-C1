@@ -10,6 +10,10 @@ export default function Footer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>(null);
   const [isQrEnlarged, setIsQrEnlarged] = useState(false);
+  const bTowerReraUrl =
+    'https://maharera.maharashtra.gov.in/projects-search-result?certificate_no=P52100056495';
+  const cTowerReraUrl =
+    'https://maharera.maharashtra.gov.in/projects-search-result?certificate_no=P52100079202';
 
   const openModal = (type: ModalType) => {
     setModalType(type);
@@ -86,26 +90,48 @@ export default function Footer() {
               </p>
               
               {/* RERA Section */}
-              <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 w-fit relative">
-                <div 
-                  className="shrink-0 bg-white p-0.5 rounded cursor-pointer group relative"
-                  onClick={toggleQr}
-                >
-                  <img src="/qr-code.jpeg" alt="MahaRERA QR" className="w-12 h-12 rounded transition-transform md:group-hover:scale-110" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded">
-                    <span className="material-symbols-outlined text-white text-[10px]">zoom_in</span>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">MahaRERA Reg.</span>
-                  <a 
-                    href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ==" 
-                    target="_blank" 
+              <div className="flex flex-col gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 w-fit relative">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <a
+                    href={bTowerReraUrl}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[12px] text-white/70 font-mono font-bold hover:text-[var(--color-sandybrown-100)] transition-colors"
-                  >P52100056495</a>
+                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06]"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      toggleQr();
+                    }}
+                  >
+                    <div className="relative shrink-0 bg-white p-0.5 rounded">
+                      <img src="/qr-code.jpeg" alt="B Tower RERA QR" className="w-12 h-12 rounded transition-transform md:group-hover:scale-110" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded">
+                        <span className="material-symbols-outlined text-white text-[10px]">zoom_in</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">B Tower MahaRERA</span>
+                      <span className="text-[12px] text-white/70 font-mono font-bold">P52100056495</span>
+                    </div>
+                  </a>
+                  <a
+                    href={cTowerReraUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06]"
+                  >
+                    <div className="relative shrink-0 bg-white p-0.5 rounded">
+                      <img src="/qr-code-c-tower.png" alt="C Tower RERA QR" className="w-12 h-12 rounded transition-transform md:group-hover:scale-110" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">C Tower MahaRERA</span>
+                      <span className="text-[12px] text-white/70 font-mono font-bold">P52100079202</span>
+                    </div>
+                  </a>
                 </div>
-
+                <p className="text-[10px] text-white/26 leading-relaxed">
+                  Scan either tower code to open the official MahaRERA project page.
+                </p>
+                
                 {/* QR Enlarged Overlay */}
                 {isQrEnlarged && (
                   <div 
@@ -217,8 +243,8 @@ export default function Footer() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white/30 text-[10px] uppercase font-bold tracking-tighter">Priority Line</span>
-                    <a href="tel:+917742080757" className="text-white/60 text-[14px] font-bold group-hover:text-[var(--color-sandybrown-100)] transition-colors">
-                      +91 77420 80757
+                    <a href="tel:+919049187577" className="text-white/60 text-[14px] font-bold group-hover:text-[var(--color-sandybrown-100)] transition-colors">
+                      +91 90491 87577
                     </a>
                   </div>
                 </div>

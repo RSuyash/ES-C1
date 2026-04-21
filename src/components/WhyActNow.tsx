@@ -20,7 +20,7 @@ const urgencyPoints = [
   },
   {
     id: '02',
-    title: 'Possession in 9 Months',
+    title: 'Possession in December 2026',
     desc: 'With possession approaching, you enter at a stage where decision confidence is stronger and waiting time is heavily reduced.',
     icon: 'schedule',
     colSpan: 'md:col-span-1 lg:col-span-4',
@@ -36,7 +36,7 @@ const urgencyPoints = [
   {
     id: '03',
     title: 'Better Units Move First',
-    desc: 'With 250+ bookings already done, the best-matched inventory may not remain available for long. Premium frontage disappears exactly here.',
+    desc: 'With 300+ bookings already done, the best-matched inventory may not remain available for long. Premium frontage disappears exactly here.',
     icon: 'trending_up',
     colSpan: 'md:col-span-1 lg:col-span-4',
     rowSpan: 'lg:row-span-1',

@@ -29,11 +29,11 @@ const faqs = [
   },
   {
     q: "What makes this project a strong commercial opportunity?",
-    a: "Wagholi Highstreet is backed by 45,000+ expected footfall, 3 acres of dedicated parking, strong location growth, and major brand signings, making it relevant for both business use and investment."
+    a: "Wagholi Highstreet is backed by 45,000+ expected footfall, 3.5-acre dedicated parking, strong location growth, and major brand signings, making it relevant for both business use and investment."
   },
   {
     q: "Which brands have already signed in the project?",
-    a: "As shared, McDonald’s and CinePro are already signed, with more brands expected to join the commercial ecosystem."
+    a: "As shared, McDonald’s, Barbeque Nation, and CinePro are already signed, with more brands expected to join the commercial ecosystem."
   },
   {
     q: "Is this project suitable for investors?",
@@ -41,7 +41,7 @@ const faqs = [
   },
   {
     q: "What amenities are available in the project?",
-    a: "The project includes Business Lounge, Co-working Spaces, Yoga Lounge, Game Zone, Café, and 3 acres of dedicated parking."
+    a: "The project includes Business Lounge, Co-working Spaces, Yoga Lounge, Game Zone, Café, and 3.5-acre dedicated parking."
   },
   {
     q: "Who should consider this project?",

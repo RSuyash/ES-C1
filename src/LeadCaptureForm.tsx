@@ -61,6 +61,10 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ tone: 'idle', message: '' });
   const [isQrEnlarged, setIsQrEnlarged] = useState(false);
+  const bTowerReraUrl =
+    'https://maharera.maharashtra.gov.in/projects-search-result?certificate_no=P52100056495';
+  const cTowerReraUrl =
+    'https://maharera.maharashtra.gov.in/projects-search-result?certificate_no=P52100079202';
 
   const utmValues = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -264,34 +268,54 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
       </div>
 
       {/* RERA Trust Seal */}
-      <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left relative">
-        <div 
-          className="shrink-0 bg-white p-1 rounded-lg cursor-pointer group relative"
-          onClick={toggleQr}
-        >
-          <img 
-            src="/qr-code.jpeg" 
-            alt="MahaRERA QR Code" 
-            className="w-16 h-16 object-contain transition-transform duration-300 md:group-hover:scale-110" 
-          />
-          {/* Magnify icon hint */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-            <span className="material-symbols-outlined text-white text-sm">zoom_in</span>
-          </div>
+      <div className="mt-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-4 text-center sm:text-left relative">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <a
+            href={bTowerReraUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06]"
+            onClick={(event) => {
+              event.preventDefault();
+              toggleQr();
+            }}
+          >
+            <div className="relative shrink-0 rounded-lg bg-white p-1">
+              <img 
+                src="/qr-code.jpeg" 
+                alt="B Tower MahaRERA QR code" 
+                className="w-14 h-14 object-contain transition-transform duration-300 md:group-hover:scale-110" 
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                <span className="material-symbols-outlined text-white text-sm">zoom_in</span>
+              </div>
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">B Tower MahaRERA</p>
+              <p className="text-white/80 font-mono text-sm tracking-wider">P52100056495</p>
+            </div>
+          </a>
+          <a
+            href={cTowerReraUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06]"
+          >
+            <div className="relative shrink-0 rounded-lg bg-white p-1">
+              <img 
+                src="/qr-code-c-tower.png" 
+                alt="C Tower MahaRERA QR code" 
+                className="w-14 h-14 object-contain transition-transform duration-300 md:group-hover:scale-110" 
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">C Tower MahaRERA</p>
+              <p className="text-white/80 font-mono text-sm tracking-wider">P52100079202</p>
+            </div>
+          </a>
         </div>
-        <div>
-          <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">MahaRERA Registered</p>
-          <p className="text-white/80 font-mono text-sm tracking-wider">
-            Registration No: <a 
-              href="https://maharerait.mahaonline.gov.in/ProjectSummaryView/ProjectSummaryQRCodeView?id=Q2VydGlmaWNhdGVObz1QNTIxMDAwNTY0OTUmU2NhbnR5cGU9UHJvbW90ZXJMb2dpblFSQ29kZQ==" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-[#d6a554] font-bold hover:underline"
-            >P52100056495</a>
-          </p>
-          <p className="text-[11px] text-white/30 mt-1 leading-tight text-balance">Scan QR code or click registration number to verify project details.</p>
-        </div>
-
+        <p className="text-[11px] text-white/30 leading-tight text-balance">Scan either tower QR or click the registration number to verify project details.</p>
+        
         {/* QR Enlarged Overlay (Mobile & Desktop) */}
         {isQrEnlarged && (
           <div 

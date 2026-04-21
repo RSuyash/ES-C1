@@ -274,11 +274,24 @@ export default function App({ initialPath }: { initialPath?: string }) {
                       </div>
 
                       {/* Brand Logos - Horizontal row with space for CinePro */}
-                      <div className="flex items-center gap-2 sm:gap-3">
-                        {/* McDonald's Logo */}
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                        {/* McDonald's Official Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-[#DA291C]/90 backdrop-blur-md w-8 h-8 sm:w-9 sm:h-9 rounded-[8px] flex items-center justify-center shadow-lg border border-red-500/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(218,41,28,0.4)]">
-                            <span className="font-black text-lg sm:text-xl leading-none text-[#ffc72c]">M</span>
+                          <div className="bg-white backdrop-blur-md w-10 h-8 sm:w-11 sm:h-9 rounded-[8px] flex items-center justify-center px-1.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]">
+                            <img
+                              src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg"
+                              alt="McDonald's official logo"
+                              className="h-full w-auto object-contain"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                        {/* Barbeque Nation Wordmark */}
+                        <div className="group relative shrink-0">
+                          <div className="bg-[#2b120c] backdrop-blur-md h-8 sm:h-9 rounded-[8px] flex items-center justify-center px-3 shadow-lg border border-[#f59e0b]/20 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_18px_rgba(245,158,11,0.18)]">
+                            <span className="font-black text-[9px] sm:text-[10px] tracking-[0.18em] uppercase text-[#f5a623] whitespace-nowrap">
+                              Barbeque Nation
+                            </span>
                           </div>
                         </div>
                         {/* CinePro Logo - Horizontal film strip design */}
@@ -306,11 +319,11 @@ export default function App({ initialPath }: { initialPath?: string }) {
                           <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
                           <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                         </svg>
-                        <div className="text-left">
-                          <span className="text-white/80 text-[13px] sm:text-[14px] font-bold leading-tight">250+</span>
-                          <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block">bookings</span>
+                          <div className="text-left">
+                            <span className="text-white/80 text-[13px] sm:text-[14px] font-bold leading-tight">300+</span>
+                            <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block">bookings</span>
+                          </div>
                         </div>
-                      </div>
 
                       {/* Vertical Divider */}
                       <div className="hidden sm:block h-10 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
@@ -318,7 +331,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
                       {/* Possession Stat */}
                       <div className="text-left">
                         <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block leading-tight">Possession in</span>
-                        <span className="text-white/90 font-bold text-[13px] sm:text-[14px] block leading-tight">9 Months</span>
+                        <span className="text-white/90 font-bold text-[13px] sm:text-[14px] block leading-tight">December 2026</span>
                       </div>
                     </div>
 

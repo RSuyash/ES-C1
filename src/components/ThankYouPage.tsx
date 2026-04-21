@@ -9,8 +9,8 @@ type ThankYouPageProps = {
   onReturnHome?: () => void;
 };
 
-const salesPhone = '+917742080757';
-const salesPhoneDisplay = '+91 77420 80757';
+const salesPhone = '+919049187577';
+const salesPhoneDisplay = '+91 90491 87577';
 const salesEmail = 'wagholihighstreet12@gmail.com';
 
 export default function ThankYouPage({ onReturnHome }: ThankYouPageProps) {

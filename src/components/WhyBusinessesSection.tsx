@@ -11,22 +11,22 @@ const businessFeatures = [
   {
     icon: 'storefront',
     title: 'Stronger Brand Presence',
-    description: 'The value of the destination rises. With McDonald\'s and CinePro already signed, you become part of a commercial environment that naturally attracts more attention, stronger confidence, and higher market interest.',
+    description: 'The value of the destination rises. With McDonald\'s, Barbeque Nation, and CinePro already signed, you become part of a commercial environment that naturally attracts more attention, stronger confidence, and higher market interest.',
   },
   {
     icon: 'local_parking',
     title: 'Offer Greater Convenience',
-    description: 'At Wagholi Highstreet, you get 3 acres of dedicated parking, so your customers, employees, and visitors experience easier access and a more comfortable business environment.',
+    description: 'At Wagholi Highstreet, you get 3.5-acre dedicated parking, so your customers, employees, and visitors experience easier access and a more comfortable business environment.',
   },
   {
     icon: 'trending_up',
     title: 'Invest in Strong ROI Potential',
-    description: 'With 7%–9% expected ROI potential in one of Pune\'s fastest-growing commercial corridors, Wagholi Highstreet offers a lucrative investment opportunity.',
+    description: 'With 9% to 12% expected ROI potential in one of Pune\'s fastest-growing commercial corridors, Wagholi Highstreet offers a lucrative investment opportunity.',
   },
   {
     icon: 'location_on',
     title: 'Wagholi Link Road Location',
-    description: 'Positioned strategically on Kesnand Road, offering unparalleled connectivity and visibility in one of Pune\'s most rapidly developing commercial hubs.',
+    description: 'Positioned strategically on Wagholi Link Road, offering unparalleled connectivity and visibility in one of Pune\'s most rapidly developing commercial hubs.',
   },
   {
     icon: 'architecture',
