@@ -274,10 +274,10 @@ export default function App({ initialPath }: { initialPath?: string }) {
                       </div>
 
                       {/* Brand Logos - Horizontal row with space for CinePro */}
-                      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                      <div className="flex flex-nowrap items-center gap-1.5 sm:gap-2 min-w-0 overflow-hidden">
                         {/* McDonald's Official Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white backdrop-blur-md w-10 h-8 sm:w-11 sm:h-9 rounded-[8px] flex items-center justify-center px-1.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]">
+                          <div className="bg-white backdrop-blur-md w-8 h-8 sm:w-9 sm:h-9 rounded-[8px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]">
                             <img
                               src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg"
                               alt="McDonald's official logo"
@@ -286,17 +286,20 @@ export default function App({ initialPath }: { initialPath?: string }) {
                             />
                           </div>
                         </div>
-                        {/* Barbeque Nation Wordmark */}
+                        {/* Barbeque Nation Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-[#2b120c] backdrop-blur-md h-8 sm:h-9 rounded-[8px] flex items-center justify-center px-3 shadow-lg border border-[#f59e0b]/20 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_18px_rgba(245,158,11,0.18)]">
-                            <span className="font-black text-[9px] sm:text-[10px] tracking-[0.18em] uppercase text-[#f5a623] whitespace-nowrap">
-                              Barbeque Nation
-                            </span>
+                          <div className="bg-[#1c1110] backdrop-blur-md h-8 sm:h-9 w-[112px] sm:w-[128px] rounded-[8px] flex items-center justify-center px-2 shadow-lg border border-[#f59e0b]/20 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_18px_rgba(245,158,11,0.18)]">
+                            <img
+                              src="/brand-logos/barbeque-nation.png"
+                              alt="Barbeque Nation logo"
+                              className="h-full w-full object-contain"
+                              loading="lazy"
+                            />
                           </div>
                         </div>
                         {/* CinePro Logo - Horizontal film strip design */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white/90 backdrop-blur-md h-[24px] sm:h-[26px] rounded-[6px] flex items-center justify-center px-1.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                          <div className="bg-white/90 backdrop-blur-md h-7 sm:h-8 w-[74px] sm:w-[86px] rounded-[6px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                             <img
                               src="/cine-pro-brand-logo-transparent.png"
                               alt="CinePro"

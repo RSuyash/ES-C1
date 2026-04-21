@@ -274,7 +274,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
             href={bTowerReraUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06]"
+            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06] min-w-0"
             onClick={(event) => {
               event.preventDefault();
               toggleQr();
@@ -291,15 +291,15 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
               </div>
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">B Tower MahaRERA</p>
-              <p className="text-white/80 font-mono text-sm tracking-wider">P52100056495</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1 leading-tight">B Tower MahaRERA</p>
+              <p className="text-white/80 font-mono text-[11px] tracking-wider leading-tight break-all">P52100056495</p>
             </div>
           </a>
           <a
             href={cTowerReraUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06]"
+            className="group flex items-center gap-4 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-3 text-left transition hover:border-[#d6a554]/30 hover:bg-white/[0.06] min-w-0"
           >
             <div className="relative shrink-0 rounded-lg bg-white p-1">
               <img 
@@ -309,8 +309,8 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
               />
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1">C Tower MahaRERA</p>
-              <p className="text-white/80 font-mono text-sm tracking-wider">P52100079202</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-1 leading-tight">C Tower MahaRERA</p>
+              <p className="text-white/80 font-mono text-[11px] tracking-wider leading-tight break-all">P52100079202</p>
             </div>
           </a>
         </div>

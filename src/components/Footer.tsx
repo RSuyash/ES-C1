@@ -96,7 +96,7 @@ export default function Footer() {
                     href={bTowerReraUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06]"
+                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06] min-w-0"
                     onClick={(event) => {
                       event.preventDefault();
                       toggleQr();
@@ -108,23 +108,23 @@ export default function Footer() {
                         <span className="material-symbols-outlined text-white text-[10px]">zoom_in</span>
                       </div>
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">B Tower MahaRERA</span>
-                      <span className="text-[12px] text-white/70 font-mono font-bold">P52100056495</span>
+                    <div className="flex min-w-0 flex-col">
+                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold leading-tight">B Tower MahaRERA</span>
+                      <span className="text-[11px] text-white/70 font-mono font-bold leading-tight break-all">P52100056495</span>
                     </div>
                   </a>
                   <a
                     href={cTowerReraUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06]"
+                    className="group flex items-center gap-3 rounded-lg border border-white/8 bg-white/[0.04] px-3 py-3 transition hover:border-[var(--color-sandybrown-100)]/30 hover:bg-white/[0.06] min-w-0"
                   >
                     <div className="relative shrink-0 bg-white p-0.5 rounded">
                       <img src="/qr-code-c-tower.png" alt="C Tower RERA QR" className="w-12 h-12 rounded transition-transform md:group-hover:scale-110" />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold">C Tower MahaRERA</span>
-                      <span className="text-[12px] text-white/70 font-mono font-bold">P52100079202</span>
+                    <div className="flex min-w-0 flex-col">
+                      <span className="text-[9px] uppercase tracking-tighter text-white/30 font-bold leading-tight">C Tower MahaRERA</span>
+                      <span className="text-[11px] text-white/70 font-mono font-bold leading-tight break-all">P52100079202</span>
                     </div>
                   </a>
                 </div>
