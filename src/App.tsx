@@ -263,10 +263,10 @@ export default function App({ initialPath }: { initialPath?: string }) {
                 {/* Trust Box */}
                 <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 md:p-5 mb-8 shadow-inner">
                   {/* Two column layout: Brands on left, Stats on right */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+                  <div className="flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6">
 
                     {/* Left: Trusted By Label + Brand Logos */}
-                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full lg:w-auto">
                       {/* Trusted By Label */}
                       <div className="flex flex-col items-center sm:items-start text-center sm:text-left shrink-0">
                         <span className="text-white/50 text-[7px] uppercase tracking-[0.15em] font-medium">Trusted</span>
@@ -274,10 +274,10 @@ export default function App({ initialPath }: { initialPath?: string }) {
                       </div>
 
                       {/* Brand Logos - Horizontal row with space for CinePro */}
-                      <div className="flex flex-nowrap items-center gap-1.5 sm:gap-2 min-w-0 overflow-hidden">
+                      <div className="flex flex-nowrap items-center gap-1 sm:gap-1.5 min-w-0 overflow-hidden">
                         {/* McDonald's Official Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white backdrop-blur-md w-8 h-8 sm:w-9 sm:h-9 rounded-[8px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]">
+                          <div className="bg-white backdrop-blur-md w-8 h-8 sm:w-9 sm:h-9 rounded-[8px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.25)]">
                             <img
                               src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg"
                               alt="McDonald's official logo"
@@ -288,7 +288,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
                         </div>
                         {/* Barbeque Nation Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-[#1c1110] backdrop-blur-md h-8 sm:h-9 w-[112px] sm:w-[128px] rounded-[8px] flex items-center justify-center px-2 shadow-lg border border-[#f59e0b]/20 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_18px_rgba(245,158,11,0.18)]">
+                          <div className="bg-transparent h-8 sm:h-9 w-[92px] sm:w-[112px] rounded-[8px] flex items-center justify-center px-0.5 transition-transform duration-300 group-hover:scale-105">
                             <img
                               src="/brand-logos/barbeque-nation.png"
                               alt="Barbeque Nation logo"
@@ -299,7 +299,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
                         </div>
                         {/* CinePro Logo - Horizontal film strip design */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white/90 backdrop-blur-md h-7 sm:h-8 w-[74px] sm:w-[86px] rounded-[6px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                          <div className="bg-white/90 backdrop-blur-md h-[26px] sm:h-7 w-[66px] sm:w-[76px] rounded-[6px] flex items-center justify-center px-1 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                             <img
                               src="/cine-pro-brand-logo-transparent.png"
                               alt="CinePro"
@@ -312,12 +312,12 @@ export default function App({ initialPath }: { initialPath?: string }) {
                     </div>
 
                     {/* Divider - Horizontal on mobile, vertical on desktop */}
-                    <div className="w-full sm:w-[1px] h-[1px] sm:h-10 bg-gradient-to-r sm:bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                    <div className="w-full lg:w-[1px] h-[1px] lg:h-10 bg-gradient-to-r lg:bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
 
                     {/* Right: Stats */}
-                    <div className="flex items-center justify-center gap-4 sm:gap-6 w-full sm:w-auto">
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 lg:gap-6 w-full lg:w-auto lg:justify-end">
                       {/* Bookings Stat */}
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 shrink-0">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[var(--color-sandybrown-100)] shrink-0">
                           <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
                           <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
@@ -329,10 +329,10 @@ export default function App({ initialPath }: { initialPath?: string }) {
                         </div>
 
                       {/* Vertical Divider */}
-                      <div className="hidden sm:block h-10 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                      <div className="hidden lg:block h-10 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
 
                       {/* Possession Stat */}
-                      <div className="text-left">
+                      <div className="text-left shrink-0">
                         <span className="text-white/60 text-[9px] sm:text-[10px] font-medium block leading-tight">Possession in</span>
                         <span className="text-white/90 font-bold text-[13px] sm:text-[14px] block leading-tight">December 2026</span>
                       </div>
