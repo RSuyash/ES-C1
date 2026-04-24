@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  buildClarityTagUrl,
+  ensureClarityScript,
   buildGoogleAdsSendTo,
   storePendingLeadTrackingForThankYou,
   takePendingLeadTrackingForThankYou,
@@ -79,4 +81,44 @@ test("pending lead tracking is consumed exactly once from session storage", () =
   assert.equal(consumed?.sourceCta, "lead-wizard");
   assert.equal(consumed?.sourcePage, "https://wagholihighstreet.in/?utm_source=google");
   assert.equal(takePendingLeadTrackingForThankYou(storage), null);
+});
+
+test("buildClarityTagUrl returns the canonical Microsoft Clarity tag URL", () => {
+  assert.equal(buildClarityTagUrl("wgqhjnwnmi"), "https://www.clarity.ms/tag/wgqhjnwnmi");
+});
+
+test("ensureClarityScript appends the Clarity loader only once", () => {
+  const appended: Array<{ id?: string; async?: boolean; src?: string }> = [];
+  const documentLike = {
+    head: {
+      appendChild(node: { id?: string; async?: boolean; src?: string }) {
+        appended.push(node);
+      },
+    },
+    createElement() {
+      return {
+        addEventListener() {},
+        async: false,
+        id: "",
+        src: "",
+      };
+    },
+    getElementById(id: string) {
+      return appended.find((node) => node.id === id) ?? null;
+    },
+  };
+
+  ensureClarityScript("wgqhjnwnmi", {
+    document: documentLike as unknown as Document,
+    window: {} as Window,
+  });
+  ensureClarityScript("wgqhjnwnmi", {
+    document: documentLike as unknown as Document,
+    window: {} as Window,
+  });
+
+  assert.equal(appended.length, 1);
+  assert.equal(appended[0]?.id, "naya-clarity-loader");
+  assert.equal(appended[0]?.async, true);
+  assert.equal(appended[0]?.src, "https://www.clarity.ms/tag/wgqhjnwnmi");
 });

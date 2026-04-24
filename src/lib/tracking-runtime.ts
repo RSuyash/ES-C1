@@ -13,10 +13,12 @@ type TrackingRuntimeConfig = {
   googleAdsLeadConversionLabel: string | null;
   gtmContainerId: string | null;
   metaPixelId: string | null;
+  clarityProjectId: string | null;
   injectGtm: boolean;
   injectGa4: boolean;
   injectGoogleAds: boolean;
   injectMetaPixel: boolean;
+  injectClarity: boolean;
   suppressGa4PageView: boolean;
   leadEventTargets: {
     dataLayer: boolean;
@@ -72,6 +74,9 @@ declare global {
       version?: string;
     };
     _fbq?: Window["fbq"];
+    clarity?: ((...args: unknown[]) => void) & {
+      q?: unknown[][];
+    };
     __NAYA_TRACKING_RUNTIME__?: TrackingRuntimeConfig | null;
     __NAYA_TRACKING_RUNTIME_PROMISE__?: Promise<TrackingRuntimeConfig | null>;
     __NAYA_TRACKING_DEBUG__?: TrackingDebugState;
@@ -147,6 +152,46 @@ export function buildGoogleAdsSendTo(input: {
   }
 
   return `${input.googleAdsTagId}/${input.googleAdsLeadConversionLabel}`;
+}
+
+export function buildClarityTagUrl(projectId: string) {
+  return `https://www.clarity.ms/tag/${encodeURIComponent(projectId)}`;
+}
+
+export function ensureClarityScript(
+  projectId: string,
+  deps: {
+    document: Pick<Document, "createElement" | "getElementById" | "head">;
+    window: Window;
+  } = { document, window },
+) {
+  if (
+    !projectId ||
+    deps.document.getElementById("naya-clarity-loader") ||
+    typeof deps.window.clarity === "function"
+  ) {
+    return;
+  }
+
+  const clarityShim = function clarity(...args: unknown[]) {
+    clarityShim.q = clarityShim.q || [];
+    clarityShim.q.push(args);
+  } as NonNullable<Window["clarity"]>;
+  clarityShim.q = [];
+  deps.window.clarity = clarityShim;
+
+  const script = deps.document.createElement("script");
+  script.id = "naya-clarity-loader";
+  script.async = true;
+  script.src = buildClarityTagUrl(projectId);
+  script.addEventListener("load", () => {
+    recordTrackingDebug("Microsoft Clarity loaded", projectId, "success");
+  });
+  script.addEventListener("error", () => {
+    recordTrackingDebug("Microsoft Clarity failed", projectId, "warning");
+  });
+  deps.document.head.appendChild(script);
+  recordTrackingDebug("Microsoft Clarity queued", projectId, "success");
 }
 
 function isTrackingDebugEnabled() {
@@ -259,6 +304,7 @@ function renderTrackingDebugOverlay() {
     ["Google Ads", config?.googleAdsTagId ?? null, config?.injectGoogleAds ?? false],
     ["GTM", config?.gtmContainerId ?? null, config?.injectGtm ?? false],
     ["Meta", config?.metaPixelId ?? null, config?.injectMetaPixel ?? false],
+    ["Clarity", config?.clarityProjectId ?? null, config?.injectClarity ?? false],
   ] as const;
   const toneColor: Record<TrackingDebugTone, string> = {
     success: "#117e5a",
@@ -383,6 +429,7 @@ function syncTrackingDebugArtifacts(config: TrackingRuntimeConfig) {
   ensureTrackingDebugMeta("google-ads-mode", config.googleAdsConversionMode);
   ensureTrackingDebugMeta("gtm", config.gtmContainerId);
   ensureTrackingDebugMeta("meta", config.metaPixelId);
+  ensureTrackingDebugMeta("clarity", config.clarityProjectId);
   renderTrackingDebugOverlay();
 }
 
@@ -538,6 +585,9 @@ function wireProviders(config: TrackingRuntimeConfig) {
   }
   if (config.injectMetaPixel && config.metaPixelId) {
     ensureMetaPixel(config.metaPixelId);
+  }
+  if (config.injectClarity && config.clarityProjectId) {
+    ensureClarityScript(config.clarityProjectId);
   }
 }
 
