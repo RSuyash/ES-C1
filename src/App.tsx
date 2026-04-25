@@ -261,23 +261,23 @@ export default function App({ initialPath }: { initialPath?: string }) {
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
 
                 {/* Trust Box */}
-                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-3 sm:p-4 lg:p-3 xl:p-4 mb-8 shadow-inner overflow-hidden">
-                  {/* Stacked layout: Brands on top, Stats below */}
-                  <div className="flex flex-col items-center gap-3 lg:gap-2.5 xl:gap-3">
+                <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-2.5 sm:p-3 lg:p-2 xl:p-3 mb-8 shadow-inner overflow-hidden">
+                  {/* Desktop: single row | Mobile: two rows */}
+                  <div className="flex flex-col lg:flex-row items-center justify-center gap-2.5 lg:gap-0">
 
-                    {/* Top Row: Trusted By Label + Brand Logos */}
-                    <div className="flex items-center gap-2 sm:gap-3 w-full justify-center flex-wrap">
+                    {/* Trusted By Label + Brand Logos */}
+                    <div className="flex items-center gap-2 sm:gap-2.5 lg:gap-1.5 xl:gap-2 justify-center shrink-0">
                       {/* Trusted By Label */}
                       <div className="flex flex-col items-center sm:items-start text-center sm:text-left shrink-0">
-                        <span className="text-white/50 text-[7px] uppercase tracking-[0.15em] font-medium">Trusted</span>
-                        <span className="text-white/70 text-[8px] font-bold tracking-wide">By Brands</span>
+                        <span className="text-white/50 text-[6px] lg:text-[6px] xl:text-[7px] uppercase tracking-[0.15em] font-medium">Trusted</span>
+                        <span className="text-white/70 text-[7px] lg:text-[7px] xl:text-[8px] font-bold tracking-wide">By Brands</span>
                       </div>
 
-                      {/* Brand Logos - Horizontal row */}
-                      <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+                      {/* Brand Logos */}
+                      <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-1 xl:gap-1.5">
                         {/* McDonald's Official Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white backdrop-blur-md w-7 h-7 sm:w-8 sm:h-8 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-[7px] flex items-center justify-center px-0.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105">
+                          <div className="bg-white backdrop-blur-md w-6 h-6 sm:w-7 sm:h-7 lg:w-[22px] lg:h-[22px] xl:w-7 xl:h-7 rounded-[5px] flex items-center justify-center px-0.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105">
                             <img
                               src="https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg"
                               alt="McDonald's official logo"
@@ -288,7 +288,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
                         </div>
                         {/* Barbeque Nation Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-transparent h-7 sm:h-8 lg:h-7 xl:h-8 w-[72px] sm:w-[92px] lg:w-[72px] xl:w-[92px] rounded-[7px] flex items-center justify-center px-0.5 transition-transform duration-300 group-hover:scale-105">
+                          <div className="bg-transparent h-6 sm:h-7 lg:h-[22px] xl:h-7 w-[60px] sm:w-[80px] lg:w-[52px] xl:w-[72px] rounded-[5px] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                             <img
                               src="/brand-logos/barbeque-nation.png"
                               alt="Barbeque Nation logo"
@@ -299,16 +299,16 @@ export default function App({ initialPath }: { initialPath?: string }) {
                         </div>
                         {/* Burger King / BN Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-[#f26722]/90 backdrop-blur-md w-7 h-7 sm:w-8 sm:h-8 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-[7px] flex items-center justify-center shadow-lg border border-orange-500/30 transition-transform duration-300 group-hover:scale-110">
+                          <div className="bg-[#f26722]/90 backdrop-blur-md w-6 h-6 sm:w-7 sm:h-7 lg:w-[22px] lg:h-[22px] xl:w-7 xl:h-7 rounded-[5px] flex items-center justify-center shadow-lg border border-orange-500/30 transition-transform duration-300 group-hover:scale-110">
                              <div className="flex flex-col items-center leading-none">
-                               <div className="w-2.5 h-1 bg-[#ffc72c] rounded-t-full mb-[1px]"></div>
-                               <span className="font-black text-[8px] text-white">BN</span>
+                               <div className="w-2 h-0.5 lg:w-1.5 xl:w-2 bg-[#ffc72c] rounded-t-full mb-[1px]"></div>
+                               <span className="font-black text-[7px] lg:text-[6px] xl:text-[7px] text-white">BN</span>
                              </div>
                           </div>
                         </div>
                         {/* CinePro Logo */}
                         <div className="group relative shrink-0">
-                          <div className="bg-white/90 backdrop-blur-md h-[22px] sm:h-[26px] lg:h-[22px] xl:h-[26px] w-[56px] sm:w-[66px] lg:w-[56px] xl:w-[66px] rounded-[6px] flex items-center justify-center px-0.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105">
+                          <div className="bg-white/90 backdrop-blur-md h-[20px] sm:h-[24px] lg:h-[18px] xl:h-[22px] w-[48px] sm:w-[58px] lg:w-[42px] xl:w-[54px] rounded-[4px] flex items-center justify-center px-0.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105">
                             <img
                               src="/cine-pro-brand-logo-transparent.png"
                               alt="CinePro"
@@ -320,30 +320,30 @@ export default function App({ initialPath }: { initialPath?: string }) {
                       </div>
                     </div>
 
-                    {/* Divider - Always horizontal */}
-                    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
+                    {/* Divider - Horizontal on mobile, vertical on desktop */}
+                    <div className="w-full lg:w-[1px] h-[1px] lg:h-8 bg-gradient-to-r lg:bg-gradient-to-b from-transparent via-white/15 to-transparent lg:mx-2.5 xl:mx-3.5 shrink-0"></div>
 
-                    {/* Bottom Row: Stats */}
-                    <div className="flex items-center justify-center gap-4 sm:gap-5 lg:gap-4 xl:gap-5 w-full flex-wrap">
+                    {/* Stats: Bookings + Possession */}
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 lg:gap-2.5 xl:gap-3.5 shrink-0">
                       {/* Bookings Stat */}
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-[var(--color-sandybrown-100)] shrink-0">
+                      <div className="flex items-center gap-1 lg:gap-1 xl:gap-1.5 shrink-0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 lg:w-2.5 lg:h-2.5 xl:w-3 xl:h-3 text-[var(--color-sandybrown-100)] shrink-0">
                           <path d="M12 2L14.5 4.5L18 4.5L18.5 8L21.5 10L20 13L21.5 16L18.5 18L18 21.5L14.5 21.5L12 24L9.5 21.5L6 21.5L5.5 18L2.5 16L4 13L2.5 10L5.5 8L6 4.5L9.5 4.5L12 2Z" fill="currentColor" />
                           <path d="M10 15.5L6.5 12L7.9 10.6L10 12.7L16.1 6.6L17.5 8L10 15.5Z" fill="var(--color-black-400)" />
                         </svg>
                         <div className="text-left">
-                          <span className="text-white/80 text-[12px] sm:text-[13px] lg:text-[11px] xl:text-[13px] font-bold leading-tight">300+</span>
-                          <span className="text-white/60 text-[8px] sm:text-[9px] lg:text-[8px] xl:text-[9px] font-medium block">bookings</span>
+                          <span className="text-white/80 text-[11px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-bold leading-tight">300+</span>
+                          <span className="text-white/60 text-[7px] sm:text-[8px] lg:text-[7px] xl:text-[8px] font-medium block">bookings</span>
                         </div>
                       </div>
 
                       {/* Vertical Divider */}
-                      <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+                      <div className="h-7 lg:h-6 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent shrink-0"></div>
 
                       {/* Possession Stat */}
                       <div className="text-left shrink-0">
-                        <span className="text-white/60 text-[8px] sm:text-[9px] lg:text-[8px] xl:text-[9px] font-medium block leading-tight">Possession in</span>
-                        <span className="text-white/90 font-bold text-[12px] sm:text-[13px] lg:text-[11px] xl:text-[13px] block leading-tight">December 2026</span>
+                        <span className="text-white/60 text-[7px] sm:text-[8px] lg:text-[7px] xl:text-[8px] font-medium block leading-tight">Possession in</span>
+                        <span className="text-white/90 font-bold text-[11px] sm:text-[12px] lg:text-[10px] xl:text-[12px] block leading-tight">December 2026</span>
                       </div>
                     </div>
 
