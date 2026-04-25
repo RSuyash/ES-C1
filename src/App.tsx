@@ -297,15 +297,7 @@ export default function App({ initialPath }: { initialPath?: string }) {
                             />
                           </div>
                         </div>
-                        {/* Burger King / BN Logo */}
-                        <div className="group relative shrink-0">
-                          <div className="bg-[#f26722]/90 backdrop-blur-md w-6 h-6 sm:w-7 sm:h-7 lg:w-[22px] lg:h-[22px] xl:w-7 xl:h-7 rounded-[5px] flex items-center justify-center shadow-lg border border-orange-500/30 transition-transform duration-300 group-hover:scale-110">
-                             <div className="flex flex-col items-center leading-none">
-                               <div className="w-2 h-0.5 lg:w-1.5 xl:w-2 bg-[#ffc72c] rounded-t-full mb-[1px]"></div>
-                               <span className="font-black text-[7px] lg:text-[6px] xl:text-[7px] text-white">BN</span>
-                             </div>
-                          </div>
-                        </div>
+
                         {/* CinePro Logo */}
                         <div className="group relative shrink-0">
                           <div className="bg-white/90 backdrop-blur-md h-[20px] sm:h-[24px] lg:h-[18px] xl:h-[22px] w-[48px] sm:w-[58px] lg:w-[42px] xl:w-[54px] rounded-[4px] flex items-center justify-center px-0.5 shadow-lg border border-white/30 transition-transform duration-300 group-hover:scale-105">
