@@ -169,7 +169,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
   const selectClasses = "w-full rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white outline-none transition-all focus:border-[#d6a554] focus:ring-1 focus:ring-[#d6a554] appearance-none";
 
   return (
-    <form id=\"lead-capture-form\" className={`lead-capture-form ${className}`} onSubmit={handleSubmit} noValidate>
+    <form id={"lead-capture-form"} className={`lead-capture-form ${className}`} onSubmit={handleSubmit} noValidate>
       {/* Headline */}
       <p className="text-white/60 text-sm leading-relaxed mb-6 text-center">
         Fill in your details to access the latest pricing, available shop and showroom options, and the best booking advantage currently available at Wagholi Highstreet.
@@ -374,4 +374,3 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
     </form>
   );
 }
-
