@@ -374,3 +374,4 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
     </form>
   );
 }
+
