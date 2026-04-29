@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SymbolIcon } from './SymbolIcon';
-import { trackLandingLeadSubmit } from '../lib/tracking-runtime';
+import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmit } from '../lib/tracking-runtime';
 import { navigateToLandingPath } from '../lib/landing-navigation';
 
 const spaceTypes = [
@@ -67,6 +67,11 @@ export default function LeadWizardModal({
       utmSource: params.get('utm_source') ?? undefined,
       utmMedium: params.get('utm_medium') ?? undefined,
       utmCampaign: params.get('utm_campaign') ?? undefined,
+      utmContent: params.get('utm_content') ?? undefined,
+      utmTerm: params.get('utm_term') ?? undefined,
+      gclid: params.get('gclid') ?? undefined,
+      gbraid: params.get('gbraid') ?? undefined,
+      wbraid: params.get('wbraid') ?? undefined,
     };
   }, []);
 
@@ -131,6 +136,11 @@ export default function LeadWizardModal({
 
       setValues(initialValues);
       trackLandingLeadSubmit({
+        leadId:
+          responseBody && typeof responseBody.leadId === 'string'
+            ? responseBody.leadId
+            : undefined,
+        publicLeadKey: NAYA_PUBLIC_LEAD_KEY,
         sourceCta: 'lead-wizard',
         serviceInterest: spaceLabel,
         budgetRange: budgetLabel,

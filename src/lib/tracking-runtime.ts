@@ -30,6 +30,8 @@ type TrackingRuntimeConfig = {
 };
 
 export type LeadTrackingPayload = {
+  leadId?: string;
+  publicLeadKey?: string;
   sourceCta: string;
   serviceInterest?: string;
   configuration?: string;
@@ -89,6 +91,7 @@ declare global {
 const ENDPOINT = "/api/landing/runtime/tracking-config";
 const DEBUG_QUERY_KEY = "nayaTrackingDebug";
 const PENDING_LEAD_TRACKING_STORAGE_KEY = "nayaPendingLeadTracking";
+export const NAYA_PUBLIC_LEAD_KEY = "lead_wagholi_highstreet";
 let debugLogSequence = 0;
 
 function getSessionStorageSafe() {
@@ -156,6 +159,42 @@ export function buildGoogleAdsSendTo(input: {
 
 export function buildClarityTagUrl(projectId: string) {
   return `https://www.clarity.ms/tag/${encodeURIComponent(projectId)}`;
+}
+
+export function buildPublicLeadTrackingEventEndpoint(input: {
+  leadId?: string | null;
+  publicLeadKey?: string | null;
+}) {
+  const leadId = input.leadId?.trim();
+  if (!leadId) {
+    return null;
+  }
+
+  const publicLeadKey = input.publicLeadKey?.trim() || NAYA_PUBLIC_LEAD_KEY;
+  return `/api/landing/public/${encodeURIComponent(publicLeadKey)}/leads/${encodeURIComponent(
+    leadId,
+  )}/tracking-events`;
+}
+
+export function buildThankYouTrackingEventPayload(
+  pending: PendingLeadTrackingEnvelope,
+  pageUrl: string,
+  referrer?: string,
+) {
+  return {
+    eventType: "THANK_YOU_PAGE_VIEW",
+    pageUrl,
+    referrer: referrer || pending.sourcePage,
+    source: "thank_you_page",
+    sourceCta: pending.sourceCta,
+    serviceInterest: pending.serviceInterest ?? null,
+    configuration: pending.configuration ?? null,
+    budgetRange: pending.budgetRange ?? null,
+    projectName: pending.projectName ?? null,
+    sourcePage: pending.sourcePage,
+    queuedAt: pending.queuedAt,
+    trackingEnvelopeId: pending.id,
+  };
 }
 
 export function ensureClarityScript(
@@ -756,5 +795,43 @@ export async function consumePendingLeadTrackingForThankYou() {
 
   emitLeadTracking(config, pending);
   recordTrackingDebug("Queued lead consumed on /thank-you", pending.id, "success");
+
+  const endpoint = buildPublicLeadTrackingEventEndpoint({
+    leadId: pending.leadId,
+    publicLeadKey: pending.publicLeadKey,
+  });
+  if (!endpoint) {
+    recordTrackingDebug("Naya lead proof skipped", "Lead id missing from capture response", "warning");
+    return true;
+  }
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        buildThankYouTrackingEventPayload(
+          pending,
+          window.location.href,
+          typeof document !== "undefined" ? document.referrer : undefined,
+        ),
+      ),
+      keepalive: true,
+    });
+    recordTrackingDebug(
+      response.ok ? "Naya lead proof recorded" : "Naya lead proof rejected",
+      `${response.status} ${response.statusText}`.trim(),
+      response.ok ? "success" : "warning",
+    );
+  } catch (error) {
+    recordTrackingDebug(
+      "Naya lead proof failed",
+      error instanceof Error ? error.message : "Unknown tracking proof error",
+      "warning",
+    );
+  }
+
   return true;
 }

@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { trackLandingLeadSubmit } from './lib/tracking-runtime';
+import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmit } from './lib/tracking-runtime';
 import { navigateToLandingPath } from './lib/landing-navigation';
 
 type LeadCaptureFormProps = {
@@ -73,6 +73,11 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
       utmSource: params.get('utm_source') ?? undefined,
       utmMedium: params.get('utm_medium') ?? undefined,
       utmCampaign: params.get('utm_campaign') ?? undefined,
+      utmContent: params.get('utm_content') ?? undefined,
+      utmTerm: params.get('utm_term') ?? undefined,
+      gclid: params.get('gclid') ?? undefined,
+      gbraid: params.get('gbraid') ?? undefined,
+      wbraid: params.get('wbraid') ?? undefined,
     };
   }, []);
 
@@ -116,7 +121,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
       problemSummary: `Space: ${spaceLabel}. Budget: ${budgetLabel}. Submitted from ${sourceHost}.`,
       consent: true,
       sourcePage: window.location.href,
-      sourceCta: 'bottom-form',
+      sourceCta,
       ...utmValues,
     };
 
@@ -144,6 +149,11 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
       });
       trackLandingLeadSubmit({
+        leadId:
+          responseBody && typeof responseBody.leadId === 'string'
+            ? responseBody.leadId
+            : undefined,
+        publicLeadKey: NAYA_PUBLIC_LEAD_KEY,
         sourceCta,
         serviceInterest: spaceLabel,
         budgetRange: budgetLabel,
