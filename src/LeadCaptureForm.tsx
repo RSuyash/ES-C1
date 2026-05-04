@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmit } from './lib/tracking-runtime';
+import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmitImmediate } from './lib/tracking-runtime';
 import { navigateToLandingPath } from './lib/landing-navigation';
 
 type LeadCaptureFormProps = {
@@ -148,7 +148,7 @@ export function LeadCaptureForm({ className = '', sourceCta = 'bottom-form' }: L
         tone: 'success',
         message: 'Your request is in. Our team will contact you shortly with pricing and availability.',
       });
-      trackLandingLeadSubmit({
+      void trackLandingLeadSubmitImmediate({
         leadId:
           responseBody && typeof responseBody.leadId === 'string'
             ? responseBody.leadId

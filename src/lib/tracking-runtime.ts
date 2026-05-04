@@ -771,6 +771,64 @@ export function trackLandingLeadSubmit(payload: LeadTrackingPayload) {
   recordTrackingDebug("Lead event queued for /thank-you", stored.id, "neutral");
 }
 
+export async function trackLandingLeadSubmitImmediate(payload: LeadTrackingPayload) {
+  const config =
+    window.__NAYA_TRACKING_RUNTIME__ ??
+    (window.__NAYA_TRACKING_RUNTIME_PROMISE__
+      ? await window.__NAYA_TRACKING_RUNTIME_PROMISE__
+      : await initializeLandingTrackingRuntime());
+
+  if (!config) {
+    recordTrackingDebug("No runtime config for immediate lead proof", payload.leadId, "warning");
+    return;
+  }
+
+  // 1. Emit Pixel/GTM events immediately
+  emitLeadTracking(config, payload);
+
+  // 2. Prepare Naya Lead Proof
+  const endpoint = buildPublicLeadTrackingEventEndpoint({
+    leadId: payload.leadId,
+    publicLeadKey: payload.publicLeadKey,
+  });
+
+  if (!endpoint) {
+    recordTrackingDebug("Naya lead proof skipped (immediate)", "Lead id missing", "warning");
+    return;
+  }
+
+  const sourcePage = payload.sourcePage ?? window.location.href;
+  const envelope = createPendingLeadTrackingEnvelope(payload, sourcePage);
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        buildThankYouTrackingEventPayload(
+          envelope,
+          window.location.href,
+          typeof document !== "undefined" ? document.referrer : undefined,
+        ),
+      ),
+      keepalive: true,
+    });
+    recordTrackingDebug(
+      response.ok ? "Naya lead proof recorded (immediate)" : "Naya lead proof rejected (immediate)",
+      `${response.status} ${response.statusText}`.trim(),
+      response.ok ? "success" : "warning",
+    );
+  } catch (error) {
+    recordTrackingDebug(
+      "Naya lead proof failed (immediate)",
+      error instanceof Error ? error.message : "Unknown tracking proof error",
+      "warning",
+    );
+  }
+}
+
 export async function consumePendingLeadTrackingForThankYou() {
   const storage = getSessionStorageSafe();
   if (!storage) {

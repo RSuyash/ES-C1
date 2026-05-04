@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SymbolIcon } from './SymbolIcon';
-import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmit } from '../lib/tracking-runtime';
+import { NAYA_PUBLIC_LEAD_KEY, trackLandingLeadSubmitImmediate } from '../lib/tracking-runtime';
 import { navigateToLandingPath } from '../lib/landing-navigation';
 
 const spaceTypes = [
@@ -135,7 +135,7 @@ export default function LeadWizardModal({
       }
 
       setValues(initialValues);
-      trackLandingLeadSubmit({
+      void trackLandingLeadSubmitImmediate({
         leadId:
           responseBody && typeof responseBody.leadId === 'string'
             ? responseBody.leadId
